@@ -36,7 +36,7 @@ export default function ViewUserNGO() {
     
         setIsLoading(true);
         const ticketData = {
-            amount: (newRaisedAmount.toString),
+            amount: (newRaisedAmount.toString()),
             cause: cause
         };
         axios.post(
@@ -79,7 +79,7 @@ export default function ViewUserNGO() {
             <div className="flex w-full h-full">
                 <div className="ngoaboutmain w-full h-screen flex flex-col justify-center items-center bg-[#d2c9c9]" >
                     <div className="view-more-page w-full h-auto flex justify-around items-center">
-                        <div className="imgandname flex flex-col justify-evenly items-center w-3/12 h-3/6 bg-[#f2f0ef] rounded-3xl shadow-2xl hover:scale-105 duration-300" style={{ padding: "1%", margin: "0.5%" }}>
+                        <div className="imgandname flex flex-col justify-evenly items-center w-3/12 h-full bg-[#f2f0ef] rounded-3xl shadow-2xl hover:scale-105 duration-300" style={{ padding: "1%", margin: "0.5%" }}>
                             <div className="img flex justify-center w-6/12" style={{ padding: "1%", margin: "0.5%" }}>
                                 <img src={ngo.logo} alt={`${ngo.name} logo`} className="rounded-full shadow-2xl" />
                             </div>

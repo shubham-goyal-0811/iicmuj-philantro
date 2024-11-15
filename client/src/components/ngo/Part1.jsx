@@ -79,14 +79,14 @@ export default function Part1({ searchQuery }) {
             <div className="parentmain1 h-full w-full">
                 <div className="childmain1">
                     <div className="ngos flex justify-between">
-                        <div className="cate flex flex-col h-full w-3/12 items-center text-nowrap bg-slate-100 rounded-3xl hover:scale-105 shadow-2xl duration-200" style={{ padding: "1%", margin: "0.5%" }}>
+                        <div className="cate flex flex-col h-full w-3/12 items-center text-nowrap bg-slate-100 rounded-3xl shadow-2xl duration-200" style={{ padding: "1%", margin: "2%" }}>
                             <h1 className="text-5xl text" style={{ padding: "1%", margin: "0.5%" }}>
                                 Categories
                             </h1>
                             <hr className="h-1 bg-slate-400 rounded-full m-3" />
                             <div className="types flex flex-col text-center">
                                 {ngoTypesArray.map((type, index) => (
-                                    <span key={index} className={`text-xl cursor-pointer rounded-full ${selectedType === type ? "bg-gray-200 font-bold" : ""} hover:bg-gray-600 hover:text-white duration-500`} style={{ padding: "2%", margin: "0.5%" }} onClick={() => handleTypeClick(type)}>
+                                    <span key={index} className={`catespan text-xl cursor-pointer rounded-full ${selectedType === type ? "bg-gray-200 font-bold" : ""}`} style={{ padding: "2%", margin: "0.5%" }} onClick={() => handleTypeClick(type)}>
                                         {type}
                                     </span>
                                 ))}

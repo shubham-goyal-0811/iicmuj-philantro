@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Header from '../header/Header';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 export default function NGOadd() {
     const [ngoData, setNgoData] = useState({
@@ -14,7 +15,7 @@ export default function NGOadd() {
         logo: null,
         idProof: null,
     });
-
+    const navigate = useNavigate();
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         setNgoData({
@@ -25,7 +26,7 @@ export default function NGOadd() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        const toastId = toast.loading('Creating...');
         const formData = new FormData();
         formData.append('name', ngoData.name);
         formData.append('email', ngoData.email);
@@ -45,13 +46,12 @@ export default function NGOadd() {
                     withCredentials: true,
                 }
             );
-            toast.success("Ngo Created Successfully");
+            toast.success("Ngo Created Successfully", { id: toastId });
             console.log('NGO created successfully:', response.data);
-            alert('NGO created successfully');
+            navigate('/userviewngo');
         } catch (error) {
             console.error('Error creating NGO:', error);
-            toast.error('Failed to create NGO. Please check your setup.');
-            alert('Failed to create NGO. Please check your input.');
+            toast.error('Failed to create NGO. Please check your setup.',{ id: toastId });
         }
     };
 

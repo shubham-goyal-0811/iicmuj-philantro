@@ -35,6 +35,7 @@ export default function Signup() {
 
     const handleSubmit = async (e) => {
         if (e) e.preventDefault(); 
+        const toastId = toast.loading('Creating User...');
         const { mobileNo, username, email, confirmpassword, password, fullName, idProof, avatar } = formData;
 
         if (password !== confirmpassword) {
@@ -93,12 +94,12 @@ export default function Signup() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            toast.success("User Created!! Please Login")
+            toast.success("User Created!! Please Login",{ id: toastId });
             console.log('Success:', response.data);
             navigate('/Login');
         }
         catch (error) {
-            toast.error(`${error.message}`);
+            toast.error(`${error.message}`,{ id: toastId });
             console.error('Error:', error.response?.data || error.message);
             setErrors('An error occurred. Please try again.');
         }

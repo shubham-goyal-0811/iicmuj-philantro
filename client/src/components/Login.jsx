@@ -27,6 +27,7 @@ export default function Login () {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const toastId = toast.loading('Login in...');
         const { mobileNo, username, email, password } = formData;
     
         if(!mobileNo && !username && !email){
@@ -43,14 +44,14 @@ export default function Login () {
     
         axios.post(backendUrl, formData)
             .then(response => {
-                toast.success("Login Succesfull");
+                toast.success("Login Succesfull",{ id: toastId });
                 console.log('Success:', response.data);
                 console.log(response.data.accessToken);
                 login({ username });
                 navigate('/');
             })
             .catch(error => {
-                toast.error(`Invalid Details`);
+                toast.error(`Invalid Details`,{ id: toastId });
                 console.error('Error:', error);
                 setErrors('An error occurred. Please try again. Maybe check username or password');
             });

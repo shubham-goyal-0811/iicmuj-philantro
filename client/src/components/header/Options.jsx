@@ -31,9 +31,15 @@ export default function Options() {
         }
     };
     const navigate = useNavigate();
-    const handleViewNGO = () => {
-        navigate('/userviewngo');
-    };
+
+    const handleNGO = () => {
+        if (isNGO) {
+            navigate('/userviewngo');
+        }
+        else {
+            navigate('/ngo');
+        }
+    }
 
     return (
         <>
@@ -41,21 +47,20 @@ export default function Options() {
                 <ul className="flex font-medium justify-between items-center h-full w-full">
                     {!showSearchBar && (
                         <>
-                            <li>
-                                <a href="/" className="block text-gray-600 rounded">
-                                    Home
-                                </a>
-                            </li>
-                            <li>
-                                <a href='/ngo' className="block text-gray-600 rounded">
-                                    {!isNGO && 'NGO'}
-                                </a>
-                            </li>
-                            <li>
-                                <a onClick={handleViewNGO} className="block text-gray-600 rounded">
-                                    {isNGO && 'View ngo'}
-                                </a>
-                            </li>
+                            <button>
+                                <li>
+                                    <a href="/" className="block text-gray-600 rounded">
+                                        Home
+                                    </a>
+                                </li>
+                            </button>
+                            <button>
+                                <li>
+                                    <a onClick={handleNGO} className="block text-gray-600 rounded">
+                                        {!isNGO ? 'NGO' : 'View ngo'}
+                                    </a>
+                                </li>
+                            </button>
                         </>
                     )}
                     <li className="w-2/12">
