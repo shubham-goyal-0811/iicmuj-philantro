@@ -31,4 +31,8 @@ app.use("/api/v1/ticket",ticketRouter);
 
 import paymentRoutes from './routes/payment.routes.js';
 app.use("/api/v1/payment", paymentRoutes);
+
+import certificateRoutes from './routes/certificate.routes.js';
+app.use('/api/v1/certificates', certificateRoutes);
+
 export {app};

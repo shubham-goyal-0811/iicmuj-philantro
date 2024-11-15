@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-import { changeAvatar, changeCurrentPassword, changeIdproof, getCurrentUser, loginUser, logoutUser, refreshAccessToken, registerUser, updateAccountDetails } from "../controllers/user.controller.js";
+import { calculateTotalDonations, changeAvatar, changeCurrentPassword, changeIdproof, getCurrentUser, loginUser, logoutUser, refreshAccessToken, registerUser, updateAccountDetails } from "../controllers/user.controller.js";
 
 const router = Router();
 router.route("/register").post(
@@ -32,7 +32,7 @@ router.route("/profile/updateId").patch(verifyJWT,
     upload.single("idProof"),changeIdproof
 )
 router.route("/profile/update-avatar").patch(verifyJWT,upload.single("avatar"),changeAvatar);
-
+router.route("profile/amount").get(verifyJWT,calculateTotalDonations);
 
 
 
