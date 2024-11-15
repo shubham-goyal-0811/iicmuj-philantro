@@ -49,14 +49,14 @@ export default function Options() {
                         <>
                             <button>
                                 <li>
-                                    <a href="/" className="block text-gray-600 rounded">
+                                    <a href="/" className="block text-gray-600 rounded text-xl">
                                         Home
                                     </a>
                                 </li>
                             </button>
                             <button>
                                 <li>
-                                    <a onClick={handleNGO} className="block text-gray-600 rounded">
+                                    <a onClick={handleNGO} className="block text-gray-600 rounded text-xl">
                                         {!isNGO ? 'NGO' : 'View ngo'}
                                     </a>
                                 </li>

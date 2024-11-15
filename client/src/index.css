@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=New+Amsterdam&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Moulpali&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Faculty+Glyphic&display=swap');
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 90deg;
+  inherits: false;
+}
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -14,6 +20,11 @@
   --var6: #4b4737;
   --var7: #f8f1dc;
   --var8: #fcf0ca;
+  --bg-background: #111827;
+  --clr-card: #1f2937;
+  --clr-1: #6420aa;
+  --clr-2: #ff3ea5;
+  --clr-3: #ff7ed4;
 }
 
 ::-webkit-scrollbar {
@@ -67,6 +78,7 @@ body {
   backdrop-filter: blur(10px);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  font-family: "Faculty Glyphic", sans-serif;
 }
 
 .bg-custom {
@@ -674,4 +686,115 @@ canvas {
 
 .catespan:hover {
   background-size: 100% 2px;
+}
+
+.payment-container {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 400px;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: right 0.5s ease-in-out;
+  z-index: 1000;
+}
+
+.payment-container.show {
+  right: 0;
+}
+
+
+.payment-form {
+  background-color: white;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 6px 40px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.payment-form h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.payment-form input {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.payment-form input:focus {
+  border-color: #4c6ef5;
+}
+
+.payment-form button {
+  width: 48%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.payment-form button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.payment-form button.bg-blue {
+  background-color: #4c6ef5;
+  color: white;
+}
+
+.payment-form button.bg-blue:hover {
+  background-color: #365ac1;
+  transform: translateY(-2px);
+}
+
+.payment-form button.bg-green {
+  background-color: #28a745;
+  color: white;
+}
+
+.payment-form button.bg-green:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.payment-form button + button {
+  margin-top: 0.5rem;
+}
+/* Cancel Button Styling */
+.payment-form button.bg-red {
+  background-color: #dc3545;
+  color: white;
+}
+
+.payment-form button.bg-red:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+.bg-red {
+  background-color: #dc3545;
+  color: white;
+}
+
+.bg-red:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
 }

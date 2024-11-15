@@ -1,16 +1,99 @@
-import React from "react";
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../header/Header';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 export default function ViewMore() {
     const location = useLocation();
     const { ngo } = location.state || {};
+    const [donating, setDonating] = useState(false);
+    const [copyStatus, setCopyStatus] = useState(false);
+    const [amount, setAmount] = useState("");
+    const [ngoId, setNgoId] = useState("");
+    const [orderId, setOrderId] = useState("");
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (ngo) {
+            setNgoId(ngo._id);
+        }
+    }, [ngo]);
+
+    const createOrder = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch(`http://localhost:8001/api/v1/payment/create-order/${ngoId}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ amount }),
+            });
+            const data = await response.json();
+            if (data.success) {
+                setOrderId(data.data.order.id);
+                alert("Order created successfully! Proceed to complete the payment.");
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error("Error creating order:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const completePayment = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch("http://localhost:8001/api/v1/payment/complete-payment", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ orderId }),
+            });
+            const data = await response.json();
+            if (data.success) {
+                alert("Payment completed successfully! Now verifying payment.");
+                // Navigate or reset state
+                navigate('/somewhere'); // Or whatever logic you want after payment
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error("Error completing payment:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleCancel = () => {
+        setDonating(false);
+    };
+
+    const handleDonate = () => {
+        setCopyStatus(true);
+        setTimeout(() => setCopyStatus(false), 2000);
+        setDonating(true);
+    };
+
+    const onCopyText = () => {
+        setCopyStatus(true);
+        setTimeout(() => setCopyStatus(false), 2000);
+    };
+
     if (!ngo) {
         return <div>No NGO details available.</div>;
     }
-    else {
-        console.log(ngo);
-    }
+
+    const handleCancelOrder = () => {
+        setAmount("");
+        setOrderId("");
+        setDonating(false);
+    };
+
 
     return (
         <>
@@ -18,7 +101,7 @@ export default function ViewMore() {
             <div className="flex w-full h-full">
                 <div className="ngoaboutmain w-full h-screen flex flex-col justify-center items-center bg-[#d2c9c9]" >
                     <div className="view-more-page w-full h-auto flex justify-around items-center" >
-                        <div className="imgandname flex flex-col justify-evenly items-center w-3/12 h-auto bg-[#f2f0ef] rounded-3xl shadow-2xl hover:scale-105 duration-300" style={{ padding: "1%", margin: "0.5%" }}>
+                        <div className="imgandname flex flex-col justify-evenly items-center w-3/12 h-auto bg-[#f2f0ef] rounded-3xl shadow-2xl duration-300" style={{ padding: "1%", margin: "0.5%" }}>
                             <div className="img flex justify-center w-6/12" style={{ padding: "1%", margin: "0.5%" }}>
                                 <img src={ngo.logo} alt={`${ngo.name} logo`} className="rounded-full shadow-2xl" />
                             </div>
@@ -27,10 +110,10 @@ export default function ViewMore() {
                             </div>
                             <div className="createdby flex flex-col justify-center items-center border-2 border-blue-900 border-dotted" style={{ padding: "1%", margin: "0.5%" }}>
                                 <h1 className="text-2xl">Founded By:-</h1>
-                                <h1 className="text-2xl font-bold">{ngo.createdBy.fullName}</h1>
+                                <h1 className="text-2xl font-bold">{ngo.createdBy?.fullName || "Unknown"}</h1>
                             </div>
                         </div>
-                        <div className="descandcat border-2 w-6/12 flex flex-col bg-[#f2f0ef] rounded-3xl shadow-2xl hover:scale-105 duration-300" style={{ padding: "1%", margin: "0.5%" }}>
+                        <div className="descandcat border-2 w-6/12 flex flex-col bg-[#f2f0ef] rounded-3xl shadow-2xl" style={{ padding: "1%", margin: "0.5%" }}>
                             <div className="aboutngo">
                                 <div className="desc1">
                                     <h1 className="text-4xl font-bold">About {ngo.name} :-</h1>
@@ -49,16 +132,47 @@ export default function ViewMore() {
                                     <h1>{ngo.email}</h1>
                                 </div>
                             </div>
-                            <div className="raised-amount">
+                            <div className="raised-amount" style={{ padding: "1%", margin: "0.5%", overflow: "hidden" }}>
                                 <h1 className="text-4xl font-bold">Raised by {ngo.name} :-</h1>
-                                <h2 className="text-xl">
-                                    {ngo.raise && ngo.raise !== "" ? `Raised: ${ngo.raise}` : "Not raised any amount."}
+                                <h2 className="text-xl break-words">
+                                    {ngo.raise && ngo.raise.length > 0 ? `Raised: ${ngo.raise}` : "Not raised any amount."}
                                 </h2>
                             </div>
                             <div className="cat flex flex-col justify-center items-center">
                                 <p className="text-2xl font-bold">Category:</p>
                                 <p>{ngo.category}</p>
+                                <div className="flex w-full justify-around">
+                                    <CopyToClipboard text={ngo._id} onCopy={onCopyText}>
+                                        <button onClick={handleDonate} className="bg-[#00938a] text-xl p-3 rounded-lg hover:bg-[#5ec273] duration-200" >
+                                            Donate
+                                        </button>
+                                    </CopyToClipboard>
+                                    <button className="bg-[#00938a] text-xl p-3 rounded-lg hover:bg-[#5ec273] duration-200">
+                                        Download Unique Darpan ID
+                                    </button>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div className={`payment-container ${donating ? 'show' : ''}`}>
+                    <div className="payment-form flex flex-col">
+                        <h2>Donate to NGO</h2>
+                        {ngo && (
+                            <div>
+                                <p className="text-xl"><strong>NGO Name:</strong> {ngo.name}</p>
+                                <p className="text-xl"><strong>Category:</strong> {ngo.category}</p>
+                                <p className="text-xl"><strong>Address:</strong> {ngo.address}</p>
+                            </div>
+                        )}
+                        <input type="number" className="m-2" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)}/>
+                        <div className="flex w-full justify-between">
+                            <button onClick={createOrder} className="bg-blue" disabled={loading || !amount || !ngoId}>
+                                {loading ? "Creating Order..." : "Create Order"}
+                            </button>
+                            <button onClick={handleCancelOrder}className="bg-red mt-3">
+                                Cancel Order
+                            </button>
                         </div>
                     </div>
                 </div>

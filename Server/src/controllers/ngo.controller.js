@@ -90,7 +90,7 @@ const getAllNgo = asyncHandler(async (req, res) => {
   const ngos = await Ngo.find(query)
     .populate({ path: "createdBy", model: "User" })
     .sort({ createdAt: -1 })
-    .select(" -donors -createdBy -idProof");
+    .select(" -donors -createdBy");
   //populate to be added later
   if (!ngos) {
     throw new ApiError(404, "No Ngos found");
