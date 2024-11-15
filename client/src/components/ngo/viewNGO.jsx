@@ -5,7 +5,8 @@ import Header from "../header/Header";
 export default function ViewUserNGO() {
     const [ngo, setNgo] = useState(null);
     const [newRaisedAmount, setNewRaisedAmount] = useState("");
-    const [cause, setCause] = useState(""); // New state for cause
+    const [cause, setCause] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false); // For popup/modal
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -13,7 +14,6 @@ export default function ViewUserNGO() {
             .then(response => {
                 const fetchedNgo = response.data.data[0];
                 setNgo(fetchedNgo);
-                console.log(fetchedNgo);
             })
             .catch(error => {
                 console.error("Error fetching NGO data:", error);
@@ -33,36 +33,38 @@ export default function ViewUserNGO() {
             alert("Please provide a cause for the raise.");
             return;
         }
-    
+
         setIsLoading(true);
         const ticketData = {
-            amount: (newRaisedAmount.toString),
-            cause: cause
+            amount: newRaisedAmount.toString(),
+            cause: cause,
         };
+
         axios.post(
-            `http://localhost:8001/api/v1/ticket/${ngo._id}/post`, 
+            `http://localhost:8001/api/v1/ticket/${ngo._id}/post`,
             ticketData,
             { withCredentials: true }
         )
-        .then(response => {
-            const newTicketId = response.data.data._id;
-            const updatedNgo = {
-                ...ngo,
-                raise: [...ngo.raise, newTicketId]
-            };
-    
-            setNgo(updatedNgo);
-            setNewRaisedAmount("");
-            setCause("");
-            setIsLoading(false);
-            alert("Raised amount updated successfully!");
-        })
-        .catch(error => {
-            console.error("Error creating ticket or updating NGO raise:", error);
-            setIsLoading(false);
-        });
+            .then(response => {
+                const newTicketId = response.data.data._id;
+                const updatedNgo = {
+                    ...ngo,
+                    raise: [...ngo.raise, newRaisedAmount],
+                    causes: [...(ngo.causes || []), cause],
+                };
+
+                setNgo(updatedNgo);
+                setNewRaisedAmount("");
+                setCause("");
+                setIsModalOpen(false);
+                setIsLoading(false);
+                alert("Raised amount updated successfully!");
+            })
+            .catch(error => {
+                console.error("Error creating ticket or updating NGO raise:", error);
+                setIsLoading(false);
+            });
     };
-              
 
     if (!ngo) {
         return (
@@ -77,9 +79,9 @@ export default function ViewUserNGO() {
         <>
             <Header />
             <div className="flex w-full h-full">
-                <div className="ngoaboutmain w-full h-screen flex flex-col justify-center items-center bg-[#d2c9c9]" >
+                <div className="ngoaboutmain w-full h-screen flex flex-col justify-center items-center bg-[#d2c9c9]">
                     <div className="view-more-page w-full h-auto flex justify-around items-center">
-                        <div className="imgandname flex flex-col justify-evenly items-center w-3/12 h-3/6 bg-[#f2f0ef] rounded-3xl shadow-2xl hover:scale-105 duration-300" style={{ padding: "1%", margin: "0.5%" }}>
+                        <div className="imgandname flex flex-col justify-evenly items-center w-3/12 h-full bg-[#f2f0ef] rounded-3xl shadow-2xl hover:scale-105 duration-300" style={{ padding: "1%", margin: "0.5%" }}>
                             <div className="img flex justify-center w-6/12" style={{ padding: "1%", margin: "0.5%" }}>
                                 <img src={ngo.logo} alt={`${ngo.name} logo`} className="rounded-full shadow-2xl" />
                             </div>
@@ -113,33 +115,22 @@ export default function ViewUserNGO() {
                             <div className="raised-amount">
                                 <h1 className="text-4xl font-bold">Raised by {ngo.name} :-</h1>
                                 <h2 className="text-xl">
-                                    {ngo.raise && ngo.raise !== "" ? 
-                                        `Raised: $${ngo.raise}` : 
-                                        <>
-                                            <p>Not raised any amount yet.</p>
-                                            <input
-                                                type="number"
-                                                value={newRaisedAmount}
-                                                onChange={(e) => setNewRaisedAmount(e.target.value)}
-                                                placeholder="Enter amount to raise"
-                                                className="p-2 border rounded mt-2"
-                                            />
-                                            <textarea
-                                                value={cause}
-                                                onChange={(e) => setCause(e.target.value)}
-                                                placeholder="Explain why you need to raise funds"
-                                                className="p-2 border rounded mt-2"
-                                            />
-                                            <button 
-                                                onClick={handleRaiseSubmit}
-                                                disabled={isLoading}
-                                                className="mt-2 p-2 bg-blue-500 text-white rounded"
-                                            >
-                                                {isLoading ? "Submitting..." : "Submit New Amount"}
-                                            </button>
-                                        </>
-                                    }
+                                    {ngo.raise && ngo.raise.length > 0
+                                        ? ngo.raise.map((amount, index) => <p key={index}>Raised: ${amount}</p>)
+                                        : <p>Not raised any amount yet.</p>}
                                 </h2>
+                                <button
+                                    onClick={() => setIsModalOpen(true)}
+                                    className="mt-2 p-2 bg-blue-500 text-white rounded"
+                                >
+                                    Add Raised Amount
+                                </button>
+                            </div>
+                            <div className="cause-section">
+                                <h1 className="text-4xl font-bold">Causes:</h1>
+                                {ngo.causes && ngo.causes.length > 0
+                                    ? ngo.causes.map((cause, index) => <p key={index}>{cause}</p>)
+                                    : <p>No causes added yet.</p>}
                             </div>
                             <div className="cat flex flex-col justify-center items-center">
                                 <p className="text-2xl font-bold">Category:</p>
@@ -149,6 +140,43 @@ export default function ViewUserNGO() {
                     </div>
                 </div>
             </div>
+
+            {/* Modal/Popup */}
+            {isModalOpen && (
+                <div className="modal fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                    <div className="modal-content bg-white p-6 rounded shadow-lg">
+                        <h2 className="text-2xl font-bold mb-4">Add Raised Amount</h2>
+                        <input
+                            type="number"
+                            value={newRaisedAmount}
+                            onChange={(e) => setNewRaisedAmount(e.target.value)}
+                            placeholder="Enter amount to raise"
+                            className="p-2 border rounded mb-4 w-full"
+                        />
+                        <textarea
+                            value={cause}
+                            onChange={(e) => setCause(e.target.value)}
+                            placeholder="Explain why you need to raise funds"
+                            className="p-2 border rounded mb-4 w-full"
+                        />
+                        <div className="modal-actions flex justify-end">
+                            <button
+                                onClick={() => setIsModalOpen(false)}
+                                className="mr-4 p-2 bg-gray-400 text-white rounded"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleRaiseSubmit}
+                                disabled={isLoading}
+                                className="p-2 bg-blue-500 text-white rounded"
+                            >
+                                {isLoading ? "Submitting..." : "Submit"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 
 const getCookieValue = (name) => {
     const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
@@ -25,7 +26,6 @@ export default function Loginout() {
     useEffect(() => {
         fetchProfile();
     }, []);
-
     const fetchProfile = async () => {
         try {
             const response = await fetch('http://localhost:8001/api/v1/users/profile', {
@@ -56,6 +56,8 @@ export default function Loginout() {
         setDropdownVisible(!dropdownVisible);
     };
     const handleLogout = () => {
+        const toastId = toast.loading('Logging Out...');
+        toast.success("User logged out",{ id: toastId });
         localStorage.removeItem('accessToken');
         logout();
     };

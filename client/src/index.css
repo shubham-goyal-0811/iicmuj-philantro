@@ -536,14 +536,43 @@ ul li a:hover {
 }
 
 .ngospace {
-  transition: 0.3s ease-in-out;
-  animation: ngospace1 1.5s ease-in-out;
+  position: relative;
+  transition: transform 0.3s ease-in-out;
+  overflow: hidden;
 }
 
 .ngospace:hover {
   transform: scale(1.01);
-  border: 1px solid red;
 }
+
+.ngospace::before,
+.ngospace::after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  background-color: #2596be;
+  width: 0;
+  transition: width 0.5s ease-in-out;
+}
+
+.ngospace::before {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ngospace::after {
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ngospace:hover::before,
+.ngospace:hover::after {
+  width: 100%;
+  transition: width 0.5s ease-in-out;
+}
+
 
 @keyframes imgandname1 {
   from {
@@ -626,4 +655,23 @@ canvas {
 
 .ngo-form button:hover {
   background-color: #218838;
+}
+.catespan {
+  display: inline-block;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #363636;
+  text-decoration: none;
+  cursor: pointer;
+  background: linear-gradient(to right, #363636 0%, #363636 100%);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0% 2px;
+  transition: background-size 0.5s ease-in-out;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.catespan:hover {
+  background-size: 100% 2px;
 }
