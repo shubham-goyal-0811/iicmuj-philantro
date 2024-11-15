@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import Header from '../header/Header';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import toast from 'react-hot-toast';
 
 export default function ViewMore() {
     const location = useLocation();
@@ -21,49 +22,28 @@ export default function ViewMore() {
     }, [ngo]);
 
     const createOrder = async () => {
+        const toastId = toast.loading('Creating order...');
+        if (!ngoId || !amount) {
+            alert("NGO ID and amount are required");
+            return;
+        }
         try {
             setLoading(true);
             const response = await fetch(`http://localhost:8001/api/v1/payment/create-order/${ngoId}`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ amount }),
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount, ngoId }),
             });
             const data = await response.json();
             if (data.success) {
+                toast.success("Thank you for your payment", { id: toastId });
                 setOrderId(data.data.order.id);
-                alert("Order created successfully! Proceed to complete the payment.");
+                navigate("/ngo");
             } else {
-                alert(data.message);
+                toast.error("Order was not placed", { id: toastId });
             }
         } catch (error) {
-            console.error("Error creating order:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const completePayment = async () => {
-        try {
-            setLoading(true);
-            const response = await fetch("http://localhost:8001/api/v1/payment/complete-payment", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ orderId }),
-            });
-            const data = await response.json();
-            if (data.success) {
-                alert("Payment completed successfully! Now verifying payment.");
-                // Navigate or reset state
-                navigate('/somewhere'); // Or whatever logic you want after payment
-            } else {
-                alert(data.message);
-            }
-        } catch (error) {
-            console.error("Error completing payment:", error);
+            console.error("Error creating order:", error.message);
         } finally {
             setLoading(false);
         }
@@ -93,7 +73,31 @@ export default function ViewMore() {
         setOrderId("");
         setDonating(false);
     };
-
+    //logic to download the ngo id proof
+    const downloadIdProof = async (idProofUrl) => {
+        if (!idProofUrl) {
+            alert("ID Proof document is not available.");
+            return;
+        }
+    
+        try {
+            const response = await fetch(idProofUrl);
+            if (!response.ok) {
+                throw new Error("Failed to fetch the document.");
+            }
+            const blob = await response.blob();
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `${ngo.name}_IDProof.${blob.type.split("/")[1]}`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+        } catch (error) {
+            console.error("Error downloading the file:", error);
+            alert("Failed to download the document.");
+        }
+    };    
 
     return (
         <>
@@ -147,7 +151,9 @@ export default function ViewMore() {
                                             Donate
                                         </button>
                                     </CopyToClipboard>
-                                    <button className="bg-[#00938a] text-xl p-3 rounded-lg hover:bg-[#5ec273] duration-200">
+                                    <button
+                                        onClick={() => downloadIdProof(ngo.idProof)}
+                                        className="bg-[#00938a] text-xl p-3 rounded-lg hover:bg-[#5ec273] duration-200">
                                         Download Unique Darpan ID
                                     </button>
                                 </div>
@@ -165,12 +171,12 @@ export default function ViewMore() {
                                 <p className="text-xl"><strong>Address:</strong> {ngo.address}</p>
                             </div>
                         )}
-                        <input type="number" className="m-2" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)}/>
+                        <input type="number" className="m-2" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} />
                         <div className="flex w-full justify-between">
                             <button onClick={createOrder} className="bg-blue" disabled={loading || !amount || !ngoId}>
                                 {loading ? "Creating Order..." : "Create Order"}
                             </button>
-                            <button onClick={handleCancelOrder}className="bg-red mt-3">
+                            <button onClick={handleCancelOrder} className="bg-red mt-3">
                                 Cancel Order
                             </button>
                         </div>
