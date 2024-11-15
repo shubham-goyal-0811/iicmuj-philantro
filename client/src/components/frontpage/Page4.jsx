@@ -1,7 +1,6 @@
 import Shwetank from '../../img/shwetank.png';
 import Shubham from '../../img/goyal.png';
 import Siddham from '../../img/siddham.png';
-import Madan from '../../img/madan.png';
 import Logo from '../../img/Logo.png';
 import TeamPic from '../../img/team.png';
 
