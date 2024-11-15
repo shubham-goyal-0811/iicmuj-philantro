@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
+import toast from 'react-hot-toast';
+
+const notify = (msg) => toast(msg);
 
 export default function Login () {
     const [formData, setFormData] = useState({
@@ -40,12 +43,14 @@ export default function Login () {
     
         axios.post(backendUrl, formData)
             .then(response => {
+                toast.success("Login Succesfull");
                 console.log('Success:', response.data);
                 console.log(response.data.accessToken);
                 login({ username });
                 navigate('/');
             })
             .catch(error => {
+                toast.error(`Invalid Details`);
                 console.error('Error:', error);
                 setErrors('An error occurred. Please try again. Maybe check username or password');
             });
