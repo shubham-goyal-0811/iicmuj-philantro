@@ -7,7 +7,6 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import axios from 'axios';
 
-
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Header() {
@@ -20,17 +19,19 @@ export default function Header() {
         axios.get('http://localhost:8001/api/v1/users/profile', { withCredentials: true })
             .then(response => {
                 const user = response.data;
-                if (user && user.data.role === 'NGO') {
+                if(user && user.data && user.data.role === 'NGO'){
                     setIsNGO(true);
+                }else{
+                    setIsNGO(false);
                 }
             })
             .catch(err => {
                 console.error("Error fetching user data:", err);
+                setIsNGO(false);
             })
             .finally(() => {
                 setLoading(false);
             });
-
         gsap.fromTo(headerRef.current,
             { y: -100, opacity: 0 },
             {
@@ -42,11 +43,7 @@ export default function Header() {
         );
 
         const handleScroll = () => {
-            if (window.scrollY > 10) {
-                setScrolled(true);
-            } else {
-                setScrolled(false);
-            }
+            setScrolled(window.scrollY > 10);
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -54,6 +51,7 @@ export default function Header() {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
     const navigate = useNavigate();
     const handleNGOAdd = () => {
         navigate('/ngoadd');
@@ -81,7 +79,11 @@ export default function Header() {
                         <Logo />
                         <Options />
                         <div className="flex justify-around px-6 gap-5">
-                            {isNGO && <button onClick={() => handleNGOAdd()} className="border-2 p-2 rounded-full hover:bg-slate-300 duration-200">Add NGO</button>}
+                            {isNGO && (
+                                <button onClick={handleNGOAdd} className="border-2 p-2 rounded-full hover:bg-slate-300 duration-200">
+                                    Add NGO
+                                </button>
+                            )}
                             <Loginout />
                         </div>
                     </div>

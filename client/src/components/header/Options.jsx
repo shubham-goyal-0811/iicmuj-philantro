@@ -1,17 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Search from '../../img/search.png';
+import axios from 'axios';
 
 export default function Options() {
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
-
+    const [isNGO, setIsNgo] = useState(false);
+    useEffect(() => {
+        axios.get('http://localhost:8001/api/v1/users/profile', { withCredentials: true })
+            .then(response => {
+                const user = response.data;
+                if (user && user.data && user.data.role === 'NGO') {
+                    setIsNgo(true);
+                } else {
+                    setIsNgo(false);
+                }
+            })
+            .catch(err => {
+                console.error("Error fetching user data:", err);
+                setIsNgo(false);
+            })
+    }, []);
     const handleSearchClick = () => {
-        if(showSearchBar){
+        if (showSearchBar) {
             setShowSearchBar(false);
         }
-        else{
+        else {
             setShowSearchBar(true);
         }
+    };
+    const navigate = useNavigate();
+    const handleViewNGO = () => {
+        navigate('/userviewngo');
     };
 
     return (
@@ -26,8 +47,13 @@ export default function Options() {
                                 </a>
                             </li>
                             <li>
-                                <a href="/ngo" className="block text-gray-600 rounded">
-                                    NGO
+                                <a onClick={handleViewNGO} className="block text-gray-600 rounded">
+                                    {!isNGO && 'NGO'}
+                                </a>
+                            </li>
+                            <li>
+                                <a onClick={handleViewNGO} className="block text-gray-600 rounded">
+                                    {isNGO && 'View ngo'}
                                 </a>
                             </li>
                         </>

@@ -25,7 +25,6 @@ export default function NGOadd() {
         e.preventDefault();
         
         const formData = new FormData();
-        // Append all form data including files to FormData
         formData.append('name', ngoData.name);
         formData.append('email', ngoData.email);
         formData.append('description', ngoData.description);
@@ -36,16 +35,16 @@ export default function NGOadd() {
         formData.append('idProof', ngoData.idProof);
     
         try {
-            const response = await axios.post('http://localhost:8000/api/v1/ngos/register', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                },
-            });
-            console.log('NGO Created Successfully', response.data);
-        } catch (error) {
+            const response = await axios.post(
+              'http://localhost:8000/api/v1/ngos/register',
+              ngoData,
+              { withCredentials: true }
+            );
+            console.log('NGO created successfully:', response.data);
+          } catch (error) {
             console.error('Error creating NGO:', error);
-        }
+            alert('Failed to create NGO. Please check your setup.');
+          }
     };
 
     return (
@@ -130,7 +129,7 @@ export default function NGOadd() {
                     <div>
                         <label>Logo (URL)</label>
                         <input
-                            type="text"
+                            type="file"
                             name="logo"
                             value={ngoData.logo}
                             onChange={handleChange}
@@ -139,7 +138,7 @@ export default function NGOadd() {
                     <div>
                         <label>ID Proof</label>
                         <input
-                            type="text"
+                            type="file"
                             name="idProof"
                             value={ngoData.idProof}
                             onChange={handleChange}
