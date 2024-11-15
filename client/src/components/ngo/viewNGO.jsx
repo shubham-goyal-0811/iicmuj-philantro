@@ -5,8 +5,9 @@ import Header from "../header/Header";
 export default function ViewUserNGO() {
     const [ngo, setNgo] = useState(null);
     const [newRaisedAmount, setNewRaisedAmount] = useState("");
+    const [ticketInfo, setTicketInfo] = useState("");
     const [cause, setCause] = useState("");
-    const [isModalOpen, setIsModalOpen] = useState(false); // For popup/modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -49,8 +50,8 @@ export default function ViewUserNGO() {
                 const newTicketId = response.data.data._id;
                 const updatedNgo = {
                     ...ngo,
-                    raise: [...ngo.raise, newRaisedAmount],
-                    causes: [...(ngo.causes || []), cause],
+                    raise: [...ngo.raise, response.data.data.amount],
+                    causes: [...(ngo.causes || []), response.data.data.cause],
                 };
 
                 setNgo(updatedNgo);

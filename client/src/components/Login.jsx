@@ -65,7 +65,7 @@ export default function Login () {
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label htmlFor="username" className="block text-gray-700">Username*</label>
-                        <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} className="mt-1 block w-full border-2 border-gray-900 rounded" style={{ padding: '2%' }} required/>
+                        <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} className="mt-1 block w-full border-2 border-gray-900 rounded" style={{ padding: '2%' }}/>
                     </div>
                     <div className="mb-4">
                         <label htmlFor="mobileNo" className="block text-gray-700">Mobile</label>
