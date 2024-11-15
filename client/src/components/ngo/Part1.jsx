@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
-export default function Part1() {
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+export default function Part1({ searchQuery }) {
     const ngoTypesArray = [
         "All NGOS",
         "Charitable Organizations",
@@ -27,7 +32,8 @@ export default function Part1() {
     useEffect(() => {
         fetchNgos();
     }, []);
-    //fetching data and storing it in ngos and filteredngos array.
+
+    // Fetching data and storing it in ngosArray and filteredNgos.
     const fetchNgos = async () => {
         try {
             const response = await fetch('http://localhost:8000/api/v1/ngo/getNgos');
@@ -39,16 +45,15 @@ export default function Part1() {
             if (data.success && Array.isArray(data.data)) {
                 setNgosArray(data.data);
                 setFilteredNgos(data.data);
-            }
-            else {
+            } else {
                 console.error('Fetched data is not an array:', data);
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Error fetching NGOs:', error);
         }
     };
-    //filtering of ngos.
+
+    // Filtering NGOs based on the selected category.
     const handleTypeClick = (type) => {
         setSelectedType(type);
         const filtered = ngosArray.filter((ngo) => {
@@ -58,14 +63,17 @@ export default function Part1() {
         });
         setFilteredNgos(filtered);
     };
-    //clear button
+
+    // Clear button
     if (selectedType === "All NGOS") {
         setSelectedType("");
         setFilteredNgos(ngosArray);
     }
+
     const handleViewMore = (ngo) => {
         navigate(`/view-more/${ngo.name}`, { state: { ngo } });
     };
+
     return (
         <>
             <div className="parentmain1 h-full w-full">

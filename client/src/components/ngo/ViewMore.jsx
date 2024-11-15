@@ -15,11 +15,11 @@ export default function ViewMore() {
     return (
         <>
             <Header />
-            <div className="flex w-full">
-                <div className="ngoaboutmain w-full h-auto flex justify-center">
-                    <div className="view-more-page w-full flex justify-between" >
-                        <div className="imgandname flex flex-col justify-evenly items-center bg-indigo-100 rounded-3xl shadow-2xl" style={{ padding: "1%", margin: "0.5%" }}>
-                            <div className="img flex justify-center  w-6/12" style={{ padding: "1%", margin: "0.5%" }}>
+            <div className="flex w-full h-full">
+                <div className="ngoaboutmain w-full h-screen flex flex-col justify-center items-center bg-[#d2c9c9]" >
+                    <div className="view-more-page w-full h-auto flex justify-around items-center" >
+                        <div className="imgandname flex flex-col justify-evenly items-center w-3/12 h-3/6 bg-[#f2f0ef] rounded-3xl shadow-2xl hover:scale-105 duration-300" style={{ padding: "1%", margin: "0.5%" }}>
+                            <div className="img flex justify-center w-6/12" style={{ padding: "1%", margin: "0.5%" }}>
                                 <img src={ngo.logo} alt={`${ngo.name} logo`} className="rounded-full shadow-2xl" />
                             </div>
                             <div className="name" style={{ padding: "1%", margin: "0.5%" }}>
@@ -30,7 +30,7 @@ export default function ViewMore() {
                                 <h1 className="text-2xl font-bold">{ngo.createdBy.fullName}</h1>
                             </div>
                         </div>
-                        <div className="descandcat border-2 w-full flex flex-col bg-indigo-100 rounded-3xl shadow-2xl" style={{ padding: "1%", margin: "0.5%" }}>
+                        <div className="descandcat border-2 w-6/12 flex flex-col bg-[#f2f0ef] rounded-3xl shadow-2xl hover:scale-105 duration-300" style={{ padding: "1%", margin: "0.5%" }}>
                             <div className="aboutngo">
                                 <div className="desc1">
                                     <h1 className="text-4xl font-bold">About {ngo.name} :-</h1>
