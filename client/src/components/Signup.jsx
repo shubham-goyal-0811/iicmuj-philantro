@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export default function Signup() {
     const [formData, setFormData] = useState({
@@ -92,10 +93,12 @@ export default function Signup() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
+            toast.success("User Created!! Please Login")
             console.log('Success:', response.data);
             navigate('/Login');
         }
         catch (error) {
+            toast.error(`${error.message}`);
             console.error('Error:', error.response?.data || error.message);
             setErrors('An error occurred. Please try again.');
         }

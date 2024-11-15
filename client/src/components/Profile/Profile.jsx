@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../header/Header';
+import toast from 'react-hot-toast';
 
 export default function Profile() {
     const [profile, setProfile] = useState({
@@ -77,11 +78,14 @@ export default function Profile() {
             if (data.success) {
                 setProfile({ ...profile, ...updatedProfile });
                 setIsEditing(false);
-                alert('Profile updated successfully!');
+                toast.success("Profile Updated Successfully!!")
+                // alert('Profile updated successfully!');
             } else {
-                alert('Failed to update profile: ' + data.message);
+                toast.error(`Failed to update profile: ${data.message}`)
+                // alert('Failed to update profile: ' + data.message);
             }
         } catch (error) {
+            toast.error(`Failed to update profile`)
             console.error('Error updating profile:', error);
         }
     };
@@ -103,13 +107,14 @@ export default function Profile() {
 
             const data = await response.json();
             if (data.success) {
-                alert('Password changed successfully!');
+                toast.success('Password changed successfully!');
                 setIsChangingPassword(false);
                 navigate('/Login');
             } else {
-                alert('Failed to change password: ' + data.message);
+                toast.error('Failed to change password: ' + data.message);
             }
         } catch (error) {
+            toast.error('Failed to change password ');
             console.error('Error changing password:', error);
         }
     };

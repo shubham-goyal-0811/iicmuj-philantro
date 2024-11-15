@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Header from '../header/Header';
+import toast from 'react-hot-toast';
 
 export default function NGOadd() {
     const [ngoData, setNgoData] = useState({
@@ -44,10 +45,13 @@ export default function NGOadd() {
                     withCredentials: true,
                 }
             );
+            toast.success("Ngo Created Successfully");
             console.log('NGO created successfully:', response.data);
             alert('NGO created successfully');
         } catch (error) {
             console.error('Error creating NGO:', error);
+            toast.error('Failed to create NGO. Please check your setup.');
+          }
             alert('Failed to create NGO. Please check your input.');
         }
     };
