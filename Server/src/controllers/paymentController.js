@@ -13,10 +13,14 @@ const generateOrderId = () => `order_${crypto.randomBytes(10).toString("hex")}`;
 const generatePaymentId = () => `pay_${crypto.randomBytes(10).toString("hex")}`;
 
 export const createOrder = asyncHandler(async (req, res) => {
-    const { amount, ngoId } = req.body;
+    const ngoId = req.params?.Id;
+    if(!ngoId){
+        throw new ApiError(400,"Please select an NGO to doanate");
+    }
+    const { amount } = req.body;
 
-    if (!amount || !ngoId) {
-        throw new ApiError(400, "Amount and NGO ID are required");
+    if (!amount) {
+        throw new ApiError(400, "Amount is required");
     }
 
     // Generate a mock order ID and save it to mock database

@@ -3,7 +3,7 @@ import { completePayment, createOrder, verifyPayment } from "../controllers/paym
 
 const router = express.Router();
 
-router.post("/create-order", createOrder);       
+router.post("/create-order/:Id", createOrder);       
 router.post("/complete-payment", completePayment); 
 router.post("/verify-payment", verifyPayment);
 export default router;
