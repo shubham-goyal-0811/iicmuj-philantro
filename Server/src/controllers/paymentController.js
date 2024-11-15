@@ -1,28 +1,29 @@
 import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
+import { User } from "../models/user.model.js";
+import { Donation } from "../models/donation.model.js";
 import crypto from "crypto";
+
 
 const mockDatabase = {
     orders: {},
     payments: {}
 };
 
-// Generate a unique order ID
+// Generate unique IDs
 const generateOrderId = () => `order_${crypto.randomBytes(10).toString("hex")}`;
 const generatePaymentId = () => `pay_${crypto.randomBytes(10).toString("hex")}`;
 
-export const createOrder = asyncHandler(async (req, res) => {
-    // const ngoId = req.params?.Id;
 
-    
+export const createOrder = asyncHandler(async (req, res) => {
     const { amount, ngoId } = req.body;
 
-    if(!ngoId){
-        throw new ApiError(400,"Please select an NGO to doanate");
+    if (!ngoId) {
+        throw new ApiError(400, "Please select an NGO to donate");
     }
 
-    if (!amount ) {
+    if (!amount) {
         throw new ApiError(400, "Amount is required");
     }
 
@@ -35,18 +36,25 @@ export const createOrder = asyncHandler(async (req, res) => {
         status: "created",
         createdAt: Date.now()
     };
+
     mockDatabase.orders[orderId] = order;
 
-    return res.status(200).json(new ApiResponse(200, { order }, "Order created successfully"));
+    return res.status(200).json(
+        new ApiResponse(200, { orderId, amount, ngoId }, "Order created successfully")
+    );
 });
 
-
+/**
+ * Complete a payment for an order
+ */
 export const completePayment = asyncHandler(async (req, res) => {
     const { orderId } = req.body;
 
     if (!orderId || !mockDatabase.orders[orderId]) {
         throw new ApiError(404, "Order not found");
     }
+
+    const order = mockDatabase.orders[orderId];
 
     // Generate a mock payment ID and mark the order as paid
     const paymentId = generatePaymentId();
@@ -63,12 +71,36 @@ export const completePayment = asyncHandler(async (req, res) => {
         createdAt: Date.now()
     };
 
+    // Mark the order as paid in the mock database
     mockDatabase.payments[paymentId] = payment;
     mockDatabase.orders[orderId].status = "paid";
 
-    return res.status(200).json(new ApiResponse(200, { payment }, "Payment completed successfully"));
+    // Save the donation details to the database
+    const donation = await Donation.create({
+        ngoId: order.ngoId,
+        userId: req.user._id, // Extracted from JWT
+        amount: order.amount
+    });
+
+    // Update the user record with the donation reference
+    await User.findByIdAndUpdate(
+        req.user._id,
+        { $push: { donations: donation._id } },
+        { new: true }
+    );
+
+    return res.status(200).json(
+        new ApiResponse(
+            200,
+            { payment, donation },
+            "Payment completed and donation saved successfully"
+        )
+    );
 });
 
+/**
+ * Verify a payment's signature
+ */
 export const verifyPayment = asyncHandler(async (req, res) => {
     const { orderId, paymentId, signature } = req.body;
 
@@ -92,5 +124,7 @@ export const verifyPayment = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid Payment Signature");
     }
 
-    return res.status(200).json(new ApiResponse(200, {}, "Payment verified successfully"));
+    return res.status(200).json(
+        new ApiResponse(200, {}, "Payment verified successfully")
+    );
 });
