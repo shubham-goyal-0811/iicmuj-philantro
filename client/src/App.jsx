@@ -9,7 +9,7 @@ import ViewMore from './components/ngo/ViewMore';
 import Profile from './components/Profile/Profile';
 import NGOadd from './components/header/NGOadd';
 import ViewUserNGO from './components/ngo/viewNGO';
-import PaymentForm from "./components/PaymentForm";
+// import PaymentForm from "./components/PaymentForm";
 import PaymentStatus from "./components/PaymentStatus";
 
 function App() {
@@ -34,7 +34,8 @@ function App() {
         <Route path="/login/signup" element={<Signup />} />
         <Route path="/view-more/:name" element={<ViewMore />} />
         <Route path="/userviewngo" element={<ViewUserNGO />} />
-        <Route path="/ngoadd" element={<NGOadd />} />
+        {/* <Route path="/payment" element={<PaymentForm />} /> */}
+        <Route path="/paymentstatus" element={<PaymentStatus />} />
       </Routes>
     </Router>
   );

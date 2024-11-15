@@ -78,7 +78,7 @@ export default function Part1({ searchQuery }) {
         <>
             <div className="parentmain1 h-full w-full">
                 <div className="childmain1">
-                    <div className="ngos flex justify-between">
+                    <div className="ngos flex justify-around">
                         <div className="cate flex flex-col h-full w-3/12 items-center text-nowrap bg-slate-100 rounded-3xl shadow-2xl duration-200" style={{ padding: "1%", margin: "2%" }}>
                             <h1 className="text-5xl text" style={{ padding: "1%", margin: "0.5%" }}>
                                 Categories
@@ -92,9 +92,9 @@ export default function Part1({ searchQuery }) {
                                 ))}
                             </div>
                         </div>
-                        <div className="ngosdiv w-full h-full flex flex-col items-center" style={{ padding: "1%", margin: "0.5%" }}>
+                        <div className="ngosdiv w-7/12 h-full flex flex-col items-center" style={{ padding: "1%", margin: "0.5%" }}>
                             {filteredNgos.map((ngo, index) => (
-                                <div className={`ngospace w-full flex flex-col text-4xl justify-center bg-slate-100 rounded-3xl shadow-2xl fade-in`} style={{ padding: "0.5%", margin: "0.5%" }} key={index}>
+                                <div className={`ngospace w-full flex flex-col text-4xl justify-center bg-slate-100 rounded-3xl shadow-2xl fade-in`} style={{ padding: "0.5%", margin: "2%" }} key={index}>
                                     <div className="ngoTitle flex items-center justify-center w-full">
                                         <div className="ngotitle flex w-1/2 text-center justify-center">
                                             <h1 className="font-bold text-5xl">{ngo.name}</h1>

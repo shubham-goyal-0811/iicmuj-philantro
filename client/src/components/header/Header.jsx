@@ -79,11 +79,11 @@ export default function Header() {
                         <Logo />
                         <Options />
                         <div className="flex justify-around px-6 gap-5">
-                            {isNGO && (
+                            {isNGO ? (
                                 <button onClick={handleNGOAdd} className="border-2 p-2 rounded-full hover:bg-slate-300 duration-200">
                                     Add NGO
                                 </button>
-                            )}
+                            ) : ''}
                             <Loginout />
                         </div>
                     </div>
