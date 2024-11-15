@@ -51,7 +51,6 @@ export default function NGOadd() {
         } catch (error) {
             console.error('Error creating NGO:', error);
             toast.error('Failed to create NGO. Please check your setup.');
-          }
             alert('Failed to create NGO. Please check your input.');
         }
     };

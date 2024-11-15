@@ -36,7 +36,7 @@ export default function ViewUserNGO() {
     
         setIsLoading(true);
         const ticketData = {
-            amount: parseFloat(newRaisedAmount),
+            amount: (newRaisedAmount.toString),
             cause: cause
         };
         axios.post(
@@ -113,8 +113,8 @@ export default function ViewUserNGO() {
                             <div className="raised-amount">
                                 <h1 className="text-4xl font-bold">Raised by {ngo.name} :-</h1>
                                 <h2 className="text-xl">
-                                    {ngo.raised && ngo.raised !== "" ? 
-                                        `Raised: $${ngo.raised}` : 
+                                    {ngo.raise && ngo.raise !== "" ? 
+                                        `Raised: $${ngo.raise}` : 
                                         <>
                                             <p>Not raised any amount yet.</p>
                                             <input
