@@ -13,13 +13,16 @@ const generateOrderId = () => `order_${crypto.randomBytes(10).toString("hex")}`;
 const generatePaymentId = () => `pay_${crypto.randomBytes(10).toString("hex")}`;
 
 export const createOrder = asyncHandler(async (req, res) => {
-    const ngoId = req.params?.Id;
+    // const ngoId = req.params?.Id;
+
+    
+    const { amount, ngoId } = req.body;
+
     if(!ngoId){
         throw new ApiError(400,"Please select an NGO to doanate");
     }
-    const { amount } = req.body;
 
-    if (!amount) {
+    if (!amount ) {
         throw new ApiError(400, "Amount is required");
     }
 

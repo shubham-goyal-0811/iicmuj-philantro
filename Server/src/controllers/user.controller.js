@@ -317,6 +317,33 @@ const changeAvatar = asyncHandler(async(req,res)=>{
     return res.status(200).json(new ApiResponse(200,avatar,"Avatar updated succesfully"));
 })
 
+// Assuming you have a User model
+export const calculateTotalDonations = async (req, res) => {
+    try {
+        // The user is verified using your JWT middleware
+        const userId = req.user.id; // Assuming the middleware adds `req.user`
+
+        // Fetch the user and their donations from the database
+        const user = await User.findById(userId).select('donations');
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found.' });
+        }
+
+        // Calculate the total amount from the donations array
+        const totalDonations = user.donations.reduce((total, donation) => {
+            return total + (donation.amount || 0);
+        }, 0);
+
+        // Send the total donations back to the client
+        res.status(200).json({ totalDonations });
+    } catch (error) {
+        console.error('Error calculating total donations:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
 export {
     registerUser,
     loginUser,
