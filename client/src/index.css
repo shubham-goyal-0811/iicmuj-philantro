@@ -582,3 +582,48 @@ ul li a:hover {
 canvas {
   animation: rotate360 2.5s ease-in-out;
 }
+.ngo-form {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.ngo-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.ngo-form div {
+  margin-bottom: 15px;
+}
+
+.ngo-form label {
+  display: block;
+  font-weight: bold;
+}
+
+.ngo-form input,
+.ngo-form textarea,
+.ngo-form select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.ngo-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ngo-form button:hover {
+  background-color: #218838;
+}
