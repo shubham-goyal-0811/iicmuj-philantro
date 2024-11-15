@@ -10,20 +10,21 @@ export default function NGOadd() {
         address: '',
         category: '',
         contactNo: '',
-        logo: '',
-        idProof: '',
+        logo: null,
+        idProof: null,
     });
 
     const handleChange = (e) => {
+        const { name, value, files } = e.target;
         setNgoData({
             ...ngoData,
-            [e.target.name]: e.target.value,
+            [name]: files ? files[0] : value,
         });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         const formData = new FormData();
         formData.append('name', ngoData.name);
         formData.append('email', ngoData.email);
@@ -31,20 +32,24 @@ export default function NGOadd() {
         formData.append('address', ngoData.address);
         formData.append('category', ngoData.category);
         formData.append('contactNo', ngoData.contactNo);
-        formData.append('logo', ngoData.logo);
-        formData.append('idProof', ngoData.idProof);
-    
+        if (ngoData.logo) formData.append('logo', ngoData.logo);
+        if (ngoData.idProof) formData.append('idProof', ngoData.idProof);
+
         try {
             const response = await axios.post(
-              'http://localhost:8000/api/v1/ngos/register',
-              ngoData,
-              { withCredentials: true }
+                'http://localhost:8001/api/v1/ngo/register',
+                formData,
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                    withCredentials: true,
+                }
             );
             console.log('NGO created successfully:', response.data);
-          } catch (error) {
+            alert('NGO created successfully');
+        } catch (error) {
             console.error('Error creating NGO:', error);
-            alert('Failed to create NGO. Please check your setup.');
-          }
+            alert('Failed to create NGO. Please check your input.');
+        }
     };
 
     return (
@@ -127,11 +132,10 @@ export default function NGOadd() {
                         />
                     </div>
                     <div>
-                        <label>Logo (URL)</label>
+                        <label>Logo</label>
                         <input
                             type="file"
                             name="logo"
-                            value={ngoData.logo}
                             onChange={handleChange}
                         />
                     </div>
@@ -140,7 +144,6 @@ export default function NGOadd() {
                         <input
                             type="file"
                             name="idProof"
-                            value={ngoData.idProof}
                             onChange={handleChange}
                             required
                         />

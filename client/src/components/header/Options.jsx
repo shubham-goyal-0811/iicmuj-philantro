@@ -47,7 +47,7 @@ export default function Options() {
                                 </a>
                             </li>
                             <li>
-                                <a onClick={handleViewNGO} className="block text-gray-600 rounded">
+                                <a href='/ngo' className="block text-gray-600 rounded">
                                     {!isNGO && 'NGO'}
                                 </a>
                             </li>

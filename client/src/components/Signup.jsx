@@ -14,7 +14,6 @@ export default function Signup() {
     });
     const [errors, setErrors] = useState('');
     const [FundRaiser, setFundRaiser] = useState(false);
-    const [secondFormVisible, setSecondFormVisible] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -30,29 +29,6 @@ export default function Signup() {
                 ...prevState,
                 [name]: value
             }));
-        }
-    };
-
-    const handleSubmit1 = async (e) => {
-        e.preventDefault();
-        const { mobileNo, username, email, confirmpassword, password, fullName } = formData;
-
-        if (password !== confirmpassword) {
-            setErrors('Passwords do not match');
-            return;
-        }
-
-        if (!password || !confirmpassword) {
-            setErrors('Please enter the password');
-            return;
-        }
-
-        setErrors('');
-
-        if (FundRaiser) {
-            setSecondFormVisible(true);
-        } else {
-            handleSubmit();
         }
     };
 
@@ -124,9 +100,6 @@ export default function Signup() {
             setErrors('An error occurred. Please try again.');
         }
     };
-    const handleSecondFormSubmit = (e) => {
-        handleSubmit(e);
-    };
     function handleFund() {
         setFundRaiser(true);
     }
@@ -139,7 +112,7 @@ export default function Signup() {
                 <div className="login-form bg-white p-8 rounded shadow-2xl w-full max-w-md">
                     <h2 className="text-2xl font-semibold mb-6">Sign Up</h2>
                     {errors && <p className="text-red-500 mb-4">{errors}</p>}
-                    <form onSubmit={handleSubmit1}>
+                    <form onSubmit={handleSubmit}>
                         <div className="mb-4">
                             <label htmlFor="fullName" className="block text-gray-700">Full Name</label>
                             <input type="text" id="fullName" name="fullName" required value={formData.fullName} onChange={handleChange} className="mt-1 block w-full border-2 border-gray-900 rounded" style={{ padding: '2%' }} />
@@ -191,24 +164,6 @@ export default function Signup() {
                         </div>
                     </form>
                 </div>
-                {secondFormVisible && (
-                    <div className="fundraiserDocmain absolute w-full h-screen">
-                        <div className="w-full h-full flex justify-center items-center">
-                            <div className="fundraiserDoc-form bg-white p-8 rounded shadow-2xl w-full max-w-md">
-                                <h1 className="text-2xl font-bold">Upload NGO Document</h1>
-                                <form onSubmit={handleSecondFormSubmit}>
-                                    <div className="mb-4">
-                                        <label htmlFor="NGODOC" className="block text-gray-700">Upload NGO Document</label>
-                                        <input type="file" id="NGODOC" name="NGODOC" onChange={handleChange} className="mt-1 block w-full border-2 border-gray-900 rounded" />
-                                    </div>
-                                    <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-300">
-                                        Submit Document
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
         </>
     );

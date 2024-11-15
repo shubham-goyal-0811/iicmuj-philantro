@@ -36,7 +36,7 @@ export default function Part1({ searchQuery }) {
     // Fetching data and storing it in ngosArray and filteredNgos.
     const fetchNgos = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/v1/ngo/getNgos');
+            const response = await fetch('http://localhost:8001/api/v1/ngo/getNgos');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }

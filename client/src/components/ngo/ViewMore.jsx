@@ -52,7 +52,7 @@ export default function ViewMore() {
                             <div className="raised-amount">
                                 <h1 className="text-4xl font-bold">Raised by {ngo.name} :-</h1>
                                 <h2 className="text-xl">
-                                    {ngo.raised && ngo.raised !== "" ? `Raised: ${ngo.raised}` : "Not raised any amount."}
+                                    {ngo.raise && ngo.raise !== "" ? `Raised: ${ngo.raise}` : "Not raised any amount."}
                                 </h2>
                             </div>
                             <div className="cat flex flex-col justify-center items-center">
