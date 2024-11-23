@@ -40,7 +40,7 @@
 html,
 body {
   height: 100%;
-  /* background-color: black; */
+  background-color: black;
 }
 
 .page2 {
@@ -73,12 +73,10 @@ body {
   height: 100%;
 }
 
-
 .header_nav {
   backdrop-filter: blur(10px);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  font-family: "Faculty Glyphic", sans-serif;
 }
 
 .bg-custom {
@@ -90,10 +88,15 @@ body {
   background-color: white;
 }
 
+.title1{
+  text-shadow: 2px 2px 30px rgba(255, 255, 255, 0.336);
+}
+
 .quotes {
   /* border: 1px solid red; */
   font-family: "New Amsterdam";
   font-style: italic;
+  animation: quotesani 4s ease-in-out;
 }
 
 .title {
@@ -106,23 +109,6 @@ body {
 
 .logo:hover img {
   transform: scale(1.2);
-}
-
-.login {
-  transition: 0.3s ease-in-out;
-}
-
-.login:hover {
-  background-color: white;
-}
-
-ul li a {
-  transition: 0.3s ease-in-out;
-}
-
-ul li a:hover {
-  transform: scale(1.2);
-  color: black;
 }
 
 .search img {
@@ -273,7 +259,6 @@ ul li a:hover {
   }
 }
 
-/*NGO page css*/
 .parentmain1 {
   font-family: "Afacad Flux", sans-serif;
 }
@@ -469,10 +454,6 @@ ul li a:hover {
 
 }
 
-.quotes {
-  animation: quotesani 4s ease-in-out;
-}
-
 .fade-in {
   animation: fadeIn 0.5s ease-in-out;
 }
@@ -582,9 +563,27 @@ ul li a:hover {
 .ngospace:hover::before,
 .ngospace:hover::after {
   width: 100%;
-  transition: width 0.5s ease-in-out;
+  transition: width 1s ease-in-out;
+}
+.catespan {
+  display: inline-block;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #363636;
+  text-decoration: none;
+  cursor: pointer;
+  background: linear-gradient(to right, #363636 0%, #363636 100%);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0% 2px;
+  transition: background-size 0.5s ease-in-out;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
 }
 
+.catespan:hover {
+  background-size: 100% 2px;
+}
 
 @keyframes imgandname1 {
   from {
@@ -623,6 +622,7 @@ ul li a:hover {
 canvas {
   animation: rotate360 2.5s ease-in-out;
 }
+
 .ngo-form {
   max-width: 600px;
   margin: auto;
@@ -668,26 +668,6 @@ canvas {
 .ngo-form button:hover {
   background-color: #218838;
 }
-.catespan {
-  display: inline-block;
-  font-size: 1.5rem;
-  text-align: center;
-  color: #363636;
-  text-decoration: none;
-  cursor: pointer;
-  background: linear-gradient(to right, #363636 0%, #363636 100%);
-  background-repeat: no-repeat;
-  background-position: left bottom;
-  background-size: 0% 2px;
-  transition: background-size 0.5s ease-in-out;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-}
-
-.catespan:hover {
-  background-size: 100% 2px;
-}
-
 .payment-container {
   position: fixed;
   top: 0;
@@ -778,7 +758,7 @@ canvas {
 .payment-form button + button {
   margin-top: 0.5rem;
 }
-/* Cancel Button Styling */
+
 .payment-form button.bg-red {
   background-color: #dc3545;
   color: white;
@@ -797,4 +777,100 @@ canvas {
 .bg-red:hover {
   background-color: #c82333;
   transform: translateY(-2px);
+}
+
+canvas {
+  animation: rotate360 2.5s ease-in-out;
+}
+
+@keyframes bounceIn {
+0% {
+  transform: scale(0);
+}
+50% {
+  transform: scale(1.2);
+}
+100% {
+  transform: scale(1);
+}
+}
+
+.animate-button {
+animation: bounceIn 0.5s ease-out forwards;
+}
+
+@keyframes slideIn {
+0% {
+  transform: translateX(-100%);
+}
+100% {
+  transform: translateX(0);
+}
+}
+
+.animate-slide {
+animation: slideIn 0.8s ease-out forwards;
+}
+.hover-invert {
+  transition: filter 0.3s;
+}
+.hover-invert:hover {
+  filter: invert(1);
+}
+.cta {
+  position: relative;
+  margin: auto;
+  padding: 8px 18px;
+  transition: all 0.2s ease;
+  border: none;
+  backdrop-filter: blur(10px);
+  background-color: rgba(221, 218, 218, 0.7);
+  cursor: pointer;
+}
+
+.cta:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  border-radius: 50px;
+  width: 45px;
+  height: 45px;
+  transition: all 0.3s ease;
+}
+
+.cta span {
+  position: relative;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #234567;
+}
+
+.cta svg {
+  position: relative;
+  top: 0;
+  margin-left: 10px;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: #234567;
+  stroke-width: 2;
+  transform: translateX(-5px);
+  transition: all 0.3s ease;
+}
+
+.cta:hover:before {
+  width: 100%;
+  background: #6bd6f7;
+}
+
+.cta:hover svg {
+  transform: translateX(0);
+}
+
+.cta:active {
+  transform: scale(0.95);
 }

@@ -19,9 +19,9 @@ export default function Header() {
         axios.get('http://localhost:8001/api/v1/users/profile', { withCredentials: true })
             .then(response => {
                 const user = response.data;
-                if(user && user.data && user.data.role === 'NGO'){
+                if (user && user.data && user.data.role === 'NGO') {
                     setIsNGO(true);
-                }else{
+                } else {
                     setIsNGO(false);
                 }
             })
@@ -43,7 +43,12 @@ export default function Header() {
         );
 
         const handleScroll = () => {
-            setScrolled(window.scrollY > 10);
+            if(window.scrollY > 10){
+                setScrolled(true);
+            } 
+            else{
+                setScrolled(false);
+            }
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -60,7 +65,7 @@ export default function Header() {
     if (loading) {
         return (
             <header className="w-full h-20 bg-black">
-                <nav className="bg-white fixed top-0 z-10 transition-colors duration-300 header_nav w-full" style={{ padding: '0.5%' }}>
+                <nav ref={headerRef} className={`w-full ${scrolled ? 'bg-custom' : 'bg-transparent text-white'} fixed top-0 z-10 transition-colors duration-300 header_nav w-full`} style={{ padding: '0.5%' }}>
                     <div className="flex w-full items-center justify-between">
                         <Logo />
                         <Options />
@@ -74,10 +79,10 @@ export default function Header() {
     return (
         <>
             <header className="w-full h-20 bg-black">
-                <nav ref={headerRef} className={`w-full ${scrolled ? 'bg-custom' : 'bg-white'} fixed top-0 z-10 transition-colors duration-300 header_nav w-full`} style={{ padding: '0.5%' }}>
+                <nav ref={headerRef} className={`w-full ${scrolled ? 'bg-custom' : 'bg-transparent text-white'} fixed top-0 z-10 transition-colors duration-300 header_nav w-full`} style={{ padding: '0.5%' }}>
                     <div className="flex w-full items-center justify-between">
-                        <Logo />
-                        <Options />
+                        <Logo scrolled={scrolled} />
+                        <Options scrolled={scrolled} />
                         <div className="flex justify-around px-6 gap-5">
                             {isNGO ? (
                                 <button onClick={handleNGOAdd} className="border-2 p-2 rounded-full hover:bg-slate-300 duration-200">

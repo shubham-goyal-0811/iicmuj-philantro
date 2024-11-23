@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Search from '../../img/search.png';
 import axios from 'axios';
 
-export default function Options() {
+export default function Options({ scrolled }) {
     const [showSearchBar, setShowSearchBar] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [isNGO, setIsNgo] = useState(false);
@@ -48,15 +48,15 @@ export default function Options() {
                     {!showSearchBar && (
                         <>
                             <button>
-                                <li>
-                                    <a href="/" className="block text-gray-600 rounded text-xl">
+                                <li className="hover:font-bold hover:text-xl duration-300">
+                                    <a href="/" className="block rounded">
                                         Home
                                     </a>
                                 </li>
                             </button>
                             <button>
-                                <li>
-                                    <a onClick={handleNGO} className="block text-gray-600 rounded text-xl">
+                                <li className="hover:font-bold hover:text-xl duration-300">
+                                    <a onClick={handleNGO} className="block rounded">
                                         {!isNGO ? 'NGO' : 'View ngo'}
                                     </a>
                                 </li>
@@ -68,7 +68,7 @@ export default function Options() {
                             <img
                                 src={Search}
                                 alt="Search"
-                                className="w-6/12 cursor-pointer"
+                                className={`w-7/12 cursor-pointer ${scrolled ? '' : 'filter invert'}`}
                                 onClick={handleSearchClick}
                             />
                         </div>

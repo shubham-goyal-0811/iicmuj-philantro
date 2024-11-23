@@ -59,9 +59,9 @@ export default function Login () {
 
     return (
         <div className="login-container flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="login-form bg-white p-8 rounded shadow-md w-full max-w-md">
-                <h2 className="text-2xl font-semibold mb-6">Log in</h2>
-                {errors && <p className="text-red-500 mb-4">{errors}</p>}
+            <div className="login-form bg-white p-8 rounded-lg shadow-lg w-full max-w-md transition-transform transform hover-invert duration-300">
+                <h2 className="text-2xl font-semibold mb-6 text-center text-black">Log in</h2>
+                {errors && <p className="text-red-500 mb-4 text-center">{errors}</p>}
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label htmlFor="username" className="block text-gray-700">Username*</label>
@@ -76,14 +76,15 @@ export default function Login () {
                         <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} className="mt-1 block w-full border-2 border-gray-900 rounded" style={{ padding: '2%' }} />
                     </div>
                     <div className="mb-4">
-                        <label htmlFor="password" className="block text-gray-700">Password</label>
+                        <label htmlFor="password" className="block text-gray-700">Password*</label>
                         <input type="password" id="password" name="password" value={formData.password} required minLength="4" maxLength="20" onChange={handleChange} className="mt-1 block w-full border-2 border-gray-900 rounded" style={{ padding: '2%' }} />
                     </div>
-                    <div className="loginkro flex">
-                        <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-300 duration-500" style={{ margin: '1%' }}>
+                    <div className="loginkro flex flex-col gap-4">
+                        <button type="submit" className="w-full bg-gray-900 text-white py-3 rounded-md hover:bg-gray-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400">
                             Submit
                         </button>
-                        <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-300 duration-500" onClick={() => navigate('./Signup')} style={{ margin: '1%' }}>
+                        <button className="w-full bg-gray-900 text-white py-3 rounded-md hover:bg-gray-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400" 
+                            onClick={() => navigate('./Signup')}>
                             New?
                         </button>
                     </div>

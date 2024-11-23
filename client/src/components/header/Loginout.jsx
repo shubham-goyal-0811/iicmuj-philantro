@@ -57,7 +57,7 @@ export default function Loginout() {
     };
     const handleLogout = () => {
         const toastId = toast.loading('Logging Out...');
-        toast.success("User logged out",{ id: toastId });
+        toast.success("User logged out", { id: toastId });
         localStorage.removeItem('accessToken');
         logout();
     };
@@ -69,17 +69,21 @@ export default function Loginout() {
     console.log('All Cookies:', document.cookie);
     return (
         <>
-            <div className="loginout flex items-center justify-center w-1/12">
+            <div className="loginout flex items-center justify-center w-3/12">
                 {!isAuthenticated ? (
-                    <div onClick={() => navigate('../Login')} className="login rounded-lg" style={{ padding: '10%' }}>
-                        <button>Log in</button>
-                    </div>
+                    <button className="cta flex justify-center items-center rounded-3xl" onClick={() => navigate('../Login')}>
+                        <span>Login</span>
+                        <svg width="15px" height="10px" viewBox="0 0 13 10" className="flex justify-center items-center">
+                            <path d="M1,5 L11,5"></path>
+                            <polyline points="8 1 12 5 8 9"></polyline>
+                        </svg>
+                    </button>
                 ) : (
                     <div className="user w-full flex rounded-lg justify-center">
                         <div className="userinfo flex flex-col items-center relative">
                             <button>
                                 <div className="userImg w-full flex justify-center items-center bg-gray-400 text-white rounded-full hover:bg-gray-700 duration-200" style={{ width: '4rem', height: '4rem', lineHeight: '4rem', textAlign: 'center', fontSize: '1.5rem' }} onClick={toggleDropdown}>
-                                {avatarUrl ? (
+                                    {avatarUrl ? (
                                         <img src={avatarUrl} alt="User Avatar" className="rounded-full w-full h-full object-cover" />) : (
                                         <span style={{ lineHeight: '4rem', fontSize: '1.5rem' }}>
                                             {getInitials(profile.username)}
@@ -89,15 +93,15 @@ export default function Loginout() {
                             </button>
                             {dropdownVisible && (
                                 <div className="absolute top-20 right-0 bg-white shadow-lg rounded-lg p-4 z-10">
-                                    <div className="text-center mb-2">Welcome, {profile.username}</div>
+                                    <div className="text-center mb-2 text-black">Welcome, {profile.username}</div>
                                     <div className="logout flex flex-col justify-center items-center">
                                         <button
-                                            className="bg-slate-300 rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500"
+                                            className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500"
                                             onClick={handleLogout} style={{ padding: "10%", margin: "5%" }}>
                                             Log out
                                         </button>
                                         <button
-                                            className="bg-slate-300 rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500"
+                                            className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500"
                                             onClick={() => handleProfile()} style={{ padding: "10%", margin: "5%" }}>
                                             Profile
                                         </button>

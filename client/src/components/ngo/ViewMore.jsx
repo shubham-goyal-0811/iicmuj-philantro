@@ -75,10 +75,12 @@ export default function ViewMore() {
     };
     //logic to download the ngo id proof
     const downloadIdProof = async (idProofUrl) => {
+        const toastId = toast.loading('Wait...');
         if (!idProofUrl) {
-            alert("ID Proof document is not available.");
+            toast.error("ID Proof document is not available.", { id: toastId });
             return;
         }
+        toast.success("Downloding...", { id: toastId });
     
         try {
             const response = await fetch(idProofUrl);

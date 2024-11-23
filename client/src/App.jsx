@@ -42,16 +42,3 @@ function App() {
 }
 
 export default App;
-
-/*
-Payment Gateway frontend code
-
-<div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-                {!payment ? (
-                  <PaymentForm onComplete={handleCompletePayment} />
-                ) : (
-                  <PaymentStatus payment={payment} />
-                )}
-</div>
-
-*/
