@@ -86,7 +86,8 @@ const registerUser = asyncHandler(async (req,res) =>{
         password,
         username : username.toLowerCase(),
         mobileNo,
-        role
+        role,
+        donation: []
     })
 
     const userCreated = await User.findById(user._id).select(
@@ -130,7 +131,7 @@ const loginUser = asyncHandler(async (req,res)=>{
 
     const { accessToken, refreshToken } = await generateAccessandRfreshToken(user._id);
     user.refreshToken = refreshToken;
-    const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
+    const loggedInUser = await User.findById(user._id).populate("donation").select("-password -refreshToken");
 
     /*
     
@@ -248,7 +249,15 @@ const changeCurrentPassword = asyncHandler(async(req,res)=>{
 })
 
 const getCurrentUser = asyncHandler (async(req,res)=>{
-    return res.status(200).json(new ApiResponse(200,req.user,"User fetched succesfully"));
+    const user = await User.findById(req.user._id)
+        .populate("donation") // Populate donation details
+        .select("-password -refreshToken"); // Exclude sensitive fields
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    return res.status(200).json(new ApiResponse(200, user, "User fetched successfully"));
 })
 
 const updateAccountDetails = asyncHandler (async(req,res)=>{
@@ -324,7 +333,7 @@ export const calculateTotalDonations = async (req, res) => {
         const userId = req.user.id; // Assuming the middleware adds `req.user`
 
         // Fetch the user and their donations from the database
-        const user = await User.findById(userId).select('donations');
+        const user = await User.findById(userId).populate("donation", "amount");
 
         if (!user) {
             return res.status(404).json({ error: 'User not found.' });

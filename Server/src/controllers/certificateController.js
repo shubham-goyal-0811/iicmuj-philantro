@@ -6,7 +6,7 @@ export const generateCertificate = async (req, res) => {
         const userId = req.user.id; // Get user ID from the JWT middleware
 
         // Fetch the user's donations from the database
-        const user = await User.findById(userId).select('donations name');
+        const user = await User.findById(userId).populate("donation", "amount");
 
         if (!user) {
             return res.status(404).json({ error: 'User not found.' });
