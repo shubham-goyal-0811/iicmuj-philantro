@@ -17,8 +17,8 @@ const generatePaymentId = () => `pay_${crypto.randomBytes(10).toString("hex")}`;
 
 
 export const createOrder = asyncHandler(async (req, res) => {
-    const { amount, ngoId } = req.body;
-
+    const { amount } = req.body;
+    const ngoId = req.params?.id;
     if (!ngoId) {
         throw new ApiError(400, "Please select an NGO to donate");
     }
@@ -83,16 +83,16 @@ export const completePayment = asyncHandler(async (req, res) => {
     });
 
     // Update the user record with the donation reference
-    await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
         req.user._id,
-        { $push: { donations: donation._id } },
+        { $push: { donation: donation._id } },
         { new: true }
     );
 
     return res.status(200).json(
         new ApiResponse(
             200,
-            { payment, donation },
+            { payment, donation,user },
             "Payment completed and donation saved successfully"
         )
     );

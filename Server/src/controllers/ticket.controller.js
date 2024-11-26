@@ -64,7 +64,7 @@ export const getAllTicket = asyncHandler(async (req, res) => {
 });
 
 export const getTicketbyNgo = asyncHandler(async (req, res) => {
-  
+
   const ngoId = req.params?.id;
   const ngo = await Ngo.findById(ngoId);
   if (!ngo) {
@@ -87,29 +87,29 @@ export const getTicketbyId = asyncHandler(async (req, res) => {
   const ticketId = req.params?.id;
   const tickets = await Ticket.findById(ticketId)
     .populate({ path: "ngo", model: "Ngo" })
-    .populate({path : "donor"})
+    .populate({ path: "donor" })
     .sort({ createdAt: -1 });
 
-    if(!tickets){
-        throw new ApiError(404,"No tickets found with the specified id");
-    }
-    return res.status(200).json(new ApiResponse(200,tickets,'Tickets found succesfully'));
+  if (!tickets) {
+    throw new ApiError(404, "No tickets found with the specified id");
+  }
+  return res.status(200).json(new ApiResponse(200, tickets, 'Tickets found succesfully'));
 });
 
 
-export const updateTicket = asyncHandler (async(req,res)=>{
-    const id = req.params?.id;
-    if(!id){
-        throw new ApiError(400,"id is not specified");
-    }
-    const {amount,cause} = req.body;
-    if(!amount && !cause){
-        throw new ApiError(400,"Please specify something to be changed")
-    }
-    const updatedData = {amount,cause};
-    const ticket = await Ticket.findByIdAndUpdate(id,updatedData,{new : true});
-    if(!ticket){
-        throw new ApiError(500,"Something went wrong");
-    }
-    return res.status(200).json(new ApiResponse(200,ticket,"data updated succesfully"));
+export const updateTicket = asyncHandler(async (req, res) => {
+  const id = req.params?.id;
+  if (!id) {
+    throw new ApiError(400, "id is not specified");
+  }
+  const { amount, cause } = req.body;
+  if (!amount && !cause) {
+    throw new ApiError(400, "Please specify something to be changed")
+  }
+  const updatedData = { amount, cause };
+  const ticket = await Ticket.findByIdAndUpdate(id, updatedData, { new: true });
+  if (!ticket) {
+    throw new ApiError(500, "Something went wrong");
+  }
+  return res.status(200).json(new ApiResponse(200, ticket, "data updated succesfully"));
 })

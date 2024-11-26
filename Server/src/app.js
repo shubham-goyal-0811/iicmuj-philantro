@@ -7,17 +7,11 @@ app.use(express.json({limit : "16kb"}))//for data coming from express files
 app.use(express.urlencoded({extended:true,limit:"16kb"}));//for data coming from Url
 app.use(express.static("public")) //to store some assets publically
 app.use(cookieparser());//used to access cookies of the browser
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-    if(allowedOrigins.includes(origin)){
-        res.setHeader('Access-Control-Allow-Origin', origin);
-    }
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-    next();
-});
+//const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+app.use(cors({
+    origin:process.env.CORS_ORIGIN,
+    credentials : true,
+}));
 
 import userRouter from './routes/user.routes.js';
 app.use("/api/v1/users",userRouter);

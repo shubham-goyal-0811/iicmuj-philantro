@@ -92,7 +92,7 @@ export default function Part1({ searchQuery }) {
     }
 
     const handleViewMore = (ngo) => {
-        navigate(`/view-more/${ngo.name}`, { state: { ngo } });
+        navigate(`/view-more/${ngo._id}`, { state: { ngo } });
     };
 
     return (

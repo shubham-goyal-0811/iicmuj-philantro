@@ -8,16 +8,19 @@ export default function ViewMore() {
     const location = useLocation();
     const { ngo } = location.state || {};
     const [donating, setDonating] = useState(false);
-    const [copyStatus, setCopyStatus] = useState(false);
+    // const [copyStatus, setCopyStatus] = useState(false);
     const [amount, setAmount] = useState("");
     const [ngoId, setNgoId] = useState("");
-    const [orderId, setOrderId] = useState("");
+    // const [orderId, setOrderId] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (ngo) {
             setNgoId(ngo._id);
+        }
+        else{
+            console.error("Ngo data is missing.")
         }
     }, [ngo]);
 
@@ -32,17 +35,32 @@ export default function ViewMore() {
             const response = await fetch(`http://localhost:8001/api/v1/payment/create-order/${ngoId}`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ amount, ngoId }),
+                body: JSON.stringify({ amount }),
             });
             const data = await response.json();
-            if (data.success) {
-                toast.success("Thank you for your payment", { id: toastId });
-                setOrderId(data.data.order.id);
-                navigate("/ngo");
+            const orderId = data.data.orderId;
+            if (data) {
+                console.log("Entering complete payment");
+                const completePayment = await fetch(`http://localhost:8001/api/v1/payment/complete-payment`,{
+                    method: "POST",
+                    credentials: 'include',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ orderId }),
+                });
+                console.log("Out of complete payment");
+                const completePaymentOk = await completePayment.json();
+                console.log(completePaymentOk);
+                if(completePaymentOk){
+                    toast.success("Payment completed successfully!", { id: toastId });
+                    navigate("/ngo");
+                } else {
+                    toast.error(`Payment failed: ${completePaymentOk.message}`, { id: toastId });
+                }
             } else {
                 toast.error("Order was not placed", { id: toastId });
             }
         } catch (error) {
+            toast.error("Order was not placed", { id: toastId });
             console.error("Error creating order:", error.message);
         } finally {
             setLoading(false);
@@ -54,23 +72,28 @@ export default function ViewMore() {
     };
 
     const handleDonate = () => {
-        setCopyStatus(true);
-        setTimeout(() => setCopyStatus(false), 2000);
+        // setCopyStatus(true);
+        // setTimeout(() => setCopyStatus(false), 2000);
         setDonating(true);
     };
 
     const onCopyText = () => {
-        setCopyStatus(true);
-        setTimeout(() => setCopyStatus(false), 2000);
+        // setCopyStatus(true);
+        // setTimeout(() => setCopyStatus(false), 2000);
     };
 
     if (!ngo) {
-        return <div>No NGO details available.</div>;
+        return (
+            <div>
+                <h1>No NGO details available.</h1>
+                <p>Please navigate back and select an NGO to view details.</p>
+            </div>
+        );
     }
 
     const handleCancelOrder = () => {
         setAmount("");
-        setOrderId("");
+        // setOrderId("");
         setDonating(false);
     };
     //logic to download the ngo id proof

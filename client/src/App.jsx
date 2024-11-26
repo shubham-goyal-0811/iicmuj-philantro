@@ -32,7 +32,7 @@ function App() {
         <Route path="/users/profile" element={<Profile />} />
         <Route path="/ngo" element={<Ngo />} />
         <Route path="/login/signup" element={<Signup />} />
-        <Route path="/view-more/:name" element={<ViewMore />} />
+        <Route path="/view-more/:id" element={<ViewMore />} />
         <Route path="/userviewngo" element={<ViewUserNGO />} />
         {/* <Route path="/payment" element={<PaymentForm />} /> */}
         <Route path="/paymentstatus" element={<PaymentStatus />} />
