@@ -16,5 +16,8 @@ const donationSchema = new Schema({
         type : Number,
         required : true
     }
+},
+{
+    timestamps: true
 });
 export const Donation = mongoose.model("Donation", donationSchema);

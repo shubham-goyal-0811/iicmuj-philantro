@@ -250,7 +250,13 @@ const changeCurrentPassword = asyncHandler(async(req,res)=>{
 
 const getCurrentUser = asyncHandler (async(req,res)=>{
     const user = await User.findById(req.user._id)
-        .populate("donation") // Populate donation details
+        .populate({
+            path: "donation",
+            populate: {
+                path: "ngoId", // Populate ngoId field from Donation
+                select: "name", // Include only the NGO name
+            },
+        })
         .select("-password -refreshToken"); // Exclude sensitive fields
 
     if (!user) {
@@ -263,7 +269,7 @@ const getCurrentUser = asyncHandler (async(req,res)=>{
 const updateAccountDetails = asyncHandler (async(req,res)=>{
     const {username,fullName,email,mobileNo } = req.body;
 
-    if(!username && !email && !mobileNo && !fullName){
+    if(!username || !email || !mobileNo || !fullName){
         throw new ApiError(400,"At least one field is mandatory to update");
     }
     const user = await User.findByIdAndUpdate(req.user?._id,

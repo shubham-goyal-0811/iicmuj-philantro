@@ -64,9 +64,6 @@ export default function Loginout() {
     const handleProfile = () => {
         navigate(`/users/profile`);
     };
-
-    const avatarUrl = getCookieValue('avatar');
-    console.log('All Cookies:', document.cookie);
     return (
         <>
             <div className="loginout flex items-center justify-center w-3/12">
@@ -83,8 +80,8 @@ export default function Loginout() {
                         <div className="userinfo flex flex-col items-center relative">
                             <button>
                                 <div className="userImg w-full flex justify-center items-center bg-gray-400 text-white rounded-full hover:bg-gray-700 duration-200" style={{ width: '4rem', height: '4rem', lineHeight: '4rem', textAlign: 'center', fontSize: '1.5rem' }} onClick={toggleDropdown}>
-                                    {avatarUrl ? (
-                                        <img src={avatarUrl} alt="User Avatar" className="rounded-full w-full h-full object-cover" />) : (
+                                    {profile.avatar ? (
+                                        <img src={profile.avatar} alt="User Avatar" className="rounded-full w-full h-full object-cover" />) : (
                                         <span style={{ lineHeight: '4rem', fontSize: '1.5rem' }}>
                                             {getInitials(profile.username)}
                                         </span>
