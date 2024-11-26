@@ -23,7 +23,7 @@ export default function Frontpage() {
                     ease: "power1.out",
                     scrollTrigger: {
                         trigger: section,
-                        start: "top 80%",
+                        start: "top 100%",
                         end: "top 20%",
                         scrub: true,
                     },

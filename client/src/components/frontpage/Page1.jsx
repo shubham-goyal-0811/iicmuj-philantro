@@ -64,11 +64,11 @@ export default function Page1() {
                             </div>
                         </div>
 
-                        <div className="buttonToStart flex justify-start w-full mt-4">
+                        <div className="buttonToStart flex justify-start w-full mt-4 md:justify-center">
                             <Button />
                         </div>
                     </div>
-                    <div className="picture w-10/12 sm:w-full h-full rounded-full">
+                    <div className="picture flex w-full h-full rounded-full lg:w-6/12 lg:h-6/12 md:w-full md:h-full sm:w-full sm:h-full">
                         <Canvas camera={{ position: [0, 0, 2], fov: 75 }}>
                             <ambientLight intensity={1.5} />
                             <OrbitControls enableZoom={false} />

@@ -255,6 +255,7 @@ body {
   .grid1,
   .grid2 {
     display: flex;
+    flex-direction: column;
     margin: 1%;
   }
 }

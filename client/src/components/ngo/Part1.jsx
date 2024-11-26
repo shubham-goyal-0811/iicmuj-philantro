@@ -98,12 +98,12 @@ export default function Part1({ searchQuery }) {
     return (
         <>
             <div className="parentmain1 h-full w-full bg-[#d2c9c9]">
-                <div className="childmain1 h-full overflow-hidden">
+                <div className="childmain1 h-auto overflow-hidden">
                     <div className="w-full flex justify-center">
-                        <h1 className="lg:text-7xl md:text-5xl sm:text-3xl font-bold">NGO's</h1>
+                        <h1 className="lg:text-7xl md:text-5xl sm:text-3xl font-bold italic">NGO's</h1>
                     </div>
                     <div className="ngos h-full flex justify-around overflow-hidden">
-                        <div className="cate flex flex-col w-3/12 h-2/12 items-center text-nowrap bg-[#f2f0ef] rounded-3xl shadow-2xl shadow-stone-800 duration-200" style={{ padding: "1%", margin: "2%" }}>
+                        <div className="cate flex flex-col w-3/12 h-full items-center text-nowrap bg-[#f2f0ef] rounded-3xl shadow-2xl shadow-stone-800 duration-200" style={{ padding: "1%", margin: "2%" }}>
                             <h1 className="text-5xl text" style={{ padding: "1%", margin: "0.5%" }}>
                                 Categories
                             </h1>

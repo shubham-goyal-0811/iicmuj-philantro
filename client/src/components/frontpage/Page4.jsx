@@ -9,13 +9,13 @@ export default function Page4() {
         <>
             <div className="frontpage_main4 flex flex-col w-auto items-center">
                 <div className="frontpage_part4 w-full">
-                    <div className="flex text-4xl font-bold flex justify-center" style={{ marginTop: '1%' }}>
+                    <div className="flex text-4xl font-bold justify-center" style={{ marginTop: '1%' }}>
                         <h1>Know Our Team</h1>
                     </div>
 
                     <div className="pps flex h-full justify-evenly" style={{ backgroundImage: `url{${TeamPic}}` }}>
 
-                        <div className="grid1 grid grid-cols-3 grid-rows-2 gap-4 p1">
+                        <div className="grid1 grid grid-cols-3 grid-rows-2 gap-4 p1 md:flex md:flex-col" >
                             <div className="shwetank flex flex-col items-center bg-slate-100 rounded-3xl relative group ">
                                 <div className="shwetapp bg-cover bg-center w-80 h-80">
                                     <img src={Shwetank} alt="" />
@@ -82,9 +82,6 @@ export default function Page4() {
                             <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="/" className="hover:underline">PhilantroHub</a>. All Rights Reserved.</span>
                         </div>
                     </footer>
-
-
-
                 </div>
             </div>
         </>
