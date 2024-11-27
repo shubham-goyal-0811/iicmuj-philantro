@@ -24,8 +24,13 @@ export default function Loginout() {
     const [dropdownVisible, setDropdownVisible] = useState(false);
 
     useEffect(() => {
-        fetchProfile();
-    }, []);
+        if (isAuthenticated) {
+            fetchProfile();
+        } else {
+            setProfile(null);
+        }
+    }, [isAuthenticated]);
+
     const fetchProfile = async () => {
         try {
             const response = await fetch('http://localhost:8001/api/v1/users/profile', {
@@ -55,12 +60,28 @@ export default function Loginout() {
     const toggleDropdown = () => {
         setDropdownVisible(!dropdownVisible);
     };
-    const handleLogout = () => {
-        const toastId = toast.loading('Logging Out...');
-        toast.success("User logged out", { id: toastId });
-        localStorage.removeItem('accessToken');
-        logout();
+    const handleLogout = async () => {
+        try {
+            const response = await fetch('http://localhost:8001/api/v1/users/logout', {
+                method: 'POST',
+                credentials: 'include',
+            });
+    
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.removeItem('accessToken');
+                logout();
+                toast.success('Logged out successfully');
+                window.location.reload();
+            } else {
+                toast.error(data.message || 'Logout failed');
+            }
+        } catch (error) {
+            console.error('Error logging out:', error);
+            toast.error('An error occurred during logout');
+        }
     };
+    
     const handleProfile = () => {
         navigate(`/users/profile`);
     };

@@ -117,31 +117,24 @@ export default function Part1({ searchQuery }) {
                                         style={{ padding: "3%", margin: "0.5%" }}
                                         onClick={() => handleTypeClick(type)}
                                     >
-                                       {type}
+                                        {type}
                                     </span>
                                 ))}
                             </div>
                         </div>
-                        <div className="ngosdiv w-9/12 flex flex-col items-center" style={{ padding: "1%", margin: "0.5%" }}>
+                        <div className="grid grid-cols-3 w-full h-auto">
                             {filteredNgos.map((ngo, index) => (
-                                <div ref={(el) => ngoRefs.current[index] = el}className="ngospace w-10/12 h-auto flex flex-col text-4xl justify-center bg-[#f2f0ef] rounded-3xl shadow-2xl shadow-stone-800" style={{ padding: "0.5%", margin: "0.5%" }} key={index}>
-                                    <div className="ngoTitle flex items-center justify-center w-full">
-                                        <div className="ngotitle flex w-1/2 text-center justify-center">
-                                            <h1 className="font-bold text-5xl">{ngo.name}</h1>
-                                        </div>
-                                    </div>
-                                    <div className="ngodes&img flex justify-start w-full h-auto">
-                                        <div className="ngoimg flex justify-center items-center w-6/12" style={{ padding: "0.5%", margin: "0.5%" }}>
-                                            <div className="imghere flex w-6/12 items-center">
-                                                <img src={ngo.logo} alt="imgngo" className="rounded-full shadow-2xl" />
-                                            </div>
-                                        </div>
-                                        <div className="ngodescription flex w-10/12 text-center items-center border-2 border-[#bca77e] border-dashed rounded-2xl" style={{ padding: "0.5%", margin: "0.5%" }}>
-                                            <h2 className="text-2xl">{ngo.description}</h2>
-                                        </div>
-                                    </div>
-                                    <div className="visitbutton flex justify-center">
-                                        <button className="bg-slate-300 rounded-lg text-xl hover:bg-slate-500 duration-200 hover:text-white" style={{ padding: "0.5%", margin: "0.5%" }} onClick={() => handleViewMore(ngo)}>
+                                <div
+                                    ref={(el) => (ngoRefs.current[index] = el)}
+                                    className="card lg:w-10/12 lg:h-auto m-5 shadow-2xl"
+                                    style={{
+                                        backgroundImage: `url(${ngo.logo})`,
+                                    }}
+                                    key={index}>
+                                    <div className="card-content p-5">
+                                        <h1 className="card-title text-5xl font-bold m-2">{ngo.name}</h1>
+                                        <p className="card-body text-2xl font-semibold m-2">{ngo.description}</p>
+                                        <button className="button" onClick={() => handleViewMore(ngo)}>
                                             View More
                                         </button>
                                     </div>

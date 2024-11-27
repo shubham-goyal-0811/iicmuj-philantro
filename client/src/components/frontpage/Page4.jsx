@@ -15,7 +15,7 @@ export default function Page4() {
 
                     <div className="pps flex h-full justify-evenly" style={{ backgroundImage: `url{${TeamPic}}` }}>
 
-                        <div className="grid1 grid grid-cols-3 grid-rows-2 gap-4 p1 md:flex md:flex-col" >
+                        <div className="lg:grid1 lg:grid lg:grid-cols-3 lg:grid-rows-2 gap-4 p1 md:flex md:flex-col" >
                             <div className="shwetank flex flex-col items-center bg-slate-100 rounded-3xl relative group ">
                                 <div className="shwetapp bg-cover bg-center w-80 h-80">
                                     <img src={Shwetank} alt="" />

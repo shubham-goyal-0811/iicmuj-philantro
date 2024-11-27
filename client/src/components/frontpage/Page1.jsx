@@ -33,8 +33,34 @@ export default function Page1() {
             by: "― Mahatma Gandhi"
         },
     ];
-
     const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
+    const [logged, setLogged] = useState(false);
+
+    const fetchProfile = async () => {
+        try {
+            const response = await fetch('http://localhost:8001/api/v1/users/profile', {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                },
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                setLogged(true);
+            } else {
+                setLogged(false);
+            }
+        } catch (error) {
+            console.error('Error fetching profile:', error);
+            setLogged(false);
+        }
+    };
+    useEffect(() => {
+        fetchProfile();
+    }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -43,29 +69,30 @@ export default function Page1() {
         return () => clearInterval(interval);
     }, [qts.length]);
 
+    console.log(logged);
     return (
-        <div className="frontpage_main1 flex flex-col w-auto items-center h-screen bg-black" style={{ padding: '1%', height: '92vh' }}>
-            <div className="frontpape_part1 flex flex-col w-full h-full justify-between bg-opacity-0" style={{ backgroundImage: `url(${Stars})`, backgroundPosition: 'center', }}>
+        <div className="frontpage_main1 flex flex-col w-auto items-center h-screen" style={{ height: '92vh' }}>
+            <div className="frontpape_part1 flex flex-col w-full h-full justify-between" style={{ backgroundImage: `url(${Stars})`, backgroundPosition: 'center', }}>
                 <div className="front_content flex items-center justify-evenly w-full h-full">
-                    <div className="flex flex-col w-6/12 h-full justify-center items-start">
+                    <div className="flex flex-col w-6/12 h-full justify-center items-center">
                         <div className="title flex flex-col justify-center" style={{ marginTop: '1.1%' }}>
-                            <div className="title1 lg:text-8xl md:text-6xl sm:text-4xl font-bold text-white">
+                            <div className="title1 lg:text-8xl md:text-6xl sm:text-4xl font-bold text-white ml-14">
                                 <Typewriter options={{
                                     strings: ['PhilantroHub'], autoStart: true, loop: true, delay: 75, deleteSpeed: 50,
                                 }}
                                 />
                             </div>
                         </div>
-                        <div className="quotes w-full flex items-center text-start justify-center text-white relative" style={{ margin: '1%', padding: '1%', height: '25vh' }}>
-                            <div className="absolute inset-0 bg-black bg-opacity-40 rounded-2xl"></div>
-                            <div className="flex flex-col act_qot w-full h-full items-start justify-center relative">
+                        <div className="quotes w-8/12 flex items-center text-start justify-center text-white relative" style={{ margin: '1%', padding: '1%', height: '25vh' }}>
+                            <div className="absolute inset-0 rounded-2xl"></div>
+                            <div className="flex flex-col act_qot h-full w-full bg-black bg-opacity-40 items-start justify-center relative ml-14">
                                 <h1 className="font-bold text-3xl">{qts[currentQuoteIndex].quote}</h1>
                                 <p className="text-xl">{qts[currentQuoteIndex].by}</p>
                             </div>
                         </div>
 
                         <div className="buttonToStart flex justify-start w-full mt-4 md:justify-center">
-                            <Button />
+                            {!logged && <Button />}
                         </div>
                     </div>
                     <div className="picture flex w-full h-full rounded-full lg:w-6/12 lg:h-6/12 md:w-full md:h-full sm:w-full sm:h-full">

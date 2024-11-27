@@ -19,7 +19,7 @@ export default function Header() {
         axios.get('http://localhost:8001/api/v1/users/profile', { withCredentials: true })
             .then(response => {
                 const user = response.data;
-                if (user && user.data && user.data.role === 'NGO') {
+                if (user.data.role === 'NGO') {
                     setIsNGO(true);
                 } else {
                     setIsNGO(false);

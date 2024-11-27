@@ -44,12 +44,12 @@ const Button = () => {
   return (
     <button
       ref={buttonRef}
-      className="relative border-2 border-solid border-white px-5 py-2 rounded-3xl text-white overflow-hidden hover:text-black z-0"
+      className="relative border-2 border-solid border-white px-5 py-2 rounded-3xl text-black bg-white overflow-hidden hover:text-white z-0"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
     >
-      <div ref={divRef} className="absolute w-[200px] h-[150px] bg-white left-0 top-0 wrapperElement -z-10 pointer-events-none rounded-[50%]"></div>
+      <div ref={divRef} className="absolute w-[200px] h-[150px] bg-black left-0 top-0 wrapperElement -z-10 pointer-events-none rounded-[50%]"></div>
       <span onClick={() => navigate('../Login')} className="z-10">Get Started!</span>
     </button>
   );
