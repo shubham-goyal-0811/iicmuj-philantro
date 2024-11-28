@@ -61,17 +61,37 @@ export default function Loginout() {
         setDropdownVisible(!dropdownVisible);
     };
     const handleLogout = async () => {
+        const token = localStorage.getItem('accessToken');
+        
+        if (!token) {
+            toast.error('No access token found. Please log in again.');
+            navigate('/login');
+            return;
+        }
         try {
             const response = await fetch('http://localhost:8001/api/v1/users/logout', {
                 method: 'POST',
                 credentials: 'include',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
             });
     
-            const data = await response.json();
+            const contentType = response.headers.get('content-type');
+            let data;
+    
+            if (contentType && contentType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                console.error('Non-JSON response:', await response.text());
+                toast.error('Unexpected server response');
+                return;
+            }
+    
             if (response.ok) {
                 localStorage.removeItem('accessToken');
-                logout();
                 toast.success('Logged out successfully');
+                navigate('/');
                 window.location.reload();
             } else {
                 toast.error(data.message || 'Logout failed');
@@ -80,8 +100,7 @@ export default function Loginout() {
             console.error('Error logging out:', error);
             toast.error('An error occurred during logout');
         }
-    };
-    
+    };    
     const handleProfile = () => {
         navigate(`/users/profile`);
     };

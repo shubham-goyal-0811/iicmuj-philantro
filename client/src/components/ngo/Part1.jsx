@@ -26,7 +26,8 @@ export default function Part1({ searchQuery }) {
 
     const [ngosArray, setNgosArray] = useState([]);
     const [filteredNgos, setFilteredNgos] = useState([]);
-    const [selectedType, setSelectedType] = useState("");
+    const [selectedType, setSelectedType] = useState("All NGOS");
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const ngoRefs = useRef([]);
     const typeRefs = useRef([]);
     const [hasAnimated, setHasAnimated] = useState(false);
@@ -35,24 +36,16 @@ export default function Part1({ searchQuery }) {
     useEffect(() => {
         fetchNgos();
     }, []);
+
     useEffect(() => {
         if (filteredNgos.length > 0 && !hasAnimated) {
-            //NGOs animation
             gsap.fromTo(
                 ngoRefs.current,
-                { opacity: 0, y: 200 },
-                { opacity: 1, y: 0, stagger: 0.4, duration: 1.5 }
-            );
-
-            //categories animation
-            gsap.fromTo(
-                typeRefs.current,
                 { opacity: 0, y: 50 },
                 { opacity: 1, y: 0, stagger: 0.4, duration: 1.5 }
             );
-            setHasAnimated(true);
         }
-    }, [filteredNgos, hasAnimated]);
+    }, [filteredNgos]);
 
     //fetching data and storing it in ngosArray and filteredNgos.
     const fetchNgos = async () => {
@@ -77,58 +70,86 @@ export default function Part1({ searchQuery }) {
     //filtering NGOs based on the selected category.
     const handleTypeClick = (type) => {
         setSelectedType(type);
-        const filtered = ngosArray.filter((ngo) => {
-            const ngoCategory = ngo.category ? ngo.category.toLowerCase() : "";
-            const selectedCategory = type.toLowerCase();
-            return ngoCategory.includes(selectedCategory) || selectedCategory.includes(ngoCategory);
-        });
-        setFilteredNgos(filtered);
-    };
 
-    //clear button
-    if (selectedType === "All NGOS") {
-        setSelectedType("");
-        setFilteredNgos(ngosArray);
-    }
+        if (type === "All NGOS") {
+            setFilteredNgos(ngosArray);
+        } else {
+            const filtered = ngosArray.filter((ngo) => {
+                const ngoCategory = ngo.category ? ngo.category.toLowerCase() : "";
+                const selectedCategory = type.toLowerCase();
+                return ngoCategory.includes(selectedCategory) || selectedCategory.includes(ngoCategory);
+            });
+            setFilteredNgos(filtered);
+        }
+
+        setIsSidebarOpen(false);
+    };
 
     const handleViewMore = (ngo) => {
         navigate(`/view-more/${ngo._id}`, { state: { ngo } });
     };
 
+    //function to toggle the sidebar
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
+
     return (
         <>
-            <div className="parentmain1 h-full w-full bg-[#d2c9c9]">
+            <div className="parentmain1 h-max w-full bg-white relative">
                 <div className="childmain1 h-auto overflow-hidden">
                     <div className="w-full flex justify-center">
                         <h1 className="lg:text-7xl md:text-5xl sm:text-3xl font-bold italic">NGO's</h1>
                     </div>
-                    <div className="ngos h-full flex justify-around overflow-hidden">
-                        <div className="cate flex flex-col w-3/12 h-full items-center text-nowrap bg-[#f2f0ef] rounded-3xl shadow-2xl shadow-stone-800 duration-200" style={{ padding: "1%", margin: "2%" }}>
-                            <h1 className="text-5xl text" style={{ padding: "1%", margin: "0.5%" }}>
-                                Categories
-                            </h1>
-                            <hr className="h-1 bg-slate-400 w-full rounded-full m-3" />
-                            <div className="types flex flex-col text-center">
-                                {ngoTypesArray.map((type, index) => (
-                                    <span
-                                        key={index}
-                                        ref={(el) => typeRefs.current[index] = el}
-                                        className={`catespan w-full text-2xl rounded-full ${selectedType === type ? "bg-gray-200 font-bold" : ""}`}
-                                        style={{ padding: "3%", margin: "0.5%" }}
-                                        onClick={() => handleTypeClick(type)}
-                                    >
-                                        {type}
-                                    </span>
-                                ))}
-                            </div>
+                    <div className="w-full flex justify-center mt-6">
+                        <button 
+                            onClick={toggleSidebar} 
+                            className="px-6 py-3 bg-blue-500 text-white font-bold rounded-full">
+                            {isSidebarOpen ? "Close Categories" : "Open Categories"}
+                        </button>
+                    </div>
+
+                    <div 
+                        className={`fixed flex flex-col items-center left-0 top-20 bg-[#d9ced0] w-3/12 p-2 rounded-r-2xl transform transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+                        style={{ zIndex: 1000 }}>
+                        <button 
+                            className="absolute top-2 right-2 text-5xl font-bold cursor-pointer"
+                            onClick={toggleSidebar}>
+                            &times;
+                        </button>
+                        <h2 className="text-3xl font-bold mb-6">Categories</h2>
+                        <hr className="mb-4" />
+                        <div className="types flex flex-col text-center items-center">
+                            {ngoTypesArray.map((type, index) => (
+                                <span
+                                    key={index}
+                                    ref={(el) => typeRefs.current[index] = el}
+                                    className={`catespan w-full text-2xl rounded-full font-semibold border-b-4 ${selectedType === type ? "bg-gray-200 font-bold" : ""}`}
+                                    style={{ padding: "2%"}}
+                                    onClick={() => handleTypeClick(type)}>
+                                    {type}
+                                </span>
+                            ))}
                         </div>
-                        <div className="grid grid-cols-3 w-full h-auto">
+                    </div>
+
+                    {isSidebarOpen && (
+                        <div 
+                            className="fixed inset-0 bg-black opacity-50 z-500"
+                            onClick={toggleSidebar} 
+                            style={{ zIndex: 900 }}
+                        ></div>
+                    )}
+
+                    <div className="ngos h-full flex justify-around overflow-hidden">
+                        <div className="grid grid-cols-3 w-full">
                             {filteredNgos.map((ngo, index) => (
                                 <div
                                     ref={(el) => (ngoRefs.current[index] = el)}
-                                    className="card lg:w-10/12 lg:h-auto m-5 shadow-2xl"
+                                    className="card lg:w-10/12 m-5 shadow-2xl"
                                     style={{
                                         backgroundImage: `url(${ngo.logo})`,
+                                        height: '50vh',
                                     }}
                                     key={index}>
                                     <div className="card-content p-5">

@@ -11,7 +11,6 @@ import NGOadd from './components/header/NGOadd';
 import ViewUserNGO from './components/ngo/viewNGO';
 // import PaymentForm from "./components/PaymentForm";
 import PaymentStatus from "./components/PaymentStatus";
-import { Link, animateScroll as scroll } from 'react-scroll';
 
 function App() {
 

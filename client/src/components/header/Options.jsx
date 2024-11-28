@@ -48,14 +48,14 @@ export default function Options({ scrolled }) {
                     {!showSearchBar && (
                         <>
                             <button>
-                                <li className="hover:font-bold hover:text-xl duration-300">
+                                <li className="text-xl font-semibold hover:font-bold hover:text-2xl duration-300">
                                     <a href="/" className="block rounded">
                                         Home
                                     </a>
                                 </li>
                             </button>
                             <button>
-                                <li className="hover:font-bold hover:text-xl duration-300">
+                                <li className="text-xl font-semibold hover:font-bold hover:text-2xl duration-300">
                                     <a onClick={handleNGO} className="block rounded">
                                         {!isNGO ? 'NGO' : 'View ngo'}
                                     </a>

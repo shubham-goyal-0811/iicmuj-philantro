@@ -43,10 +43,10 @@ export default function Header() {
         );
 
         const handleScroll = () => {
-            if(window.scrollY > 10){
+            if (window.scrollY > 10) {
                 setScrolled(true);
-            } 
-            else{
+            }
+            else {
                 setScrolled(false);
             }
         };
@@ -79,20 +79,36 @@ export default function Header() {
     return (
         <>
             <header className="w-full h-20 bg-black">
-                <nav ref={headerRef} className={`w-full ${scrolled ? 'bg-custom' : 'bg-transparent text-white'} fixed top-0 z-10 transition-colors duration-300 header_nav w-full`} style={{ padding: '0.5%' }}>
-                    <div className="flex w-full items-center justify-between">
-                        <Logo scrolled={scrolled} />
-                        <Options scrolled={scrolled} />
-                        <div className="flex justify-around px-6 gap-5">
-                            {isNGO ? (
-                                <button onClick={handleNGOAdd} className="border-2 p-2 rounded-full hover:bg-slate-300 duration-200">
-                                    Add NGO
-                                </button>
-                            ) : ''}
-                            <Loginout />
+                {scrolled ? 
+                <nav ref={headerRef} className={`w-full bg-none fixed top-0 z-10 transition-colors duration-300 header_nav`} style={{ padding: '0.5%' }}>
+                    <div className="flex w-full h-full justify-center ">
+                        <div className={`flex w-3/12 items-center justify-between rounded-2xl ${scrolled ? 'bg-custom' : 'bg-transparent text-white'} duration-300 p-3`}>
+                            <Options scrolled={scrolled} />
+                            {isNGO ? (<div className="flex justify-around px-6 gap-5">
+                                
+                                    <button onClick={handleNGOAdd} className="border-2 p-2 rounded-full hover:bg-slate-300 duration-200">
+                                        Add NGO
+                                    </button>
+                            </div>
+                                ) : ''}
                         </div>
                     </div>
-                </nav>
+                </nav> :
+                    <nav ref={headerRef} className={`w-full text-white fixed top-0 z-10 transition-colors duration-300 header_nav`} style={{ padding: '0.5%' }}>
+                        <div className="flex w-full items-center justify-between">
+                            <Logo scrolled={scrolled} />
+                            <Options scrolled={scrolled} />
+                            <div className="flex justify-around px-6 gap-5">
+                                {isNGO ? (
+                                    <button onClick={handleNGOAdd} className="border-2 p-2 rounded-full hover:bg-slate-300 duration-200">
+                                        Add NGO
+                                    </button>
+                                ) : ''}
+                                <Loginout />
+                            </div>
+                        </div>
+                    </nav>
+                }
             </header>
         </>
     );

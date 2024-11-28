@@ -43,8 +43,17 @@
 html,
 body {
   height: 100%;
-  background-color: black;
-  scroll-behavior: smooth;
+  background-color: white;
+  scroll-behavior: smooth;.canvas-loader {
+    font-size: 10px;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    position: relative;
+    text-indent: -9999em;
+    animation: mulShdSpin 1.1s infinite ease;
+    transform: translateZ(0);
+}
 }
 
 .page2 {
@@ -78,9 +87,7 @@ body {
 }
 
 .header_nav {
-  backdrop-filter: blur(10px);
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .bg-custom {
@@ -575,7 +582,6 @@ body {
   font-size: 1.5rem;
   text-align: center;
   color: #363636;
-  text-decoration: none;
   cursor: pointer;
   background: linear-gradient(to right, #363636 0%, #363636 100%);
   background-repeat: no-repeat;
@@ -946,7 +952,7 @@ animation: slideIn 0.8s ease-out forwards;
   background-color: hsl(142, 90%, 61%);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 2000ms ease-in-out;
+  transition: transform 500ms ease-in-out;
 }
 
 .card:hover .card-title {
@@ -975,5 +981,16 @@ animation: slideIn 0.8s ease-out forwards;
 .card:hover .button {
   opacity: 1;
   transform: translateY(0);
+}
+
+.canvas-loader {
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  animation: mulShdSpin 1.1s infinite ease;
+  transform: translateZ(0);
 }
 

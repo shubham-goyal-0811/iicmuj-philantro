@@ -5,6 +5,7 @@ import Earth from '../../../public/Earth';
 import Stars from '../../img/bgstars.jpg';
 import Button from './Button';
 import Typewriter from "typewriter-effect";
+import CanvasLoader from '../Loader';
 
 export default function Page1() {
     const qts = [
@@ -99,7 +100,7 @@ export default function Page1() {
                         <Canvas camera={{ position: [0, 0, 2], fov: 75 }}>
                             <ambientLight intensity={1.5} />
                             <OrbitControls enableZoom={false} />
-                            <Suspense fallback={null}>
+                            <Suspense fallback={<CanvasLoader />}>
                                 <Earth />
                             </Suspense>
                             <Environment preset="sunset" />
