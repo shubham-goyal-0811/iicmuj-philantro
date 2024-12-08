@@ -1,6 +1,6 @@
 import React from "react";
 
-function PaymentStatus({ payment }) {
+function NGOaddPaymentStatus({ payment }) {
   const verifyPayment = async () => {
     try {
       const response = await fetch("http://localhost:8000/api/v1/payment/verify-payment", {

@@ -5,18 +5,32 @@ import Header from "../header/Header";
 export default function ViewUserNGO() {
     const [ngo, setNgo] = useState(null);
     const [newRaisedAmount, setNewRaisedAmount] = useState("");
-    const [ticketInfo, setTicketInfo] = useState("");
+    const [tickets, setTickets] = useState([]);
     const [cause, setCause] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        axios.get("http://localhost:8001/api/v1/ngo/getUserNgo", { withCredentials: true })
-            .then(response => {
+        axios
+            .get("http://localhost:8001/api/v1/ngo/getUserNgo", { withCredentials: true })
+            .then((response) => {
                 const fetchedNgo = response.data.data[0];
                 setNgo(fetchedNgo);
+
+                if (fetchedNgo && fetchedNgo._id) {
+                    axios
+                        .get(`http://localhost:8001/api/v1/ticket/${fetchedNgo._id}/getTickets`, {
+                            withCredentials: true,
+                        })
+                        .then((ticketResponse) => {
+                            setTickets(ticketResponse.data.data);
+                        })
+                        .catch((error) => {
+                            console.error("Error fetching tickets:", error);
+                        });
+                }
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error("Error fetching NGO data:", error);
             });
     }, []);
@@ -26,52 +40,53 @@ export default function ViewUserNGO() {
             alert("Invalid NGO data or missing ID");
             return;
         }
-        if (isNaN(newRaisedAmount) || newRaisedAmount <= 0) {
+        if (isNaN(newRaisedAmount) || Number(newRaisedAmount) <= 0) {
             alert("Please enter a valid number for the raised amount.");
             return;
         }
-        if (!cause) {
+        if (!cause.trim()) {
             alert("Please provide a cause for the raise.");
             return;
         }
-
+    
         setIsLoading(true);
-        const ticketData = {
-            amount: newRaisedAmount.toString(),
-            cause: cause,
+    
+        // Ensure amount is sent as a number
+        const ticketData = { 
+            amount: Number(newRaisedAmount), 
+            cause 
         };
-
-        axios.post(
-            `http://localhost:8001/api/v1/ticket/${ngo._id}/post`,
-            ticketData,
-            { withCredentials: true }
-        )
-            .then(response => {
-                const newTicketId = response.data.data._id;
-                const updatedNgo = {
-                    ...ngo,
-                    raise: [...ngo.raise, response.data.data.amount],
-                    causes: [...(ngo.causes || []), response.data.data.cause],
-                };
-
-                setNgo(updatedNgo);
+    
+        console.log("Ticket Data Sent:", ticketData); // Debugging step
+    
+        axios
+            .post(`http://localhost:8001/api/v1/ticket/${ngo._id}/post`, ticketData, {
+                withCredentials: true,
+            })
+            .then((response) => {
+                console.log("Response Data:", response.data); // Debugging step
+                const newTicket = response.data.data;
+                setTickets([...tickets, newTicket]);
                 setNewRaisedAmount("");
                 setCause("");
                 setIsModalOpen(false);
                 setIsLoading(false);
                 alert("Raised amount updated successfully!");
             })
-            .catch(error => {
-                console.error("Error creating ticket or updating NGO raise:", error);
+            .catch((error) => {
+                console.error("Error creating ticket:", error);
                 setIsLoading(false);
             });
     };
+    
 
     if (!ngo) {
         return (
             <div>
                 <Header />
-                <div>Loading your NGO information...</div>
+                <div className="flex items-center justify-center h-screen">
+                    <p>Loading NGO information...</p>
+                </div>
             </div>
         );
     }
@@ -79,98 +94,89 @@ export default function ViewUserNGO() {
     return (
         <>
             <Header />
-            <div className="flex w-full h-full">
-                <div className="ngoaboutmain w-full h-screen flex flex-col justify-center items-center bg-[#d2c9c9]">
-                    <div className="view-more-page w-full h-auto flex justify-around items-center">
-                        <div className="imgandname flex flex-col justify-evenly items-center w-3/12 h-full bg-[#f2f0ef] rounded-3xl shadow-2xl hover:scale-105 duration-300" style={{ padding: "1%", margin: "0.5%" }}>
-                            <div className="img flex justify-center w-6/12" style={{ padding: "1%", margin: "0.5%" }}>
-                                <img src={ngo.logo} alt={`${ngo.name} logo`} className="rounded-full shadow-2xl" />
-                            </div>
-                            <div className="name" style={{ padding: "1%", margin: "0.5%" }}>
-                                <h1 className="text-6xl font-bold">{ngo.name}</h1>
-                            </div>
-                            <div className="createdby flex flex-col justify-center items-center border-2 border-blue-900 border-dotted" style={{ padding: "1%", margin: "0.5%" }}>
-                                <h1 className="text-2xl">Founded By:-</h1>
-                                <h1 className="text-2xl font-bold">{ngo.createdBy.fullName}</h1>
-                            </div>
+            <div className="p-8 bg-gray-100 min-h-screen">
+                <div className="max-w-6xl mx-auto bg-white shadow rounded-lg p-6">
+                    <div className="flex items-center space-x-6">
+                        <img
+                            src={ngo.logo}
+                            alt={`${ngo.name} Logo`}
+                            className="w-60 h-48 rounded-full shadow-md"
+                        />
+                        <div>
+                            <h1 className="text-3xl font-bold">{ngo.name}</h1>
+                            <p className="text-gray-600">Founded by: {ngo.createdBy.fullName}</p>
                         </div>
-                        <div className="descandcat border-2 w-6/12 flex flex-col bg-[#f2f0ef] rounded-3xl shadow-2xl hover:scale-105 duration-300" style={{ padding: "1%", margin: "0.5%" }}>
-                            <div className="aboutngo">
-                                <div className="desc1">
-                                    <h1 className="text-4xl font-bold">About {ngo.name} :-</h1>
-                                    <p>{ngo.description}</p>
-                                </div>
-                                <div className="address" style={{ padding: "1%", margin: "0.5%" }}>
-                                    <h1 className="text-2xl font-bold">Address:-</h1>
-                                    <h1>{ngo.address}</h1>
-                                </div>
-                                <div className="contactno" style={{ padding: "1%", margin: "0.5%" }}>
-                                    <h1 className="text-2xl font-bold">Contact {ngo.name}:-</h1>
-                                    <h1>{ngo.contactNo}</h1>
-                                </div>
-                                <div className="emailngo" style={{ padding: "1%", margin: "0.5%" }}>
-                                    <h1 className="text-2xl font-bold">Email {ngo.name}:-</h1>
-                                    <h1>{ngo.email}</h1>
-                                </div>
-                            </div>
-                            <div className="raised-amount">
-                                <h1 className="text-4xl font-bold">Raised by {ngo.name} :-</h1>
-                                <h2 className="text-xl">
-                                    {ngo.raise && ngo.raise.length > 0
-                                        ? ngo.raise.map((amount, index) => <p key={index}>Raised: ${amount}</p>)
-                                        : <p>Not raised any amount yet.</p>}
-                                </h2>
-                                <button
-                                    onClick={() => setIsModalOpen(true)}
-                                    className="mt-2 p-2 bg-blue-500 text-white rounded"
-                                >
-                                    Add Raised Amount
-                                </button>
-                            </div>
-                            <div className="cause-section">
-                                <h1 className="text-4xl font-bold">Causes:</h1>
-                                {ngo.causes && ngo.causes.length > 0
-                                    ? ngo.causes.map((cause, index) => <p key={index}>{cause}</p>)
-                                    : <p>No causes added yet.</p>}
-                            </div>
-                            <div className="cat flex flex-col justify-center items-center">
-                                <p className="text-2xl font-bold">Category:</p>
-                                <p>{ngo.category}</p>
-                            </div>
+                    </div>
+                    <div className="mt-6">
+                        <h2 className="text-xl font-semibold mb-4">About Us</h2>
+                        <p className="text-gray-700">{ngo.description}</p>
+                        <div className="mt-4">
+                            <h3 className="text-lg font-semibold">Contact Information</h3>
+                            <p>Address: {ngo.address}</p>
+                            <p>Phone: {ngo.contactNo}</p>
+                            <p>Email: {ngo.email}</p>
                         </div>
+                    </div>
+                    <div className="mt-6">
+                        <h2 className="text-xl font-semibold mb-4">Funds Raised</h2>
+                        {tickets.length > 0 ? (
+                            <table className="w-full border border-gray-300">
+                                <thead className="bg-gray-200">
+                                    <tr>
+                                        <th className="p-2 text-left">Amount</th>
+                                        <th className="p-2 text-left">Cause</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {tickets.map((ticket, index) => (
+                                        <tr key={index} className="border-t border-gray-300">
+                                            <td className="p-2">${ticket.amount}</td>
+                                            <td className="p-2">{ticket.cause}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        ) : (
+                            <p className="text-gray-600">No funds raised yet.</p>
+                        )}
+                        <button
+                            onClick={() => setIsModalOpen(true)}
+                            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                        >
+                            Raise Money
+                        </button>
                     </div>
                 </div>
             </div>
 
-            {/* Modal/Popup */}
             {isModalOpen && (
-                <div className="modal fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-                    <div className="modal-content bg-white p-6 rounded shadow-lg">
-                        <h2 className="text-2xl font-bold mb-4">Add Raised Amount</h2>
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
+                        <h2 className="text-2xl font-bold mb-4">Raise Funds</h2>
                         <input
                             type="number"
                             value={newRaisedAmount}
                             onChange={(e) => setNewRaisedAmount(e.target.value)}
-                            placeholder="Enter amount to raise"
-                            className="p-2 border rounded mb-4 w-full"
+                            placeholder="Enter amount"
+                            className="w-full p-2 border rounded mb-4"
                         />
                         <textarea
                             value={cause}
                             onChange={(e) => setCause(e.target.value)}
-                            placeholder="Explain why you need to raise funds"
-                            className="p-2 border rounded mb-4 w-full"
+                            placeholder="Describe the cause"
+                            className="w-full p-2 border rounded mb-4"
                         />
-                        <div className="modal-actions flex justify-end">
+                        <div className="flex justify-end space-x-4">
                             <button
                                 onClick={() => setIsModalOpen(false)}
-                                className="mr-4 p-2 bg-gray-400 text-white rounded"
+                                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleRaiseSubmit}
                                 disabled={isLoading}
-                                className="p-2 bg-blue-500 text-white rounded"
+                                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                             >
                                 {isLoading ? "Submitting..." : "Submit"}
                             </button>

@@ -159,8 +159,8 @@ export default function Profile() {
     return (
         <>
             <Header />
-            <div className="min-h-screen bg-off-white flex justify-center items-center bg-[#d2c9c9]">
-                <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-4xl duration-300 relative">
+            <div className="min-h-screen flex justify-center items-center bg-[#ffffff]">
+                <div className="bg-[#faf8ff] p-10 rounded-2xl shadow-2xl w-full max-w-4xl duration-300 relative">
                     <div className="flex items-center justify-between mb-6">
                         <div className="name">
                             <h1 className="text-5xl font-bold">{updatedProfile.fullName}</h1>
