@@ -66,8 +66,8 @@ export default function Loginout() {
         if (!token) {
             console.log("yeah");
             toast.error('No access token found. Please log in again.');
-            localStorage.setItem("isAuthenticated",false);
-            localStorage.setItem("username","");
+            localStorage.setItem("isAuthenticated", false);
+            localStorage.setItem("username", "");
             navigate('/login');
             return;
         }
@@ -80,10 +80,10 @@ export default function Loginout() {
                     'Authorization': `Bearer ${token}`,
                 },
             });
-    
+
             const contentType = response.headers.get('content-type');
             let data;
-    
+
             if (contentType && contentType.includes('application/json')) {
                 data = await response.json();
             } else {
@@ -91,12 +91,12 @@ export default function Loginout() {
                 toast.error('Unexpected server response');
                 return;
             }
-    
+
             if (response.ok) {
-                
+
                 localStorage.removeItem('accessToken');
-                localStorage.setItem("isAuthenticated",false);
-                localStorage.setItem("username","");
+                localStorage.setItem("isAuthenticated", false);
+                localStorage.setItem("username", "");
                 toast.success('Logged out successfully');
                 navigate('/');
                 window.location.reload();
@@ -107,7 +107,7 @@ export default function Loginout() {
             console.error('Error logging out:', error);
             toast.error('An error occurred during logout');
         }
-    };    
+    };
     const handleProfile = () => {
         navigate(`/users/profile`);
     };
@@ -141,11 +141,12 @@ export default function Loginout() {
                                     <div className="logout flex flex-col justify-center items-center">
                                         <button
                                             className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500"
-                                            onClick={()=> handleLogout()} style={{ padding: "10%", margin: "5%" }}>
-                                        <button className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500" onClick={handleLogout} style={{ padding: "10%", margin: "5%" }}>
+                                            onClick={() => handleLogout()} style={{ padding: "10%", margin: "5%" }}>
                                             Log out
                                         </button>
-                                        <button className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500" onClick={() => handleProfile()} style={{ padding: "10%", margin: "5%" }}>
+                                        <button
+                                            className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500"
+                                            onClick={() => handleProfile()} style={{ padding: "10%", margin: "5%" }}>
                                             Profile
                                         </button>
                                     </div>

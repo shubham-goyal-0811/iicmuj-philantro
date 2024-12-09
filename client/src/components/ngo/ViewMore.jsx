@@ -11,7 +11,7 @@ export default function ViewMore() {
   const [ngoId, setNgoId] = useState("");
   const [loading, setLoading] = useState(false);
   const [ticketAmounts, setTicketAmounts] = useState([]);
-  const [idProofUrl,setIdProofUrl] = useState("");
+  const [idProofUrl, setIdProofUrl] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,10 +24,11 @@ export default function ViewMore() {
     }
   }, [ngo]);
 
-  
+
 
   const fetchTicketAmounts = async (ticketIds) => {
     const amounts = [];
+    // console.log("fetching ticket amounts for ticketIds:", ticketIds);
     for (const ticketId of ticketIds) {
       try {
         const response = await fetch(`http://localhost:8001/api/v1/ticket/getTickets/${ticketId}`);
@@ -88,7 +89,7 @@ export default function ViewMore() {
 
   const handleDonate = () => {
     const login = localStorage.getItem("isAuthenticated");
-    if(login === "true")
+    if (login === "true")
       setDonating(true);
     else {
       setDonating(false);
@@ -100,18 +101,18 @@ export default function ViewMore() {
     setAmount("");
     setDonating(false);
   };
+
   //logic to download the NGO ID proof
   const downloadIdProof = async () => {
     const toastId = toast.loading('Wait...');
-    const idproof = ngo.idProof;
-    if (!idproof) {
+    if (!idProofUrl) {
       toast.error("ID Proof document is not available.", { id: toastId });
       return;
     }
     toast.success("Downloading...", { id: toastId });
 
     try {
-      const response = await fetch(idproof);
+      const response = await fetch(idProofUrl);
       if (!response.ok) {
         throw new Error("Failed to fetch the document.");
       }
@@ -123,13 +124,12 @@ export default function ViewMore() {
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(link.href);
-    } 
-    catch (error) {
+    } catch (error) {
       console.error("Error downloading the file:", error);
       alert("Failed to download the document.");
     }
   };
-// console.log(ticketAmounts);
+  // console.log(ticketAmounts);
   return (
     <>
       <Header />
@@ -137,7 +137,11 @@ export default function ViewMore() {
         <div className="w-full max-w-5xl bg-white shadow-lg rounded-2xl p-6 my-8">
           <div className="flex flex-col md:flex-row items-center">
             <div className="flex justify-center items-center md:w-1/3">
-              <img src={ngo.logo}alt={`${ngo.name} logo`}className="w-40 h-40 object-cover rounded-full shadow-lg"/>
+              <img
+                src={ngo.logo}
+                alt={`${ngo.name} logo`}
+                className="w-40 h-40 object-cover rounded-full shadow-lg"
+              />
             </div>
             <div className="md:w-2/3 p-4">
               <h1 className="text-4xl font-bold text-gray-800">{ngo.name}</h1>
@@ -159,7 +163,7 @@ export default function ViewMore() {
             </div>
           </div>
           <div className="mt-6">
-            <p className="text-xl font-semibold text-gray-700">Requested Amounts:</p>
+            <p className="text-xl font-semibold text-gray-700">Raised Amounts:</p>
             {ticketAmounts.length > 0 ? (
               <ul className="list-disc pl-5">
                 {ticketAmounts.map((amount, index) => (
@@ -173,7 +177,7 @@ export default function ViewMore() {
             )}
             <div className="flex justify-between mt-4">
               <button
-                onClick={() => setDonating(true)}
+                onClick={() => handleDonate()}
                 className="bg-blue-600 text-white py-2 px-6 rounded-lg shadow-lg hover:bg-blue-500 transition duration-300"
               >
                 Donate
@@ -181,6 +185,7 @@ export default function ViewMore() {
               <button
                 onClick={() => {
                   toast("Downloading ID Proof...");
+                  downloadIdProof();
                 }}
                 className="bg-green-600 text-white py-2 px-6 rounded-lg shadow-lg hover:bg-green-500 transition duration-300"
               >
@@ -201,10 +206,17 @@ export default function ViewMore() {
                 onChange={(e) => setAmount(e.target.value)}
               />
               <div className="flex justify-between">
-                <button onClick={createOrder} className={`py-2 px-6 rounded-lg ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-500"} transition duration-300`} disabled={loading}>
+                <button
+                  onClick={createOrder}
+                  className={`py-2 px-6 rounded-lg ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 text-white hover:bg-blue-500"} transition duration-300`}
+                  disabled={loading}
+                >
                   {loading ? "Processing..." : "Donate"}
                 </button>
-                <button onClick={() => setDonating(false)} className="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-500 transition duration-300">
+                <button
+                  onClick={() => setDonating(false)}
+                  className="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-500 transition duration-300"
+                >
                   Cancel
                 </button>
               </div>
