@@ -5,6 +5,27 @@ import { asyncHandler } from '../utils/AsyncHandler.js';
 import { ApiResponse } from '../utils/ApiResponse.js';
 import jwt from 'jsonwebtoken';
 import fs from 'fs';
+import tesseract from 'node-tesseract-ocr';
+
+const performOCR = async (filePath) => {
+    const config = {
+        lang: 'eng', // Language configuration
+        oem: 1, // OCR Engine Mode (1 = LSTM only)
+        psm: 3, // Page Segmentation Mode (3 = Fully automatic page segmentation)
+    };
+
+    try {
+        console.log("Starting OCR process...");
+        const text = await tesseract.recognize(filePath, config);
+        console.log("OCR process completed successfully");
+        // console.log(text);
+        return text;
+    } catch (error) {
+        console.error("Tesseract OCR Error:", error.message);
+        throw new ApiError(500, "Failed to perform OCR on the provided document.");
+       
+    }
+};
 
 const generateAccessandRfreshToken = async (userId) => {
     try {
@@ -69,15 +90,47 @@ const registerUser = asyncHandler(async (req,res) =>{
         throw new ApiError(409,"User with this email or Username or Mobile Number already exists");
     }
 
-    console.log("goiing in cloudinary");
+    let extractedText;
+    try {
+        extractedText = await performOCR(idProofLocalPath);
+    } catch (err) {
+        fs.unlinkSync(idProofLocalPath); // Clean up file if OCR fails
+        throw new ApiError(500, "OCR failed on the ID proof");
+    }
+
+    const containsAadhaar = /aadhaar/i.test(extractedText);
+    const containsGovernmentOfIndia = /government of india/i.test(extractedText);
+    if(!containsAadhaar && !containsGovernmentOfIndia){
+        fs.unlinkSync(idProofLocalPath);
+        if(avatarLocalPath)    fs.unlinkSync(avatarLocalPath);
+        // res.status(400).json({
+        //     message :"Invalid or Blurry ID Proof"
+        // });
+        // return;
+        throw new ApiError(400, "Invalid or Blurry ID proof");
+    }
+
+    // Extract Aadhaar Number and Name
+    // const aadhaarNumberRegex = /\b\d{4}\s\d{4}\s\d{4}\b/;
+    // const aadhaarNumber = extractedText.match(aadhaarNumberRegex)?.[0];
+    // const extractedName = extractedText.split("\n").find(line => line.trim() && !aadhaarNumberRegex.test(line));
+
+    // if (!aadhaarNumber || !extractedName) {
+    //     
+        
+    // }
+
+    // console.log("Aadhaar Number:", aadhaarNumber);
+    // console.log("Extracted Name:", extractedName);
+
+    // console.log("goiing in cloudinary");
     const idProof = await uploadOnCloudinary(idProofLocalPath);
-    console.log("id proof++");
+    // console.log("id proof++")
     const avatar = await uploadOnCloudinary(avatarLocalPath);
-    console.log("avatar++");
+    // console.log("avatar++");
 
     if(!idProof){
         throw new ApiError(500,"Something went wrong while Uploading the idProof");
-        
     }
 
     const user = await User.create({
