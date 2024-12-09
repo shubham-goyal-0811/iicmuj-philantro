@@ -11,16 +11,20 @@ export default function ViewMore() {
   const [ngoId, setNgoId] = useState("");
   const [loading, setLoading] = useState(false);
   const [ticketAmounts, setTicketAmounts] = useState([]);
+  const [idProofUrl,setIdProofUrl] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     if (ngo) {
       setNgoId(ngo._id);
+      setIdProofUrl(ngo.idProof);
       fetchTicketAmounts(ngo.raise);
     } else {
       console.error("Ngo data is missing.");
     }
   }, [ngo]);
+
+  
 
   const fetchTicketAmounts = async (ticketIds) => {
     const amounts = [];
@@ -83,7 +87,13 @@ export default function ViewMore() {
   };
 
   const handleDonate = () => {
-    setDonating(true);
+    const login = localStorage.getItem("isAuthenticated");
+    if(login === "true")
+      setDonating(true);
+    else {
+      setDonating(false);
+      toast.error("Please Login to donate");
+    }
   };
 
   const handleCancelOrder = () => {
@@ -164,10 +174,16 @@ export default function ViewMore() {
             <div className="flex justify-between mt-4">
               <button
                 onClick={() => setDonating(true)}
-                className="bg-blue-600 text-white py-2 px-6 rounded-lg shadow-lg hover:bg-blue-500 transition duration-300">
+                className="bg-blue-600 text-white py-2 px-6 rounded-lg shadow-lg hover:bg-blue-500 transition duration-300"
+              >
                 Donate
               </button>
-              <button onClick={downloadIdProof} className="bg-green-600 text-white py-2 px-6 rounded-lg shadow-lg hover:bg-green-500 transition duration-300">
+              <button
+                onClick={() => {
+                  toast("Downloading ID Proof...");
+                }}
+                className="bg-green-600 text-white py-2 px-6 rounded-lg shadow-lg hover:bg-green-500 transition duration-300"
+              >
                 Download ID Proof
               </button>
             </div>

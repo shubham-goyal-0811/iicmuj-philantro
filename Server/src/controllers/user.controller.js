@@ -69,9 +69,11 @@ const registerUser = asyncHandler(async (req,res) =>{
         throw new ApiError(409,"User with this email or Username or Mobile Number already exists");
     }
 
-    
+    console.log("goiing in cloudinary");
     const idProof = await uploadOnCloudinary(idProofLocalPath);
+    console.log("id proof++");
     const avatar = await uploadOnCloudinary(avatarLocalPath);
+    console.log("avatar++");
 
     if(!idProof){
         throw new ApiError(500,"Something went wrong while Uploading the idProof");

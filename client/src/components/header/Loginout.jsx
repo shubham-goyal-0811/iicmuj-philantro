@@ -62,13 +62,17 @@ export default function Loginout() {
     };
     const handleLogout = async () => {
         const token = localStorage.getItem('accessToken');
-        
+        console.log("yeah bahar");
         if (!token) {
+            console.log("yeah");
             toast.error('No access token found. Please log in again.');
+            localStorage.setItem("isAuthenticated",false);
+            localStorage.setItem("username","");
             navigate('/login');
             return;
         }
         try {
+            console.log("logout if try aagya");
             const response = await fetch('http://localhost:8001/api/v1/users/logout', {
                 method: 'POST',
                 credentials: 'include',
@@ -89,7 +93,10 @@ export default function Loginout() {
             }
     
             if (response.ok) {
+                
                 localStorage.removeItem('accessToken');
+                localStorage.setItem("isAuthenticated",false);
+                localStorage.setItem("username","");
                 toast.success('Logged out successfully');
                 navigate('/');
                 window.location.reload();
@@ -132,6 +139,9 @@ export default function Loginout() {
                                 <div className="absolute top-20 right-0 bg-white shadow-lg rounded-lg p-4 z-10">
                                     <div className="text-center mb-2 text-black">Welcome, {profile.username}</div>
                                     <div className="logout flex flex-col justify-center items-center">
+                                        <button
+                                            className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500"
+                                            onClick={()=> handleLogout()} style={{ padding: "10%", margin: "5%" }}>
                                         <button className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500" onClick={handleLogout} style={{ padding: "10%", margin: "5%" }}>
                                             Log out
                                         </button>
