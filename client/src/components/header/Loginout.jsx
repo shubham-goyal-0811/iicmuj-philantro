@@ -132,14 +132,10 @@ export default function Loginout() {
                                 <div className="absolute top-20 right-0 bg-white shadow-lg rounded-lg p-4 z-10">
                                     <div className="text-center mb-2 text-black">Welcome, {profile.username}</div>
                                     <div className="logout flex flex-col justify-center items-center">
-                                        <button
-                                            className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500"
-                                            onClick={handleLogout} style={{ padding: "10%", margin: "5%" }}>
+                                        <button className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500" onClick={handleLogout} style={{ padding: "10%", margin: "5%" }}>
                                             Log out
                                         </button>
-                                        <button
-                                            className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500"
-                                            onClick={() => handleProfile()} style={{ padding: "10%", margin: "5%" }}>
+                                        <button className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500" onClick={() => handleProfile()} style={{ padding: "10%", margin: "5%" }}>
                                             Profile
                                         </button>
                                     </div>

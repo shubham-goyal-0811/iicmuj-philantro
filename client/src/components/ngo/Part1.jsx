@@ -144,13 +144,10 @@ export default function Part1({ searchQuery }) {
                     <div className="ngos h-full flex justify-around overflow-hidden">
                         <div className="grid grid-cols-3 w-full">
                             {filteredNgos.map((ngo, index) => (
-                                <div
-                                    ref={(el) => (ngoRefs.current[index] = el)}
-                                    className="card lg:w-10/12 m-5 shadow-2xl"
-                                    style={{
-                                        backgroundImage: `url(${ngo.logo})`,
+                                <div ref={(el) => (ngoRefs.current[index] = el)} className="card lg:w-10/12 m-5 shadow-2xl" style={{ backgroundImage: `url(${ngo.logo})`,
                                         height: '50vh',
                                     }}
+                                    onClick={() => handleViewMore(ngo)}
                                     key={index}>
                                     <div className="card-content p-5">
                                         <h1 className="card-title text-5xl font-bold m-2">{ngo.name}</h1>
