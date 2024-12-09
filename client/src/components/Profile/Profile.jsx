@@ -61,7 +61,7 @@ export default function Profile() {
 
     const handleChange = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/v1/users/profile/update', {
+            const response = await fetch('http://localhost:8001/api/v1/users/profile/update', {
                 method: 'PATCH',
                 credentials: 'include',
                 headers: {
@@ -93,7 +93,7 @@ export default function Profile() {
 
     const handlePasswordChangeSubmit = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/v1/users/change-password', {
+            const response = await fetch('http://localhost:8001/api/v1/users/change-password', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
