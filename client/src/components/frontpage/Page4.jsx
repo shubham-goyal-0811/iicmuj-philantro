@@ -3,6 +3,7 @@ import Shubham from '../../img/goyal.png';
 import Siddham from '../../img/siddham.png';
 import Logo from '../../img/Logo.png';
 import TeamPic from '../../img/team.png';
+import madan from '../../img/madan.png';
 
 export default function Page4() {
     return (
@@ -16,6 +17,7 @@ export default function Page4() {
                     <div className="pps flex h-full justify-evenly" style={{ backgroundImage: `url{${TeamPic}}` }}>
 
                         <div className="lg:grid1 lg:grid lg:grid-cols-3 lg:grid-rows-2 gap-4 p1 md:flex md:flex-col" >
+                            <div className=""></div>
                             <div className="shwetank flex flex-col items-center bg-slate-100 rounded-3xl relative group ">
                                 <div className="shwetapp bg-cover bg-center w-80 h-80">
                                     <img src={Shwetank} alt="" />
@@ -48,6 +50,16 @@ export default function Page4() {
                                 </div>
                                 <div className="memdesc2 absolute text-3xl text-center w-80 h-80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     <h1>Hey, I am Shubham Goyal Working on Backend of the PhilantroHub</h1>
+                                </div>
+                                <h1 className="text-2xl" style={{ padding: '1%' }}>Shubham Goyal</h1>
+                            </div>
+                            <div className=""></div>
+                            <div className="madaan flex flex-col items-center bg-slate-100 rounded-3xl relative group ">
+                                <div className="goyalpp bg-cover bg-center w-80 h-80">
+                                    <img className="bottom-0" src={madan} alt="" />
+                                </div>
+                                <div className="memdesc2 absolute text-3xl text-center w-80 h-80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <h1>Hey, I am Srishti Madaan Working on UI/UX of the PhilantroHub</h1>
                                 </div>
                                 <h1 className="text-2xl" style={{ padding: '1%' }}>Shubham Goyal</h1>
                             </div>

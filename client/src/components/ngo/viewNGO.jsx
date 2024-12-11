@@ -3,41 +3,72 @@ import axios from "axios";
 import Header from "../header/Header";
 
 export default function ViewUserNGO() {
-    const [ngo, setNgo] = useState(null);
-    const [newRaisedAmount, setNewRaisedAmount] = useState("");
+    const [ngos, setNgos] = useState([]);
+    const [selectedNgo, setSelectedNgo] = useState(null);
     const [tickets, setTickets] = useState([]);
-    const [cause, setCause] = useState("");
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [newRaisedAmount, setNewRaisedAmount] = useState("");
+    const [cause, setCause] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [ownerDetails, setOwnerDetails] = useState(null);
 
+    //fetch NGOs and Tickets
     useEffect(() => {
-        axios
-            .get("http://localhost:8001/api/v1/ngo/getUserNgo", { withCredentials: true })
-            .then((response) => {
-                const fetchedNgo = response.data.data[0];
-                setNgo(fetchedNgo);
-
-                if (fetchedNgo && fetchedNgo._id) {
-                    axios
-                        .get(`http://localhost:8001/api/v1/ticket/${fetchedNgo._id}/getTickets`, {
-                            withCredentials: true,
-                        })
-                        .then((ticketResponse) => {
-                            setTickets(ticketResponse.data.data);
-                        })
-                        .catch((error) => {
-                            console.error("Error fetching tickets:", error);
-                        });
+        const fetchNgoData = async () => {
+            try {
+                const response = await axios.get("http://localhost:8001/api/v1/ngo/getUserNgo", {
+                    withCredentials: true,
+                });
+                const fetchedNgoArray = response.data.data;
+                if (Array.isArray(fetchedNgoArray) && fetchedNgoArray.length > 0) {
+                    setNgos(fetchedNgoArray);
+                } else {
+                    setError("No NGOs found for the current user.");
                 }
-            })
-            .catch((error) => {
-                console.error("Error fetching NGO data:", error);
-            });
+
+                const response1 = await fetch('http://localhost:8001/api/v1/users/profile', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                    },
+                });
+                const data = await response1.json();
+                if (data.success) {
+                    setOwnerDetails(data.data);
+                } else {
+                    console.error('Failed to fetch profile:', data.message);
+                }
+            } catch (err) {
+                console.error("Error fetching NGO data:", err);
+                setError("Failed to fetch NGO data. Please try again later.");
+            }
+        };
+
+        fetchNgoData();
     }, []);
 
-    const handleRaiseSubmit = () => {
-        if (!ngo || !ngo._id) {
-            alert("Invalid NGO data or missing ID");
+    //fetch Tickets for a Selected NGO
+    const handleSelectNgo = async (ngo) => {
+        setSelectedNgo(ngo);
+        try {
+            const ticketResponse = await axios.get(
+                `http://localhost:8001/api/v1/ticket/${ngo._id}/getTickets`,
+                { withCredentials: true }
+            );
+            setTickets(ticketResponse.data.data);
+        } catch (err) {
+            console.error("Error fetching tickets:", err);
+            setError("Failed to fetch tickets for the selected NGO.");
+        }
+    };
+
+    //handle Fundraising Submission
+    const handleRaiseSubmit = async () => {
+        if (!selectedNgo || !selectedNgo._id) {
+            alert("Invalid NGO data or missing ID.");
             return;
         }
         if (isNaN(newRaisedAmount) || Number(newRaisedAmount) <= 0) {
@@ -48,104 +79,100 @@ export default function ViewUserNGO() {
             alert("Please provide a cause for the raise.");
             return;
         }
-    
-        setIsLoading(true);
-    
-        // Ensure amount is sent as a number
-        const ticketData = { 
-            amount: Number(newRaisedAmount), 
-            cause 
-        };
-    
-        console.log("Ticket Data Sent:", ticketData); // Debugging step
-    
-        axios
-            .post(`http://localhost:8001/api/v1/ticket/${ngo._id}/post`, ticketData, {
-                withCredentials: true,
-            })
-            .then((response) => {
-                console.log("Response Data:", response.data); // Debugging step
-                const newTicket = response.data.data;
-                setTickets([...tickets, newTicket]);
-                setNewRaisedAmount("");
-                setCause("");
-                setIsModalOpen(false);
-                setIsLoading(false);
-                alert("Raised amount updated successfully!");
-            })
-            .catch((error) => {
-                console.error("Error creating ticket:", error);
-                setIsLoading(false);
-            });
-    };
-    
 
-    if (!ngo) {
+        setIsLoading(true);
+
+        try {
+            const response = await axios.post(
+                `http://localhost:8001/api/v1/ticket/${selectedNgo._id}/post`,
+                { amount: Number(newRaisedAmount), cause },
+                { withCredentials: true }
+            );
+            setTickets((prev) => [...prev, response.data.data]);
+            setNewRaisedAmount("");
+            setCause("");
+            setIsModalOpen(false);
+            alert("Raised amount updated successfully!");
+        } catch (err) {
+            console.error("Error creating ticket:", err);
+            alert("Failed to submit the raised amount. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    if (error) {
         return (
             <div>
                 <Header />
                 <div className="flex items-center justify-center h-screen">
-                    <p>Loading NGO information...</p>
+                    <p className="text-red-600">{error}</p>
                 </div>
             </div>
         );
     }
-
+    const gridColsClass = ngos.length > 2 ? `grid-cols-2 grid-row-${ngos.length}` : "grid-cols-2";
     return (
         <>
             <Header />
             <div className="p-8 bg-gray-100 min-h-screen">
                 <div className="max-w-6xl mx-auto bg-white shadow rounded-lg p-6">
-                    <div className="flex items-center space-x-6">
-                        <img
-                            src={ngo.logo}
-                            alt={`${ngo.name} Logo`}
-                            className="w-60 h-48 rounded-full shadow-md"
-                        />
-                        <div>
-                            <h1 className="text-3xl font-bold">{ngo.name}</h1>
-                            <p className="text-gray-600">Founded by: {ngo.createdBy.fullName}</p>
-                        </div>
+                    <h1 className="text-3xl font-bold mb-6 w-full flex justify-center">{ownerDetails ? `${ownerDetails.fullName}'s NGOs` : "Loading user details..."}</h1>
+                    <div className={`grid ${gridColsClass} gap-6`}>
+                        {ngos.map((ngo) => (
+                            <div
+                                key={ngo._id}
+                                className="p-4 border rounded shadow hover:shadow-lg cursor-pointer"
+                                onClick={() => handleSelectNgo(ngo)}
+                            >
+                                <h2 className="text-2xl font-semibold">{ngo.name}</h2>
+                                <p className="text-gray-600">{ngo.email}</p>
+                            </div>
+                        ))}
                     </div>
-                    <div className="mt-6">
-                        <h2 className="text-xl font-semibold mb-4">About Us</h2>
-                        <p className="text-gray-700">{ngo.description}</p>
-                        <div className="mt-4">
-                            <h3 className="text-lg font-semibold">Contact Information</h3>
-                            <p>Address: {ngo.address}</p>
-                            <p>Phone: {ngo.contactNo}</p>
-                            <p>Email: {ngo.email}</p>
-                        </div>
-                    </div>
-                    <div className="mt-6">
-                        <h2 className="text-xl font-semibold mb-4">Funds Raised</h2>
-                        {tickets.length > 0 ? (
-                            <table className="w-full border border-gray-300">
-                                <thead className="bg-gray-200">
-                                    <tr>
-                                        <th className="p-2 text-left">Amount</th>
-                                        <th className="p-2 text-left">Cause</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {tickets.map((ticket, index) => (
-                                        <tr key={index} className="border-t border-gray-300">
-                                            <td className="p-2">${ticket.amount}</td>
-                                            <td className="p-2">{ticket.cause}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        ) : (
-                            <p className="text-gray-600">No funds raised yet.</p>
-                        )}
-                        <button
-                            onClick={() => setIsModalOpen(true)}
-                            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    {selectedNgo && (
+                        <div
+                            key={selectedNgo._id}
+                            className="mt-8 transition-opacity duration-500 ease-in-out"
                         >
-                            Raise Money
-                        </button>
-                    </div>
+                            <div className="animate-fade-in">
+                                <img
+                                    src={selectedNgo.logo}
+                                    alt=""
+                                    className="w-60 h-40 rounded-full transition-transform duration-300 hover:scale-105"
+                                />
+                                <h2 className="text-2xl font-bold mb-4">Selected NGO: {selectedNgo.name}</h2>
+                                <p className="text-gray-700">{selectedNgo.description}</p>
+                                <h3 className="text-lg font-semibold mt-4">Funds Raised</h3>
+                                {tickets.length > 0 ? (
+                                    <table className="w-full border border-gray-300">
+                                        <thead className="bg-gray-200">
+                                            <tr>
+                                                <th className="p-2 text-left">Amount</th>
+                                                <th className="p-2 text-left">Cause</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {tickets.map((ticket, index) => (
+                                                <tr key={index} className="border-t border-gray-300">
+                                                    <td className="p-2">${ticket.amount}</td>
+                                                    <td className="p-2">{ticket.cause}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                ) : (
+                                    <p className="text-gray-600">No funds raised yet.</p>
+                                )}
+                                <button
+                                    onClick={() => setIsModalOpen(true)}
+                                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                                >
+                                    Raise Money
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -176,7 +203,8 @@ export default function ViewUserNGO() {
                             <button
                                 onClick={handleRaiseSubmit}
                                 disabled={isLoading}
-                                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                                className={`px-4 py-2 rounded ${isLoading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700 text-white"
+                                    }`}
                             >
                                 {isLoading ? "Submitting..." : "Submit"}
                             </button>

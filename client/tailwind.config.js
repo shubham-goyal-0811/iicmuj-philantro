@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+          'fade-in': 'fade-in 0.5s ease-in-out',
+      },
+  },
   },
   plugins: [],
   screens: {

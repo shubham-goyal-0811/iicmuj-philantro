@@ -94,6 +94,7 @@ export default function ViewMore() {
     else {
       setDonating(false);
       toast.error("Please Login to donate");
+      navigate('/login');
     }
   };
 
