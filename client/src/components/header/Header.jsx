@@ -43,10 +43,10 @@ export default function Header() {
         );
 
         const handleScroll = () => {
-            if (window.scrollY > 10) {
+            if(window.scrollY > 10){
                 setScrolled(true);
             }
-            else {
+            else{
                 setScrolled(false);
             }
         };
@@ -62,7 +62,7 @@ export default function Header() {
         navigate('/ngoadd');
     };
 
-    if (loading) {
+    if(loading){
         return (
             <header className="w-full h-20 bg-black">
                 <nav ref={headerRef} className={`w-full ${scrolled ? 'bg-custom' : 'bg-transparent text-white'} fixed top-0 z-10 transition-colors duration-300 header_nav w-full`} style={{ padding: '0.5%' }}>
@@ -75,7 +75,6 @@ export default function Header() {
             </header>
         );
     }
-
     return (
         <>
             <header className="w-full h-20 bg-black">

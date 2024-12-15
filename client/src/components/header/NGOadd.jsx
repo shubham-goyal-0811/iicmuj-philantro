@@ -34,10 +34,12 @@ export default function NGOadd() {
         formData.append('address', ngoData.address);
         formData.append('category', ngoData.category);
         formData.append('contactNo', ngoData.contactNo);
-        if (ngoData.logo) formData.append('logo', ngoData.logo);
-        if (ngoData.idProof) formData.append('idProof', ngoData.idProof);
+        if(ngoData.logo) 
+            formData.append('logo', ngoData.logo);
+        if(ngoData.idProof) 
+            formData.append('idProof', ngoData.idProof);
 
-        try {
+        try{
             const response = await axios.post(
                 'http://localhost:8001/api/v1/ngo/register',
                 formData,
@@ -49,7 +51,8 @@ export default function NGOadd() {
             toast.success("Ngo Created Successfully", { id: toastId });
             console.log('NGO created successfully:', response.data);
             navigate('/userviewngo');
-        } catch (error) {
+        } 
+        catch(error){
             console.error('Error creating NGO:', error);
             toast.error('Failed to create NGO. Please check your setup.',{ id: toastId });
         }
@@ -63,51 +66,23 @@ export default function NGOadd() {
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label>Name</label>
-                        <input
-                            type="text"
-                            name="name"
-                            value={ngoData.name}
-                            onChange={handleChange}
-                            required
-                        />
+                        <input type="text" name="name" value={ngoData.name} onChange={handleChange} required />
                     </div>
                     <div>
                         <label>Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={ngoData.email}
-                            onChange={handleChange}
-                            required
-                        />
+                        <input type="email" name="email" value={ngoData.email} onChange={handleChange} required />
                     </div>
                     <div>
                         <label>Description</label>
-                        <textarea
-                            name="description"
-                            value={ngoData.description}
-                            onChange={handleChange}
-                            required
-                        />
+                        <textarea name="description" value={ngoData.description} onChange={handleChange} required />
                     </div>
                     <div>
                         <label>Address</label>
-                        <input
-                            type="text"
-                            name="address"
-                            value={ngoData.address}
-                            onChange={handleChange}
-                            required
-                        />
+                        <input type="text" name="address" value={ngoData.address} onChange={handleChange} required />
                     </div>
                     <div>
                         <label>Category</label>
-                        <select
-                            name="category"
-                            value={ngoData.category}
-                            onChange={handleChange}
-                            required
-                        >
+                        <select name="category" value={ngoData.category} onChange={handleChange} required >
                             <option value="Charitable Organizations">Charitable Organizations</option>
                             <option value="Advocacy NGOs">Advocacy NGOs</option>
                             <option value="Social Welfare Organizations">Social Welfare Organizations</option>
@@ -126,30 +101,15 @@ export default function NGOadd() {
                     </div>
                     <div>
                         <label>Contact No</label>
-                        <input
-                            type="text"
-                            name="contactNo"
-                            value={ngoData.contactNo}
-                            onChange={handleChange}
-                            required
-                        />
+                        <input type="text" name="contactNo" value={ngoData.contactNo} onChange={handleChange} required />
                     </div>
                     <div>
                         <label>Logo</label>
-                        <input
-                            type="file"
-                            name="logo"
-                            onChange={handleChange}
-                        />
+                        <input type="file" name="logo" onChange={handleChange}/>
                     </div>
                     <div>
                         <label>ID Proof</label>
-                        <input
-                            type="file"
-                            name="idProof"
-                            onChange={handleChange}
-                            required
-                        />
+                        <inputc type="file" name="idProof" onChange={handleChange} required />
                     </div>
                     <button type="submit">Create NGO</button>
                 </form>

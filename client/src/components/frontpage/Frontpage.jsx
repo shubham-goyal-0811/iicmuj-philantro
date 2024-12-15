@@ -10,7 +10,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Frontpage() {
     const sectionsRef = useRef([]);
-
     useEffect(() => {
         sectionsRef.current.forEach((section, index) => {
             gsap.fromTo(
@@ -34,24 +33,16 @@ export default function Frontpage() {
 
     return (
         <div className="main1 flex flex-col">
-            <div
-                className="page1"
-                ref={(el) => (sectionsRef.current[0] = el)}>
+            <div className="page1" ref={(el) => (sectionsRef.current[0] = el)}>
                 <Page1 />
             </div>
-            <div
-                className="page2"
-                ref={(el) => (sectionsRef.current[1] = el)}>
+            <div className="page2" ref={(el) => (sectionsRef.current[1] = el)}>
                 <Page2 />
             </div>
-            <div
-                className="page3"
-                ref={(el) => (sectionsRef.current[2] = el)}>
+            <div className="page3" ref={(el) => (sectionsRef.current[2] = el)}>
                 <Page3 />
             </div>
-            <div
-                className="page4"
-                ref={(el) => (sectionsRef.current[3] = el)}>
+            <div className="page4" ref={(el) => (sectionsRef.current[3] = el)}>
                 <Page4 />
             </div>
         </div>

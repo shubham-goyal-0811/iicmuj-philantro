@@ -38,7 +38,7 @@ export default function Page1() {
     const [logged, setLogged] = useState(false);
 
     const fetchProfile = async () => {
-        try {
+        try{
             const response = await fetch('http://localhost:8001/api/v1/users/profile', {
                 method: 'GET',
                 credentials: 'include',
@@ -49,12 +49,14 @@ export default function Page1() {
             });
 
             const data = await response.json();
-            if (data.success) {
+            if(data.success){
                 setLogged(true);
-            } else {
+            } 
+            else{
                 setLogged(false);
             }
-        } catch (error) {
+        } 
+        catch(error){
             console.error('Error fetching profile:', error);
             setLogged(false);
         }
@@ -68,9 +70,7 @@ export default function Page1() {
             setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % qts.length);
         }, 10000);
         return () => clearInterval(interval);
-    }, [qts.length]);
-
-    console.log(logged);
+    }, [qts.length]);//when length of qt changes, only then the re-render will happen
     return (
         <div className="frontpage_main1 flex flex-col w-auto items-center h-screen" style={{ height: '92vh' }}>
             <div className="frontpape_part1 flex flex-col w-full h-full justify-between" style={{ backgroundImage: `url(${Stars})`, backgroundPosition: 'center', }}>
@@ -91,7 +91,6 @@ export default function Page1() {
                                 <p className="text-xl">{qts[currentQuoteIndex].by}</p>
                             </div>
                         </div>
-
                         <div className="buttonToStart flex justify-start w-full mt-4 md:justify-center">
                             {!logged && <Button />}
                         </div>

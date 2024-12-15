@@ -24,15 +24,16 @@ export default function Loginout() {
     const [dropdownVisible, setDropdownVisible] = useState(false);
 
     useEffect(() => {
-        if (isAuthenticated) {
+        if(isAuthenticated){
             fetchProfile();
-        } else {
+        } 
+        else{
             setProfile(null);
         }
-    }, [isAuthenticated]);
+    }, [isAuthenticated]);//is isAuthenticated is true, then only the re-render will happen.
 
     const fetchProfile = async () => {
-        try {
+        try{
             const response = await fetch('http://localhost:8001/api/v1/users/profile', {
                 method: 'GET',
                 credentials: 'include',
@@ -41,14 +42,15 @@ export default function Loginout() {
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
                 },
             });
-
             const data = await response.json();
-            if (data.success) {
+            if(data.success){
                 setProfile(data.data);
-            } else {
+            } 
+            else{
                 console.error('Failed to fetch profile:', data.message);
             }
-        } catch (error) {
+        } 
+        catch(error){
             console.error('Error fetching profile:', error);
         }
     };
@@ -63,7 +65,7 @@ export default function Loginout() {
     const handleLogout = async () => {
         const token = localStorage.getItem('accessToken');
         console.log("yeah bahar");
-        if (!token) {
+        if(!token){
             console.log("yeah");
             toast.error('No access token found. Please log in again.');
             localStorage.setItem("isAuthenticated", false);
@@ -71,7 +73,7 @@ export default function Loginout() {
             navigate('/login');
             return;
         }
-        try {
+        try{
             console.log("logout if try aagya");
             const response = await fetch('http://localhost:8001/api/v1/users/logout', {
                 method: 'POST',
@@ -84,26 +86,27 @@ export default function Loginout() {
             const contentType = response.headers.get('content-type');
             let data;
 
-            if (contentType && contentType.includes('application/json')) {
+            if(contentType && contentType.includes('application/json')){
                 data = await response.json();
-            } else {
+            } 
+            else{
                 console.error('Non-JSON response:', await response.text());
                 toast.error('Unexpected server response');
                 return;
             }
-
-            if (response.ok) {
-
+            if(response.ok){
                 localStorage.removeItem('accessToken');
                 localStorage.setItem("isAuthenticated", false);
                 localStorage.setItem("username", "");
                 toast.success('Logged out successfully');
                 navigate('/');
                 window.location.reload();
-            } else {
+            } 
+            else{
                 toast.error(data.message || 'Logout failed');
             }
-        } catch (error) {
+        } 
+        catch(error){
             console.error('Error logging out:', error);
             toast.error('An error occurred during logout');
         }
@@ -122,7 +125,7 @@ export default function Loginout() {
                             <polyline points="8 1 12 5 8 9"></polyline>
                         </svg>
                     </button>
-                ) : (
+                ):(
                     <div className="user w-full flex rounded-lg justify-center">
                         <div className="userinfo flex flex-col items-center relative">
                             <button>
