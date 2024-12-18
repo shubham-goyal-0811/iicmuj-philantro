@@ -287,7 +287,7 @@ export default function Page2() {
                             </div>
 
                             <div className="howtopoints flex flex-col w-full h-full">
-                                <div className="text-6xl flex flex-col items-center font-bold justify-center">
+                                <div className="text-6xl flex flex-col items-center font-bold justify-center text-center">
                                     <h1>How to Donate?</h1>
                                     <p className="text-2xl">comming soon</p>
                                 </div>

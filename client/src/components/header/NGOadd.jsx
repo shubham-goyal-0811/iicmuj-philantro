@@ -109,7 +109,7 @@ export default function NGOadd() {
                     </div>
                     <div>
                         <label>ID Proof</label>
-                        <inputc type="file" name="idProof" onChange={handleChange} required />
+                        <input type="file" name="idProof" onChange={handleChange} required />
                     </div>
                     <button type="submit">Create NGO</button>
                 </form>

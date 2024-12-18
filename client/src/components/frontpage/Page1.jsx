@@ -75,9 +75,9 @@ export default function Page1() {
         <div className="frontpage_main1 flex flex-col w-auto items-center h-screen" style={{ height: '92vh' }}>
             <div className="frontpape_part1 flex flex-col w-full h-full justify-between" style={{ backgroundImage: `url(${Stars})`, backgroundPosition: 'center', }}>
                 <div className="front_content flex items-center justify-evenly w-full h-full">
-                    <div className="flex flex-col w-6/12 h-full justify-center items-center">
+                    <div className="title-qt flex flex-col w-6/12 h-full justify-center items-center">
                         <div className="title flex flex-col justify-center" style={{ marginTop: '1.1%' }}>
-                            <div className="title1 lg:text-8xl md:text-6xl sm:text-4xl font-bold text-white ml-14">
+                            <div className="title1 lg:text-8xl font-bold text-white">
                                 <Typewriter options={{
                                     strings: ['PhilantroHub'], autoStart: true, loop: true, delay: 75, deleteSpeed: 50,
                                 }}
@@ -86,8 +86,8 @@ export default function Page1() {
                         </div>
                         <div className="quotes w-8/12 flex items-center text-start justify-center text-white relative" style={{ margin: '1%', padding: '1%', height: '25vh' }}>
                             <div className="absolute inset-0 rounded-2xl"></div>
-                            <div className="flex flex-col act_qot h-full w-full bg-black bg-opacity-40 items-start justify-center relative ml-14">
-                                <h1 className="font-bold text-3xl">{qts[currentQuoteIndex].quote}</h1>
+                            <div className="flex flex-col act_qot h-full w-full bg-black bg-opacity-40 items-start justify-center relative">
+                                <h1 className="font-bold lg:text-3xl">{qts[currentQuoteIndex].quote}</h1>
                                 <p className="text-xl">{qts[currentQuoteIndex].by}</p>
                             </div>
                         </div>

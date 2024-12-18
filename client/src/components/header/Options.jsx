@@ -38,19 +38,19 @@ export default function Options({ scrolled }) {
             <ul className="flex font-medium justify-between items-center h-full w-full">
                 {!showSearchBar && (
                     <>
-                        <li className="text-xl font-semibold hover:font-bold hover:text-2xl duration-300">
+                        <li className="lg:text-xl font-semibold hover:font-bold hover:text-2xl duration-300">
                             <button onClick={() => handleNavigation('/')} className="block rounded focus:outline-none">
                                 Home
                             </button>
                         </li>
-                        <li className="text-xl font-semibold hover:font-bold hover:text-2xl duration-300">
+                        <li className="lg:text-xl font-semibold hover:font-bold hover:text-2xl duration-300">
                             <button onClick={() => handleNavigation(isNGO ? '/userviewngo' : '/ngo')} className="block rounded focus:outline-none">
                                 {!isNGO ? 'NGO' : 'View NGO'}
                             </button>
                         </li>
                     </>
                 )}
-                <li className="w-2/12">
+                <li className="searchli w-2/12">
                     <div className="search flex justify-center w-full">
                         <img src={Search} alt="Search" className={`w-7/12 cursor-pointer ${scrolled ? '' : 'filter invert'}`}onClick={handleSearchClick}/>
                     </div>

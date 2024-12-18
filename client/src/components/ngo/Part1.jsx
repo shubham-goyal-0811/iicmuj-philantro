@@ -108,16 +108,15 @@ export default function Part1({ searchQuery }) {
                         </button>
                     </div>
 
-                    <div 
-                        className={`fixed flex flex-col items-center left-0 top-20 bg-[#d9ced0] w-3/12 p-2 rounded-r-2xl transform transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
-                        style={{ zIndex: 1000 }}>
-                        <button  className="absolute top-2 right-2 text-5xl font-bold cursor-pointer" onClick={toggleSidebar}> &times;
+                    <div className={`ngosidebar fixed flex flex-col items-center left-0 top-20 bg-[#d9ced0] w-3/12 p-2 rounded-r-2xl transform transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`} style={{ zIndex: 1000 }}>
+                        <button  className="absolute top-2 right-2 text-5xl font-bold cursor-pointer" onClick={toggleSidebar}> 
+                            &times;
                         </button>
                         <h2 className="text-3xl font-bold mb-6">Categories</h2>
                         <hr className="mb-4" />
                         <div className="types flex flex-col text-center items-center">
                             {ngoTypesArray.map((type, index) => (
-                                <span key={index} ref={(el) => typeRefs.current[index] = el} className={`catespan w-full text-2xl rounded-full font-semibold border-b-4 ${selectedType === type ? "bg-gray-200 font-bold" : ""}`} style={{ padding: "2%"}} onClick={() => handleTypeClick(type)}> {type}
+                                <span key={index} ref={(el) => typeRefs.current[index] = el} className={`catespan w-full rounded-full font-semibold border-b-4 ${selectedType === type ? "bg-gray-200 font-bold" : ""}`} style={{ padding: "2%"}} onClick={() => handleTypeClick(type)}> {type}
                                 </span>
                             ))}
                         </div>
@@ -128,7 +127,7 @@ export default function Part1({ searchQuery }) {
                     )}
 
                     <div className="ngos h-full flex justify-around overflow-hidden">
-                        <div className="grid grid-cols-3 w-full">
+                        <div className="ngogrid lg:grid lg:grid-cols-3 w-full">
                             {filteredNgos.map((ngo, index) => (
                                 <div ref={(el) => (ngoRefs.current[index] = el)} className="card lg:w-10/12 m-5 shadow-2xl" style={{ backgroundImage: `url(${ngo.logo})`,
                                         height: '50vh',

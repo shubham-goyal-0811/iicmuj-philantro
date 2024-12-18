@@ -206,9 +206,22 @@ body {
 
 
 @media (max-width: 900px) {
+  .header{
+    height: 3.4em;
+  }
+
   .front_content {
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: center;
+  }
+
+  .title1{
+    font-size: 2.5rem;
+  }
+
+  .title-qt{
+    width: 100%;
+    height: auto;
   }
 
   .picture {
@@ -216,10 +229,17 @@ body {
     height: 60%;
   }
 
+  .act_qot{
+    font-size: 1rem;
+    text-align: center;
+    align-items: center;
+  }
+
   .quotes {
-    width: 70%;
+    width: 100%;
     height: 30%;
     font-size: 140%;
+    text-align: center;
   }
 
   .header_nav {
@@ -230,12 +250,55 @@ body {
     width: 50%;
   }
 
+  .options ul li{
+    font-size: 1rem;
+  }
+
+  .options ul {
+    justify-content: space-around;
+  }
+
+  .searchli{
+    display: none;
+  }
+
   .logo img {
-    width: 5rem;
+    width: 2.5rem;
+  }
+
+  .userImg{
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .userImg img{
+    width: 2rem;
+    height: 2rem;
   }
 
   .ans {
     width: 70%;
+  }
+
+  .ans h2{
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .leftdiv1 h1,.leftdiv2 h1,.leftdiv3 h1{
+    font-size: 1.7rem;
+  }
+
+  .rightdiv1 h1,.rightdiv2 h1{
+    font-size: 1.7rem;
+  }
+
+  .leftdiv1 p,.leftdiv2 p,.leftdiv3 p{
+    font-size: 1rem;
+  }
+
+  .rightdiv1 p,.rightdiv2 p{
+    font-size: 1rem;
   }
 
   .tbl {
@@ -243,6 +306,7 @@ body {
     padding: 0;
     margin: 0;
   }
+
 
   .benefits,
   .howtopoints {
@@ -268,6 +332,67 @@ body {
     display: flex;
     flex-direction: column;
     margin: 1%;
+  }
+
+  .desc{
+    width: 100%;
+  }
+
+  .desc h2{
+    padding: 10px;
+  }
+
+  .leftdiv01 h1,.leftdiv02 h1,.leftdiv03 h1,.leftdiv4 h1,.leftdiv5 h1{
+    font-size: 1.7rem;
+  }
+
+  .leftdiv01 p,.leftdiv02 p,.leftdiv03 p,.leftdiv4 p,.leftdiv5 p{
+    font-size: 1rem;
+  }
+
+  .svg1{
+    display: none;
+  }
+
+  .donorheading h1{
+    align-items: center;
+  }
+
+  .reviews{
+  text-align: center;
+  }
+
+  .review-item{
+    justify-content: center;
+  }
+
+  .reviewing{
+    justify-content: center;
+  }
+
+  .reviewing p{
+    font-size: 1rem;
+  }
+
+  .svg2{
+    display: none;
+  }
+
+  .effectwala{
+    width: 50%;
+    justify-content: space-around;
+  }
+
+  .options{
+    width: 100%;
+  }
+
+  .ngosidebar{
+    width: 80%;
+  }
+
+  .catespan{
+    font-size: 0.5rem;
   }
 }
 
@@ -978,6 +1103,7 @@ animation: slideIn 0.8s ease-out forwards;
 .card:hover .card-title::after {
   transform: scaleX(1);
 }
+
 .button {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
@@ -1009,3 +1135,249 @@ animation: slideIn 0.8s ease-out forwards;
   transform: translateZ(0);
 }
 
+@media (max-width: 900px) {
+  .header{
+    height: 3.4em;
+  }
+
+  .front_content {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .title1{
+    font-size: 2.5rem;
+  }
+
+  .title-qt{
+    width: 100%;
+    height: auto;
+  }
+
+  .picture {
+    width: 100%;
+    height: 60%;
+  }
+
+  .act_qot{
+    font-size: 1rem;
+    text-align: center;
+    align-items: center;
+  }
+
+  .quotes {
+    width: 100%;
+    height: 30%;
+    font-size: 140%;
+    text-align: center;
+  }
+
+  .header_nav {
+    font-size: 140%;
+  }
+
+  .options {
+    width: 50%;
+  }
+
+  .options ul li{
+    font-size: 1rem;
+  }
+
+  .options ul {
+    justify-content: space-around;
+  }
+
+  .searchli{
+    display: none;
+  }
+
+  .logo img {
+    width: 2.5rem;
+  }
+
+  .userImg{
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .userImg img{
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .ans {
+    width: 70%;
+  }
+
+  .ans h2{
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .leftdiv1 h1,.leftdiv2 h1,.leftdiv3 h1{
+    font-size: 1.7rem;
+  }
+
+  .rightdiv1 h1,.rightdiv2 h1{
+    font-size: 1.7rem;
+  }
+
+  .leftdiv1 p,.leftdiv2 p,.leftdiv3 p{
+    font-size: 1rem;
+  }
+
+  .rightdiv1 p,.rightdiv2 p{
+    font-size: 1rem;
+  }
+
+  .tbl {
+    height: auto;
+    padding: 0;
+    margin: 0;
+  }
+
+
+  .benefits,
+  .howtopoints {
+    height: auto;
+  }
+
+  .benefitstbl,
+  .howtotbl {
+    height: auto;
+    padding: 3.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .pps {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .grid1,
+  .grid2 {
+    display: flex;
+    flex-direction: column;
+    margin: 1%;
+  }
+
+  .desc{
+    width: 100%;
+  }
+
+  .desc h2{
+    padding: 10px;
+  }
+
+  .leftdiv01 h1,.leftdiv02 h1,.leftdiv03 h1,.leftdiv4 h1,.leftdiv5 h1{
+    font-size: 1.7rem;
+  }
+
+  .leftdiv01 p,.leftdiv02 p,.leftdiv03 p,.leftdiv4 p,.leftdiv5 p{
+    font-size: 1rem;
+  }
+
+  .svg1{
+    display: none;
+  }
+
+  .donorheading h1{
+    align-items: center;
+  }
+
+  .reviews{
+  text-align: center;
+  }
+
+  .review-item{
+    justify-content: center;
+  }
+
+  .reviewing{
+    justify-content: center;
+  }
+
+  .reviewing p{
+    font-size: 1rem;
+  }
+
+  .svg2{
+    display: none;
+  }
+
+  .effectwala{
+    width: 50%;
+    justify-content: space-around;
+  }
+
+  .options{
+    width: 100%;
+  }
+
+  .ngosidebar{
+    width: 100%;
+  }
+
+  .types{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .catespan{
+    font-size: 1.2rem;
+    border: none;
+    text-decoration: underline;
+  }
+
+  .card-content{
+    display: flex;
+    flex-direction: column;
+    transform: translateY(0);
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.486);
+    border-radius: 10px;
+  }
+
+  .card-title{
+    opacity: 1;
+  }
+
+  .button{
+    opacity: 1;
+    margin: 10px;
+  }
+  
+  .name h1{
+    font-size: 2rem;
+  }
+  .editing{
+    display: flex;
+  }
+
+  .displaydonations{
+    flex-direction: column;
+  }
+
+  .editname{
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .photochange{
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+  }
+  .photochange img{
+    margin: 0;
+  }
+  .mail{
+    font-size: 1rem;
+  }
+  .addngo{
+    font-size: 1rem;
+  }
+}

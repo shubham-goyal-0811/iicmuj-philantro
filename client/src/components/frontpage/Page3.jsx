@@ -196,25 +196,25 @@ export default function Page3() {
                                                     " fill="none" stroke="black" strokeWidth="2" />
                                         </svg>
                                     </li>
-                                    <li className="flex w-full" style={{ padding: '2%' }}>
+                                    <li className="flex w-full z-10" style={{ padding: '2%' }}>
                                         <div className="leftdiv01 flex flex-col items-start w-6/12">
                                             <h1 className="font-bold text-4xl">Comprehensive Directory:</h1>
                                             <p className="text-2xl">Access to a vast and well-organized directory of NGOs from around the world, making it easier to find organizations that align with your values and interests.</p>
                                         </div>
                                     </li>
-                                    <li className="flex w-full" style={{ padding: '2%' }}>
+                                    <li className="flex w-full z-10" style={{ padding: '2%' }}>
                                         <div className="leftdiv02 flex flex-col items-start w-6/12">
                                             <h1 className="font-bold text-4xl">Simplified Donation Process:</h1>
                                             <p className="text-2xl">Streamlined tools and resources to make the donation process quick, easy, and secure, ensuring that your contributions reach the intended causes efficiently.</p>
                                         </div>
                                     </li>
-                                    <li className="flex w-full" style={{ padding: '2%' }}>
+                                    <li className="flex w-full z-10" style={{ padding: '2%' }}>
                                         <div className="leftdiv03 flex flex-col items-start w-6/12">
                                             <h1 className="font-bold text-4xl">Verified NGOs:</h1>
                                             <p className="text-2xl">PhilanthroHub features vetted and credible NGOs, giving you peace of mind that your donations are going to legitimate and impactful organizations.</p>
                                         </div>
                                     </li>
-                                    <li className="flex w-full" style={{ padding: '2%' }}>
+                                    <li className="flex w-full z-10" style={{ padding: '2%' }}>
                                         <div className="leftdiv4 flex flex-col items-start w-6/12">
                                             <h1 className="font-bold text-4xl">User-Friendly Interface:</h1>
                                             <p className="text-2xl">Contributing to causes you care about can provide a sense of satisfaction and purpose.</p>
@@ -251,7 +251,7 @@ export default function Page3() {
                                     </li>
                                     {reviews.map((review, index) => (
                                         <li className={`review-item flex w-full justify-end ${index % 2 === 0 ? 'odd' : 'even'}`} style={{ padding: '2%' }} key={index}>
-                                            <div className="flex flex-col justify-end w-7/12">
+                                            <div className={`reviewing flex flex-col w-7/12`}>
                                                 <h1 className="font-bold text-4xl">{review.name}</h1>
                                                 <p className='text-2xl'>{review.review}</p>
                                             </div>

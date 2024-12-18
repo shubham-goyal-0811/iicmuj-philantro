@@ -161,11 +161,11 @@ export default function Profile() {
             <Header />
             <div className="min-h-screen flex justify-center items-center bg-[#ffffff]">
                 <div className="bg-[#faf8ff] p-10 rounded-2xl shadow-2xl w-full max-w-4xl duration-300 relative">
-                    <div className="flex items-center justify-between mb-6">
+                    <div className="editname flex items-center justify-between mb-6">
                         <div className="name">
                             <h1 className="text-5xl font-bold">{updatedProfile.fullName}</h1>
                         </div>
-                        <div className="">
+                        <div className="editing">
                             {!isEditing && !isChangingPassword && (
                                 <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 duration-200" onClick={() => setIsEditing(true)}>
                                     Edit Profile
@@ -183,54 +183,24 @@ export default function Profile() {
                         <div className="space-y-4">
                             <div>
                                 <label className="block font-semibold">Full Name</label>
-                                <input
-                                    type="text"
-                                    name="fullName"
-                                    value={updatedProfile.fullName}
-                                    onChange={handleInputChange}
-                                    className="w-full border p-2 rounded-lg"
-                                />
+                                <input type="text" name="fullName" value={updatedProfile.fullName} onChange={handleInputChange} className="w-full border p-2 rounded-lg" />
                             </div>
                             <div>
                                 <label className="block font-semibold">Username</label>
-                                <input
-                                    type="text"
-                                    name="username"
-                                    value={updatedProfile.username}
-                                    onChange={handleInputChange}
-                                    className="w-full border p-2 rounded-lg"
-                                />
+                                <input type="text" name="username" value={updatedProfile.username} onChange={handleInputChange} className="w-full border p-2 rounded-lg" />
                             </div>
                             <div>
                                 <label className="block font-semibold">Email</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={updatedProfile.email}
-                                    onChange={handleInputChange}
-                                    className="w-full border p-2 rounded-lg"
-                                />
+                                <input type="email" name="email" value={updatedProfile.email} onChange={handleInputChange} className="w-full border p-2 rounded-lg" />
                             </div>
                             <div>
                                 <label className="block font-semibold">Mobile Number</label>
-                                <input
-                                    type="number"
-                                    name="mobileNo"
-                                    value={updatedProfile.mobileNo}
-                                    onChange={handleInputChange}
-                                    className="w-full border p-2 rounded-lg"
-                                />
+                                <input type="number" name="mobileNo" value={updatedProfile.mobileNo} onChange={handleInputChange} className="w-full border p-2 rounded-lg" />
                             </div>
-                            <button
-                                className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700"
-                                onClick={handleChange}
-                            >
+                            <button className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700" onClick={handleChange} >
                                 Save Changes
                             </button>
-                            <button
-                                className="ml-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700"
-                                onClick={() => setIsEditing(false)}
-                            >
+                            <button className="ml-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700" onClick={() => setIsEditing(false)} >
                                 Cancel
                             </button>
                         </div>
@@ -238,60 +208,35 @@ export default function Profile() {
                         <div className="space-y-4">
                             <div>
                                 <label className="block font-semibold">Current Password</label>
-                                <input
-                                    type="password"
-                                    name="oldPassword"
-                                    value={passwords.oldPassword}
-                                    onChange={handlePasswordChange}
-                                    className="w-full border p-2 rounded-lg"
+                                <input type="password" name="oldPassword" value={passwords.oldPassword} onChange={handlePasswordChange} className="w-full border p-2 rounded-lg"
                                 />
                             </div>
                             <div>
                                 <label className="block font-semibold">New Password</label>
-                                <input
-                                    type="password"
-                                    name="newPassword"
-                                    value={passwords.newPassword}
-                                    onChange={handlePasswordChange}
-                                    className="w-full border p-2 rounded-lg"
+                                <input type="password" name="newPassword" value={passwords.newPassword} onChange={handlePasswordChange} className="w-full border p-2 rounded-lg"
                                 />
                             </div>
-                            <button
-                                className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700"
-                                onClick={handlePasswordChangeSubmit}
-                            >
+                            <button className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700" onClick={handlePasswordChangeSubmit} >
                                 Change Password
                             </button>
-                            <button
-                                className="ml-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700"
-                                onClick={() => setIsChangingPassword(false)}
-                            >
+                            <button className="ml-4 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700" onClick={() => setIsChangingPassword(false)} >
                                 Cancel
                             </button>
                         </div>
                     ) : (
                         <div className="space-y-4">
-                            <div className="flex items-center">
+                            <div className="photochange flex items-center">
                                 <img src={profile.avatar} alt="avatar" className="rounded-full border-2 w-3/12 mr-6" />
                                 <div>
                                     <p className="font-bold">User Role: {profile.role}</p>
                                 </div>
-                                <div className="ml-4">
-                                    <input
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={handleAvatarFileChange}
-                                        className="hidden"
-                                        id="avatar-upload"
-                                    />
+                                <div className="">
+                                    <input type="file" accept="image/*" onChange={handleAvatarFileChange} className="hidden" id="avatar-upload" />
                                     <label htmlFor="avatar-upload" className="bg-blue-500 text-white py-2 px-4 rounded-lg cursor-pointer hover:bg-blue-700">
                                         Change Avatar
                                     </label>
                                     {newAvatar && (
-                                        <button
-                                            className="ml-4 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700"
-                                            onClick={handleAvatarChange}
-                                        >
+                                        <button className="ml-4 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700" onClick={handleAvatarChange} >
                                             Save Avatar
                                         </button>
                                     )}
@@ -304,7 +249,7 @@ export default function Profile() {
                                 </div>
                                 <div className="flex">
                                     <label className="block font-semibold text-2xl">Email:</label>
-                                    <p className="text-xl flex items-center ml-5">{profile.email}</p>
+                                    <p className="mail text-xl flex items-center ml-5">{profile.email}</p>
                                 </div>
                                 <div className="flex">
                                     <label className="block font-semibold text-2xl">Mobile No:</label>
@@ -312,7 +257,7 @@ export default function Profile() {
                                 </div>
                                 <div className="w-auto ">
                                     <label className="block text-2xl font-semibold">Donations:</label>
-                                    <ul className="flex">
+                                    <ul className="displaydonations flex">
                                         {profile.donation.map((donation, index) => (
                                             <li className="text-xl p-4 border-2 m-2" key={index}>
                                                 <p><strong className="underline">NGO Name:</strong> {donation.ngoId.name}</p>

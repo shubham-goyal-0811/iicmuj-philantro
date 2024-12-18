@@ -120,13 +120,10 @@ export default function ViewUserNGO() {
                     <h1 className="text-3xl font-bold mb-6 w-full flex justify-center">{ownerDetails ? `${ownerDetails.fullName}'s NGOs` : "Loading user details..."}</h1>
                     <div className={`grid ${gridColsClass} gap-6`}>
                         {ngos.map((ngo) => (
-                            <div
-                                key={ngo._id}
+                            <div key={ngo._id}
                                 className="p-4 border rounded shadow hover:shadow-lg cursor-pointer"
-                                onClick={() => handleSelectNgo(ngo)}
-                            >
+                                onClick={() => handleSelectNgo(ngo)}>
                                 <h2 className="text-2xl font-semibold">{ngo.name}</h2>
-                                <p className="text-gray-600">{ngo.email}</p>
                             </div>
                         ))}
                     </div>
