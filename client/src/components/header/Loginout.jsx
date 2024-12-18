@@ -29,7 +29,8 @@ export default function Loginout({ isNgo }) {
             if (isNgo) {
                 setisNGO(true);
             }
-        } else {
+        } 
+        else {
             setProfile(null);
         }
     }, [isAuthenticated]);
@@ -45,12 +46,15 @@ export default function Loginout({ isNgo }) {
                 },
             });
             const data = await response.json();
-            if (data.success) {
+            if 
+            (data.success) {
                 setProfile(data.data);
-            } else {
+            } 
+            else {
                 console.error('Failed to fetch profile:', data.message);
             }
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('Error fetching profile:', error);
         }
     };
@@ -88,11 +92,13 @@ export default function Loginout({ isNgo }) {
                 toast.success('Logged out successfully');
                 navigate('/');
                 window.location.reload();
-            } else {
+            } 
+            else {
                 const data = await response.json();
                 toast.error(data.message || 'Logout failed');
             }
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('Error logging out:', error);
             toast.error('An error occurred during logout');
         }
@@ -121,11 +127,7 @@ export default function Loginout({ isNgo }) {
                     <div className="user w-full flex rounded-lg justify-center">
                         <div className="userinfo flex flex-col items-center relative">
                             <button>
-                                <div
-                                    className="userImg w-[4rem] flex justify-center items-center bg-gray-400 text-white rounded-full hover:bg-gray-700 duration-200"
-                                    style={{ textAlign: 'center', fontSize: '1.5rem' }}
-                                    onClick={toggleDropdown}
-                                >
+                                <div className="userImg w-[4rem] flex justify-center items-center bg-gray-400 text-white rounded-full hover:bg-gray-700 duration-200" style={{ textAlign: 'center', fontSize: '1.5rem' }} onClick={toggleDropdown} >
                                     {profile.avatar ? (
                                         <img src={profile.avatar} alt="User Avatar" className="rounded-full w-full h-full object-cover" />
                                     ) : (
@@ -139,18 +141,10 @@ export default function Loginout({ isNgo }) {
                                 <div className="absolute top-20 right-0 bg-white shadow-lg rounded-lg p-4 z-10">
                                     <div className="text-center mb-2 text-black">Welcome, {profile.username}</div>
                                     <div className="logout flex flex-col justify-center items-center">
-                                        <button
-                                            className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500"
-                                            onClick={() => handleLogout()}
-                                            style={{ padding: '10%', margin: '5%' }}
-                                        >
+                                        <button className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500" onClick={() => handleLogout()} style={{ padding: '10%', margin: '5%' }} >
                                             Log out
                                         </button>
-                                        <button
-                                            className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500"
-                                            onClick={() => handleProfile()}
-                                            style={{ padding: '10%', margin: '5%' }}
-                                        >
+                                        <button className="bg-slate-300 text-black rounded-xl whitespace-nowrap hover:bg-slate-600 hover:text-white duration-500" onClick={() => handleProfile()} style={{ padding: '10%', margin: '5%' }} >
                                             Profile
                                         </button>
                                         {isNgo && isNGO && (

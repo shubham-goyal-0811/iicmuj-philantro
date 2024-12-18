@@ -41,10 +41,12 @@ export default function Profile() {
             if (data.success) {
                 setProfile(data.data);
                 setUpdatedProfile(data.data);
-            } else {
+            } 
+            else {
                 console.error('Failed to fetch profile:', data.message);
             }
-        } catch (error) {
+        } 
+        catch (error) {
             console.error('Error fetching profile:', error);
         }
     };
@@ -81,11 +83,13 @@ export default function Profile() {
                 setIsEditing(false);
                 toast.success("Profile Updated Successfully!!")
                 // alert('Profile updated successfully!');
-            } else {
+            } 
+            else {
                 toast.error(`Failed to update profile: ${data.message}`)
                 // alert('Failed to update profile: ' + data.message);
             }
-        } catch (error) {
+        } 
+        catch (error) {
             toast.error(`Failed to update profile`)
             console.error('Error updating profile:', error);
         }
@@ -111,10 +115,12 @@ export default function Profile() {
                 toast.success('Password changed successfully!');
                 setIsChangingPassword(false);
                 navigate('/Login');
-            } else {
+            } 
+            else {
                 toast.error('Failed to change password: ' + data.message);
             }
-        } catch (error) {
+        } 
+        catch (error) {
             toast.error('Failed to change password ');
             console.error('Error changing password:', error);
         }
@@ -140,10 +146,12 @@ export default function Profile() {
                     avatar: data.data.avatar,
                 }));
                 toast.success('Avatar updated successfully!');
-            } else {
+            } 
+            else {
                 toast.error('Failed to update avatar: ' + data.message);
             }
-        } catch (error) {
+        } 
+        catch (error) {
             toast.error('Failed to update avatar');
             console.error('Error updating avatar:', error);
         }

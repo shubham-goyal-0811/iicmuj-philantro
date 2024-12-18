@@ -21,9 +21,10 @@ export default function ViewUserNGO() {
                     withCredentials: true,
                 });
                 const fetchedNgoArray = response.data.data;
-                if (Array.isArray(fetchedNgoArray) && fetchedNgoArray.length > 0) {
+                if(Array.isArray(fetchedNgoArray) && fetchedNgoArray.length > 0){
                     setNgos(fetchedNgoArray);
-                } else {
+                } 
+                else{
                     setError("No NGOs found for the current user.");
                 }
 
@@ -36,12 +37,14 @@ export default function ViewUserNGO() {
                     },
                 });
                 const data = await response1.json();
-                if (data.success) {
+                if(data.success){
                     setOwnerDetails(data.data);
-                } else {
+                } 
+                else{
                     console.error('Failed to fetch profile:', data.message);
                 }
-            } catch (err) {
+            } 
+            catch(err){
                 console.error("Error fetching NGO data:", err);
                 setError("Failed to fetch NGO data. Please try again later.");
             }
@@ -59,7 +62,8 @@ export default function ViewUserNGO() {
                 { withCredentials: true }
             );
             setTickets(ticketResponse.data.data);
-        } catch (err) {
+        } 
+        catch (err) {
             console.error("Error fetching tickets:", err);
             setError("Failed to fetch tickets for the selected NGO.");
         }
@@ -93,15 +97,17 @@ export default function ViewUserNGO() {
             setCause("");
             setIsModalOpen(false);
             alert("Raised amount updated successfully!");
-        } catch (err) {
+        } 
+        catch (err) {
             console.error("Error creating ticket:", err);
             alert("Failed to submit the raised amount. Please try again.");
-        } finally {
+        } 
+        finally {
             setIsLoading(false);
         }
     };
 
-    if (error) {
+    if(error){
         return (
             <div>
                 <Header />
@@ -120,24 +126,15 @@ export default function ViewUserNGO() {
                     <h1 className="text-3xl font-bold mb-6 w-full flex justify-center">{ownerDetails ? `${ownerDetails.fullName}'s NGOs` : "Loading user details..."}</h1>
                     <div className={`grid ${gridColsClass} gap-6`}>
                         {ngos.map((ngo) => (
-                            <div key={ngo._id}
-                                className="p-4 border rounded shadow hover:shadow-lg cursor-pointer"
-                                onClick={() => handleSelectNgo(ngo)}>
+                            <div key={ngo._id} className="p-4 border rounded shadow hover:shadow-lg cursor-pointer" onClick={() => handleSelectNgo(ngo)}>
                                 <h2 className="text-2xl font-semibold">{ngo.name}</h2>
                             </div>
                         ))}
                     </div>
                     {selectedNgo && (
-                        <div
-                            key={selectedNgo._id}
-                            className="mt-8 transition-opacity duration-500 ease-in-out"
-                        >
+                        <div key={selectedNgo._id} className="mt-8 transition-opacity duration-500 ease-in-out" >
                             <div className="animate-fade-in">
-                                <img
-                                    src={selectedNgo.logo}
-                                    alt=""
-                                    className="w-60 h-40 rounded-full transition-transform duration-300 hover:scale-105"
-                                />
+                                <img src={selectedNgo.logo} alt="" className="w-60 h-40 rounded-full transition-transform duration-300 hover:scale-105" />
                                 <h2 className="text-2xl font-bold mb-4">Selected NGO: {selectedNgo.name}</h2>
                                 <p className="text-gray-700">{selectedNgo.description}</p>
                                 <h3 className="text-lg font-semibold mt-4">Funds Raised</h3>
@@ -161,10 +158,7 @@ export default function ViewUserNGO() {
                                 ) : (
                                     <p className="text-gray-600">No funds raised yet.</p>
                                 )}
-                                <button
-                                    onClick={() => setIsModalOpen(true)}
-                                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-                                >
+                                <button onClick={() => setIsModalOpen(true)} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" >
                                     Raise Money
                                 </button>
                             </div>
@@ -177,32 +171,13 @@ export default function ViewUserNGO() {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                     <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
                         <h2 className="text-2xl font-bold mb-4">Raise Funds</h2>
-                        <input
-                            type="number"
-                            value={newRaisedAmount}
-                            onChange={(e) => setNewRaisedAmount(e.target.value)}
-                            placeholder="Enter amount"
-                            className="w-full p-2 border rounded mb-4"
-                        />
-                        <textarea
-                            value={cause}
-                            onChange={(e) => setCause(e.target.value)}
-                            placeholder="Describe the cause"
-                            className="w-full p-2 border rounded mb-4"
-                        />
+                        <input type="number" value={newRaisedAmount} onChange={(e) => setNewRaisedAmount(e.target.value)} placeholder="Enter amount" className="w-full p-2 border rounded mb-4" />
+                        <textarea value={cause} onChange={(e) => setCause(e.target.value)} placeholder="Describe the cause" className="w-full p-2 border rounded mb-4" />
                         <div className="flex justify-end space-x-4">
-                            <button
-                                onClick={() => setIsModalOpen(false)}
-                                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-                            >
+                            <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400" >
                                 Cancel
                             </button>
-                            <button
-                                onClick={handleRaiseSubmit}
-                                disabled={isLoading}
-                                className={`px-4 py-2 rounded ${isLoading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700 text-white"
-                                    }`}
-                            >
+                            <button onClick={handleRaiseSubmit} disabled={isLoading} className={`px-4 py-2 rounded ${isLoading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700 text-white" }`} >
                                 {isLoading ? "Submitting..." : "Submit"}
                             </button>
                         </div>
