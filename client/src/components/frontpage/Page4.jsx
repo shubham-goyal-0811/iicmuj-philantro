@@ -61,12 +61,10 @@ export default function Page4() {
                                 <div className="memdesc2 absolute text-3xl text-center w-80 h-80 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     <h1>Hey, I am Srishti Madaan Working on UI/UX of the PhilantroHub</h1>
                                 </div>
-                                <h1 className="text-2xl" style={{ padding: '1%' }}>Shubham Goyal</h1>
+                                <h1 className="text-2xl" style={{ padding: '1%' }}>Srishti Madaan</h1>
                             </div>
                         </div>
                     </div>
-
-
 
                     <footer className="rounded-lg shadow dark:bg-gray-100 m-4">
                         <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">

@@ -11,6 +11,7 @@ app.use(cors({
     origin:process.env.CORS_ORIGIN,
     credentials : true,
 }));
+// console.log(process.env.MONGODB_URL);
 
 import userRouter from './routes/user.routes.js';
 app.use("/api/v1/users",userRouter);
