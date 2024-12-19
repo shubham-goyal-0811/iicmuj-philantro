@@ -41,11 +41,11 @@ export default function Profile() {
             if (data.success) {
                 setProfile(data.data);
                 setUpdatedProfile(data.data);
-            } 
+            }
             else {
                 console.error('Failed to fetch profile:', data.message);
             }
-        } 
+        }
         catch (error) {
             console.error('Error fetching profile:', error);
         }
@@ -83,12 +83,12 @@ export default function Profile() {
                 setIsEditing(false);
                 toast.success("Profile Updated Successfully!!")
                 // alert('Profile updated successfully!');
-            } 
+            }
             else {
                 toast.error(`Failed to update profile: ${data.message}`)
                 // alert('Failed to update profile: ' + data.message);
             }
-        } 
+        }
         catch (error) {
             toast.error(`Failed to update profile`)
             console.error('Error updating profile:', error);
@@ -115,11 +115,11 @@ export default function Profile() {
                 toast.success('Password changed successfully!');
                 setIsChangingPassword(false);
                 navigate('/Login');
-            } 
+            }
             else {
                 toast.error('Failed to change password: ' + data.message);
             }
-        } 
+        }
         catch (error) {
             toast.error('Failed to change password ');
             console.error('Error changing password:', error);
@@ -146,11 +146,11 @@ export default function Profile() {
                     avatar: data.data.avatar,
                 }));
                 toast.success('Avatar updated successfully!');
-            } 
+            }
             else {
                 toast.error('Failed to update avatar: ' + data.message);
             }
-        } 
+        }
         catch (error) {
             toast.error('Failed to update avatar');
             console.error('Error updating avatar:', error);
@@ -233,7 +233,7 @@ export default function Profile() {
                         </div>
                     ) : (
                         <div className="space-y-4">
-                            <div className="photochange flex items-center">
+                            <div className="photochange flex justify-around items-center">
                                 <img src={profile.avatar} alt="avatar" className="rounded-full border-2 w-3/12 mr-6" />
                                 <div>
                                     <p className="font-bold">User Role: {profile.role}</p>
@@ -265,11 +265,15 @@ export default function Profile() {
                                 </div>
                                 <div className="w-auto ">
                                     <label className="block text-2xl font-semibold">Donations:</label>
-                                    <ul className="displaydonations flex">
+                                    <ul className="displaydonations grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                         {profile.donation.map((donation, index) => (
                                             <li className="text-xl p-4 border-2 m-2" key={index}>
-                                                <p><strong className="underline">NGO Name:</strong> {donation.ngoId.name}</p>
-                                                <p><strong className="underline">Amount Donated:</strong> ₹{donation.amount}</p>
+                                                <p>
+                                                    <strong className="underline">NGO Name:</strong> {donation.ngoId.name}
+                                                </p>
+                                                <p>
+                                                    <strong className="underline">Amount Donated:</strong> ₹{donation.amount}
+                                                </p>
                                                 <p className="text-xl flex justify-center items-center p-1">
                                                     <strong className="underline">Donated On: </strong>
                                                     {new Date(donation.createdAt).getFullYear()}/

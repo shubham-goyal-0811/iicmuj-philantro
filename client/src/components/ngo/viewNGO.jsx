@@ -21,10 +21,10 @@ export default function ViewUserNGO() {
                     withCredentials: true,
                 });
                 const fetchedNgoArray = response.data.data;
-                if(Array.isArray(fetchedNgoArray) && fetchedNgoArray.length > 0){
+                if (Array.isArray(fetchedNgoArray) && fetchedNgoArray.length > 0) {
                     setNgos(fetchedNgoArray);
-                } 
-                else{
+                }
+                else {
                     setError("No NGOs found for the current user.");
                 }
 
@@ -37,14 +37,14 @@ export default function ViewUserNGO() {
                     },
                 });
                 const data = await response1.json();
-                if(data.success){
+                if (data.success) {
                     setOwnerDetails(data.data);
-                } 
-                else{
+                }
+                else {
                     console.error('Failed to fetch profile:', data.message);
                 }
-            } 
-            catch(err){
+            }
+            catch (err) {
                 console.error("Error fetching NGO data:", err);
                 setError("Failed to fetch NGO data. Please try again later.");
             }
@@ -62,7 +62,7 @@ export default function ViewUserNGO() {
                 { withCredentials: true }
             );
             setTickets(ticketResponse.data.data);
-        } 
+        }
         catch (err) {
             console.error("Error fetching tickets:", err);
             setError("Failed to fetch tickets for the selected NGO.");
@@ -97,17 +97,17 @@ export default function ViewUserNGO() {
             setCause("");
             setIsModalOpen(false);
             alert("Raised amount updated successfully!");
-        } 
+        }
         catch (err) {
             console.error("Error creating ticket:", err);
             alert("Failed to submit the raised amount. Please try again.");
-        } 
+        }
         finally {
             setIsLoading(false);
         }
     };
 
-    if(error){
+    if (error) {
         return (
             <div>
                 <Header />
@@ -126,7 +126,7 @@ export default function ViewUserNGO() {
                     <h1 className="text-3xl font-bold mb-6 w-full flex justify-center">{ownerDetails ? `${ownerDetails.fullName}'s NGOs` : "Loading user details..."}</h1>
                     <div className={`grid ${gridColsClass} gap-6`}>
                         {ngos.map((ngo) => (
-                            <div key={ngo._id} className="p-4 border rounded shadow hover:shadow-lg cursor-pointer" onClick={() => handleSelectNgo(ngo)}>
+                            <div key={ngo._id} className={`p-4 border rounded shadow hover:shadow-lg cursor-pointer transition-transform duration-300 ${selectedNgo && selectedNgo._id === ngo._id ? "bg-blue-100 border-blue-500 scale-105" : "bg-white" }`} onClick={() => handleSelectNgo(ngo)} >
                                 <h2 className="text-2xl font-semibold">{ngo.name}</h2>
                             </div>
                         ))}
@@ -136,7 +136,9 @@ export default function ViewUserNGO() {
                             <div className="animate-fade-in">
                                 <img src={selectedNgo.logo} alt="" className="w-60 h-40 rounded-full transition-transform duration-300 hover:scale-105" />
                                 <h2 className="text-2xl font-bold mb-4">Selected NGO: {selectedNgo.name}</h2>
-                                <p className="text-gray-700">{selectedNgo.description}</p>
+                                <p className="text-gray-700 text-xl">{selectedNgo.description}</p>
+                                <p className="text-xl">Mail:- {selectedNgo.email}</p>
+                                <p className="text-xl">Contact No.:- {selectedNgo.contactNo}</p>
                                 <h3 className="text-lg font-semibold mt-4">Funds Raised</h3>
                                 {tickets.length > 0 ? (
                                     <table className="w-full border border-gray-300">
@@ -177,7 +179,7 @@ export default function ViewUserNGO() {
                             <button onClick={() => setIsModalOpen(false)} className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400" >
                                 Cancel
                             </button>
-                            <button onClick={handleRaiseSubmit} disabled={isLoading} className={`px-4 py-2 rounded ${isLoading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700 text-white" }`} >
+                            <button onClick={handleRaiseSubmit} disabled={isLoading} className={`px-4 py-2 rounded ${isLoading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700 text-white"}`} >
                                 {isLoading ? "Submitting..." : "Submit"}
                             </button>
                         </div>

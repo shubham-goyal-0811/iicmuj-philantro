@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.js",
-    "debug": "ndb src/index.js"
+    "debug": "ndb src/index.js",
+    "build": "echo \"No build necessary for this Node app\""
   },
   "keywords": [],
   "author": "",

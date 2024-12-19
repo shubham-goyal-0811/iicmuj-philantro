@@ -114,7 +114,7 @@ export default function Loginout({ isNgo }) {
 
     return (
         <>
-            <div className="loginout flex items-center justify-center w-3/12">
+            <div className="loginout flex items-center justify-center w-6/12">
                 {!isAuthenticated ? (
                     <button className="cta flex justify-center items-center rounded-3xl" onClick={() => navigate('../Login')}>
                         <span>Login</span>
